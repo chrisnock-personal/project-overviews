@@ -89,17 +89,21 @@ On a phone the cards stack into one column, and a group's conversation opens ful
 
 ## The admin console
 
-Administrators run Parley from a separate console. **Live** shows who's registered and every call in progress, straight from the SIP core's own state, with the kind of call and its parties.
+Administrators run Parley from a separate console with a sidebar: **Live**, **People** and **Groups**, and for admins **Settings**, **Health**, **Audit** and **Backups**. **Live** shows what's happening right now, straight from the SIP core's own state: who's online, each group in use with who's in it and who's talking, direct calls, and what's being recorded.
 
-![The console's Live page: six registered clients, four group calls in progress](images/07-console-live.png)
+![The console's Live page: 5 of 10 people online, Production in use with the Director talking, a direct call between the two cameras, one call being recorded](images/07-console-live.png)
 
-**Groups** and **Directory Users** are where groups are made (open mic or push to talk, transcribed, chat), people are added with an extension and password, given their keys and groups, and switched to recorded. **Settings** holds the recording server and how long transcripts and chat are kept.
+**People** is everyone with a login, in a list you can search, showing their groups, intercom keys, whether they're online and whether they're recorded. Pick someone to change their name or extension, whether they can log in and whether their calls are recorded, which groups they have and which people they can call with one press, or to reset their password.
 
-![A group's settings: Production, talkback, transcribed and with chat](images/08-console-group.png)
+![The People page with the Floor Manager selected: can log in and record calls switched on, three groups and three intercom keys](images/08-console-people.png)
 
-**Health** shows the server's CPU, memory and disk, the database, whether the SIP core is up, and each container's logs. **Audit** is a searchable history of who did what: logins, changes, every call's start and end. **Database** downloads and restores backups, runs maintenance, and purges or archives old rows. Console users have viewer, editor or admin roles.
+**Groups** works the same way: each group with how people talk in it (open mic, push to talk), whether it's transcribed or has chat, how many people have it and how many are in it now. The selected group shows who has it, so a group can be given to several people in one place, and who's in it at the moment.
 
-![The Health page: host load, database size, SIP core up with 6 registered and 4 calls, table sizes and the SIP core's log](images/09-console-health.png)
+![The Groups page with Production selected: open mic, transcribed and with chat, five people who have it, two in it now](images/09-console-group.png)
+
+**Settings** holds the recording server and how long transcripts and chat are kept. **Audit** is a searchable, plain-language history ("Floor Manager: record calls turned on", "Joined Production") filtered by time, person, kind of event and subject, and exportable as CSV. **Health** shows the server's load, the database, whether the SIP core is up, and each container's logs. **Backups** downloads and restores database backups, runs maintenance, and purges or archives old rows. Console users are viewers, editors or admins, and actions they can't take are greyed out with the reason.
+
+![The Health page: host load, database size, SIP core up, table sizes and the SIP core's log](images/09b-console-health.png)
 
 ---
 
