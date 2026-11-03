@@ -161,5 +161,3 @@ One container (Docker or Podman), host networking, and a web UI on port 3000. Ev
 ## Status
 
 CallRaven is under active development. Its own CI places real calls through Asterisk on every change: calls and transfers, codecs, SRTP, IPv6, PRACK, T.38, test plans, IVR maps, voicebot tests and load runs among them.
-
-Licence: PolyForm Noncommercial 1.0.0. Free for non-commercial use.
