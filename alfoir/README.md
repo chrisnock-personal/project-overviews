@@ -131,7 +131,7 @@ The optional public **status page** shows the state of services, each a group of
 
 ![The public status page](images/14-status-page.png)
 
-*The badssl.com group is "operational" at 25% uptime because its rule is "at least one site up", and only the control site ever passes.*
+*From a demo instance with three weeks of history: three services over 19 days, one down and two degraded. Expanding a service shows each member's own record; the BBC site's dips are what hold its service at 98.11%.*
 
 ---
 
@@ -178,4 +178,4 @@ One container with PostgreSQL, the Node.js backend and the web UI behind nginx, 
 
 ## Status
 
-Alfoir is under active development. A unit-test suite runs with every change, regression tests run catalog checks against real containers, and the catalog's scripts are checked against real systems before they ship. Everything in this overview was captured from one running instance on a home PC, checking public websites and badssl.com's deliberately broken sites from the PC and a laptop over one evening.
+Alfoir is under active development. A unit-test suite runs with every change, regression tests run catalog checks against real containers, and the catalog's scripts are checked against real systems before they ship. Everything in this overview was captured from one running instance on a home PC, checking public websites and badssl.com's deliberately broken sites from the PC and a laptop over one evening, except the status page, taken from a demo instance with more history.
