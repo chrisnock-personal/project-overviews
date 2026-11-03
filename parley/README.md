@@ -16,7 +16,7 @@ Live productions, events and operations rooms run on talkback. The director talk
 |---|---|
 | **Talk groups** | Open-mic or push-to-talk groups, as many joined at once as you like, each with its own talk, listen and volume controls; who's in each group and who's talking, before you join |
 | **Direct intercom** | Press a key and the other person's intercom answers by itself; hold and resume; call anyone in the directory |
-| **Conversation** | Live per-speaker transcripts and typed group chat, in one timeline, readable without joining |
+| **Conversation** | Live per-speaker transcripts and typed group chat, in one timeline, readable without joining; typed messages read aloud if you want them |
 | **Recording** | SIP-REC (RFC 7866) to any compliance recorder, per person, with participant metadata; a REC tag wherever it applies |
 | **Admin console** | Live registrations and calls, groups, people and their keys, recording and retention settings, health, audit log, database backups |
 | **Network** | Its own SIP core in TypeScript, media anchored for routed networks, WebRTC bridged to plain RTP, HTTPS and SIP digest authentication |
@@ -48,6 +48,8 @@ The intercom panel holds your keys: one per person you call often. Press a key a
 Switch on transcription for a group and everything said in it is written down as it's said, attributed to the person who said it. Switch on chat and members can type to the group as well: for the things you'd rather not say over the air, or that need to stay on screen ("running order change", "second guest is in reception"). With both on, spoken and typed lines share one timeline, each marked *said* or *typed*, and a filter shows just one kind.
 
 Both are readable by anyone with the group, joined or not, so someone walking back to their desk can catch up on what they missed without listening to it again. A *new* marker shows where there's something unread.
+
+For people whose eyes are busy, a group's typed messages can be **read aloud**. Each person switches it on per group, and it follows them to whichever device they log in on. It only reads groups you've joined, never your own messages and never what was said before you joined. Messages are queued so they don't talk over each other, the group's audio dips to 30% while one is read, and reading waits while you're holding Push To Talk. It uses the browser's own voice; voice, speed and volume are set per device.
 
 ![The Production conversation with spoken and typed lines, and Studio Floor's transcript read without joining](images/04-conversation.png)
 
