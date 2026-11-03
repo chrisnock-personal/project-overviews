@@ -95,15 +95,15 @@ Every run keeps what happened, target by target and step by step: the output, th
 
 Whatever a check measures, it can report to Telemetry: response times, days left on a certificate, disk free, queue lag, call quality. Alfoir keeps the history per target, shows the latest values, charts each one over time, flags values that cross a threshold, and lists every target with a failing check across the fleet. The AI can summarise a target's telemetry in a few lines.
 
-![Telemetry for google.com](images/09-telemetry.png)
+![Telemetry for the BBC website](images/09-telemetry.png)
 
-*Google from the PC over one evening: DNS lookups of 3–14 ms, HTTP responses of 352–620 ms (median 378), a ping of 8 ms, and 56 days left on its certificate.*
+*The BBC website on a demo instance with a week of history: ping, certificate days left, Core Web Vitals from the full page audit (largest contentful paint 304 ms), and Web Response Time over its threshold (58 ms against 50), shown in red.*
 
 **Statistics** looks across all of it: pass rates by automation and target, trends by week, how often thresholds were breached, and anomaly detection that flags a day that departs from the rolling average.
 
 ![Statistics with an anomaly flagged](images/10-statistics.png)
 
-*871 target checks over the demo, 728 passed. Most failures are deliberate (badssl.com's broken certificates); the anomaly is real: today's pass rate, 61% above the rolling average of the days before, when mostly phone tests ran.*
+*Four weeks on a demo instance: pass and fail by week, an anomalous day flagged, threshold breaches per day (Web Response Time the most often, 280 times), and each automation's pass rate.*
 
 ---
 
@@ -178,4 +178,4 @@ One container with PostgreSQL, the Node.js backend and the web UI behind nginx, 
 
 ## Status
 
-Alfoir is under active development. A unit-test suite runs with every change, regression tests run catalog checks against real containers, and the catalog's scripts are checked against real systems before they ship. Everything in this overview was captured from one running instance on a home PC, checking public websites and badssl.com's deliberately broken sites from the PC and a laptop over one evening, except the status page, taken from a demo instance with more history.
+Alfoir is under active development. A unit-test suite runs with every change, regression tests run catalog checks against real containers, and the catalog's scripts are checked against real systems before they ship. Everything in this overview was captured from one running instance on a home PC, checking public websites and badssl.com's deliberately broken sites from the PC and a laptop over one evening, except Telemetry, Statistics and the status page, taken from a demo instance with weeks of history.
