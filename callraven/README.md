@@ -137,6 +137,21 @@ AI is optional and off until you turn it on. When it's on, it explains a failed 
 
 ---
 
+## On a phone
+
+The same web UI works on a phone. Below tablet width it becomes one column: registration, settings and the tests fold away behind one bar so the dialer comes first, and everything else, from live call quality to test runs and call history, works as it does on a desktop.
+
+<p>
+  <img src="images/m1-dialer.png" width="190" alt="The dialer on a phone">
+  <img src="images/m2-call.png" width="190" alt="A call in progress on a phone, with live quality figures">
+  <img src="images/m3-test-run.png" width="190" alt="A test plan run on a phone">
+  <img src="images/m4-history.png" width="190" alt="A call's details in the history on a phone">
+</p>
+
+*The dialer, a call in progress with its quality figures, a test plan run, and a call's details in the history, at 390 px wide.*
+
+---
+
 ## How it runs
 
 One container (Docker or Podman), host networking, and a web UI on port 3000. Everything it needs is inside: the SIP stack, packet capture without tcpdump, the speech recognition, the synthesised voice. A REST API and WebSockets cover everything the UI does, documented in an OpenAPI 3.1 spec, behind one API key.
