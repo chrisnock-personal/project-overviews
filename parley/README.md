@@ -51,6 +51,10 @@ Both are readable by anyone with the group, joined or not, so someone walking ba
 
 For people whose eyes are busy, a group's typed messages can be **read aloud**. Each person switches it on per group, and it follows them to whichever device they log in on. It only reads groups you've joined, never your own messages and never what was said before you joined. Messages are queued so they don't talk over each other, the group's audio dips to 30% while one is read, and reading waits while you're holding Push To Talk. It uses the browser's own voice; voice, speed and volume are set per device.
 
+![Read aloud on in Production: the Producer's message is being read, one more waits, with Skip and Stop; beside it, the read-aloud settings in the profile menu](images/04b-read-aloud.png)
+
+*The Producer's typed message being read (outlined), the Director's waiting, and the group's read-aloud settings in the profile menu: voice, speed, volume, and whether to say who sent it, turn the group down, and wait while you talk.*
+
 ![The Production conversation with spoken and typed lines, and Studio Floor's transcript read without joining](images/04-conversation.png)
 
 Transcription runs on your own server with whisper.cpp, sharing one GPU (or CPU) speech model. It listens to each member's own voice, so lines are attributed correctly even when two people talk over each other, and it never sends silence or a muted microphone. A pitch check keeps music, tones and other held notes out of both the transcript and the "who's talking" ring. In these runs each member's audio reached the transcriber within about 60 ms of them joining. It isn't perfect: the first word of an utterance is sometimes lost ("Standby everyone" came out as "and by everyone"), as the screenshots show.
