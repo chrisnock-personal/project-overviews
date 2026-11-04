@@ -103,7 +103,7 @@ A transfer or consultation is several records linked together. Those links can b
 
 Everything arrives through the same gate. Each record is checked against the standard before it is stored, so the store only ever holds conforming data, and records are keyed by call ID, so sending one again updates it instead of creating a duplicate. In this run, 5,000 generated records were validated and stored in about 2.6 seconds.
 
-**Push.** Other systems post one record or a batch to the ingest API, using a shared key or a personal API key. The dashboard has the same thing as a paste box for testing.
+**Push.** Other systems post one record or a batch of up to 1,000 to the ingest API, using a shared key or a personal API key. The dashboard has the same thing as a paste box for testing.
 
 ![The ingest panel refusing a non-conforming record](images/11-ingest-refused.png)
 
@@ -168,7 +168,7 @@ Every request is logged automatically by one piece of middleware, so a new featu
 
 There are three layers, for three different problems.
 
-- **Scheduled dumps** give a portable copy of the database, daily by default and kept for 14 days. Admins can also take one on demand and download it. In this run a deliberate deletion of 4,998 records was undone by restoring a 2.4 MB dump, which took 1.3 seconds.
+- **Scheduled dumps** give a portable copy of the database, daily by default and kept for 14 days. Admins can also take one on demand and download it. In this run a deliberate deletion of 5,000 records was undone from the dashboard by uploading a 2.3 MB dump, which took 1.3 seconds. A restore replaces the whole database, including its sessions, so anyone who logged in after that dump was taken has to log in again.
 - **Point-in-time recovery** continuously archives the database's write-ahead log with pgBackRest to a self-hosted S3-compatible store, with a full base backup every day, so a database can be taken back to a moment rather than to the last dump.
 - **An off-host copy**, off until configured, sends both of the above to a separate S3-compatible bucket, to cover losing the machine itself.
 
@@ -238,8 +238,6 @@ A set of containers under Docker Compose or Podman: an nginx front end that serv
 ## Status
 
 CallOwl is a working platform at version 0.2.0, well past a prototype in its security and recovery features, but not yet audited for production. It runs on a single PostgreSQL node, and statistics are computed when asked for, not pre-aggregated, so very large stores are untested. About 90 automated tests run in CI, the backend's against a real PostgreSQL, alongside type checks and builds on both sides.
-
-One known gap from this run: uploads through the front end's proxy are capped at 1 MB. Dashboard restores of larger dumps, and larger ingest batches, are refused there, though both work against the backend directly, which is how the restore above was run.
 
 ### About the data
 
