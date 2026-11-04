@@ -12,3 +12,4 @@ Overviews of my projects: what each one is for, what it does, and how it looks i
 | [Desktop Icon Manager](desktop-icon-manager/README.md) | A native Linux app for changing any application's icon in the menu and dock, Chrome web apps included |
 | [Parley](parley/README.md) | An IP intercom in the browser: talk groups and direct calls, with live transcripts, group chat and SIP-REC recording |
 | [The Open CDR Project](open-cdr/README.md) | An open, vendor-neutral standard for call detail records: one record shape for every call, whichever phone system made it, and one API to read them |
+| [Cloud Status Poller](cloud-status-poller/README.md) | Watches the public status feeds of AWS, OVHcloud, Azure and Google Cloud, raises a Zendesk ticket for incidents in the regions you care about, and moves it to pending when they end |
