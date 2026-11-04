@@ -10,3 +10,4 @@ Overviews of my projects: what each one is for, what it does, and how it looks i
 | [Alfoir](alfoir/README.md) | A platform for running checks and scripts on a schedule, from the server or agents, with results, telemetry, alerts and a status page; tests websites, hosts, APIs and, with CallRaven, phone systems |
 | [Desktop Icon Manager](desktop-icon-manager/README.md) | A native Linux app for changing any application's icon in the menu and dock, Chrome web apps included |
 | [The Open CDR Project](open-cdr/README.md) | An open, vendor-neutral standard for call detail records: one record shape for every call, whichever phone system made it, and one API to read them |
+| [CallOwl](callowl/README.md) | A self-hosted call logging platform: collects Open CDR call records from any phone system, then searches, measures and audits them with scoped access |
