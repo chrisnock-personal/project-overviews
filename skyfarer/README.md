@@ -96,11 +96,11 @@ Every five minutes by default, Skyfarer reads each provider's feed and compares 
 
 **ServiceNow** records carry a correlation ID, `skyfarer-<incident>`, so they can be found from the incident and matched by an instance's own dedup rules, and the dashboard links each incident to its record by number. In a test against a stand-in for the Table API, Skyfarer created nine records from the live feeds and the demo incidents, added the AWS event's 23 updates as one work note on a record created moments earlier in the same pass, and resolved the demo incident's record with its close code. It signs in as an integration user or with an OAuth token.
 
-**The webhook** covers everything else: a chat tool, an automation platform, an on-call service or a system of your own. By default it sends every field as JSON; a template can reshape the body instead, and is checked when Skyfarer starts, so a typo in a field name or a template that wouldn't make valid JSON stops it with a message rather than failing later. This is what one Slack-style template sent in the same test, for the demo incident opening and then closing:
+**The webhook** covers everything else: a chat tool, an automation platform, an on-call service or a system of your own. By default it sends every field as JSON; a template can reshape the body instead, and is checked when Skyfarer starts, so a typo in a field name or a template that wouldn't make valid JSON stops it with a message rather than failing later. With a Slack-style template, an incident opening and then closing sends bodies like these (an illustrative example, with a made-up incident link):
 
 ```json
-{"text": "opened: [DigitalOcean] LON1 Demo: Droplet creates failing in LON1 http://sink:8000/do/incidents/demolon1a1794150600", "incident": 48}
-{"text": "resolved: [DigitalOcean] LON1 Demo: Droplet creates failing in LON1 http://sink:8000/do/incidents/demolon1a1794150600", "incident": 48}
+{"text": "opened: [DigitalOcean] LON1 Droplet creates failing in LON1 https://status.digitalocean.com/incidents/abc123example", "incident": 48}
+{"text": "resolved: [DigitalOcean] LON1 Droplet creates failing in LON1 https://status.digitalocean.com/incidents/abc123example", "incident": 48}
 ```
 
 The incident number pairs an opening with its close. Each request can also carry headers such as an API key, and an HMAC-SHA256 signature of the body, so the receiver can check that it came from Skyfarer.
