@@ -1,6 +1,6 @@
 # Skyfarer
 
-**A small service for support and operations teams that watches the public status pages of nine cloud providers, tells you when an incident or maintenance touches a region you run in, through Zendesk, ServiceNow, PagerDuty, Pushover, Microsoft Teams, SNMP traps or a webhook of your own, and follows up when the provider says it's over.**
+**A small service for support and operations teams that watches the public status pages of nine cloud providers, tells you when an incident or maintenance touches a region you run in, through Zendesk, ServiceNow, PagerDuty, Pushover, Microsoft Teams, SNMP traps or webhooks of your own, and follows up when the provider says it's over. Admins set it up in the browser; everyone else just watches.**
 
 When a cloud provider has a problem, the first place to say so is usually its status page, and nobody is paid to sit and refresh nine of them. Customers notice first, or a support engineer finds out by chance. Each provider also publishes differently: one posts every update as a separate entry, another rewords its entries, others just remove them when the event ends. Skyfarer reads them all on a schedule, works out which incidents matter to you, and turns each one into a single ticket and alert, with a record of what happened and when.
 
@@ -18,9 +18,10 @@ When a cloud provider has a problem, the first place to say so is usually its st
 | **Filtering** | By region, using each provider's own names (`me-central-1`, `LON1`, `fr-par`, `FSN1`, `LHR`), and optionally by keyword |
 | **Incidents and maintenance** | Faults and planned work are told apart, so maintenance is recorded without paging anyone |
 | **Tickets** | Zendesk or ServiceNow: one ticket per incident with the provider, region, link and timeline; pending (Zendesk) or Resolved (ServiceNow) when the incident ends |
-| **Alerts** | Pushover, PagerDuty, Microsoft Teams, SNMP traps and an outbound webhook, in any combination, with or without tickets; old events and planned maintenance don't interrupt anyone |
+| **Alerts** | Pushover, PagerDuty, Microsoft Teams, SNMP traps and any number of outbound webhooks, in any combination, with or without tickets; old events and planned maintenance don't interrupt anyone |
 | **Failure handling** | Each channel fails and retries alone through a delivery queue; an unreadable feed closes nothing and shows on the dashboard |
-| **Dashboard** | Read-only web view, dark by default with a light theme: provider and channel health, incidents, search, filters, and logs of every notification and poll |
+| **Dashboard** | Web view, dark by default with a light theme: provider and channel health, incidents, search, filters, and logs of every notification and poll |
+| **Settings and access** | Providers, regions, channels and keys are edited in the browser by admins and applied from the next poll; viewers see the dashboard only; keys are encrypted and never shown again; every change is logged |
 | **History** | Every incident and update is kept in PostgreSQL, with the provider's own timestamps, ready for SQL reporting |
 
 ---
@@ -86,7 +87,7 @@ Every five minutes by default, Skyfarer reads each provider's feed and compares 
 | **Pushover** | A push message to a phone, with a link to the status page; emergency priority repeats until someone acknowledges it |
 | **Microsoft Teams** | An Adaptive Card posted to a channel through a Workflows webhook |
 | **SNMP traps** | A v2c trap to each receiver, with a MIB file so they decode by name |
-| **Webhook** | A request to any URL, as a JSON document or a body of your own, optionally signed |
+| **Webhooks** | As many as you need, each a request to its own URL, as a JSON document or a body of your own, optionally signed |
 
 **Not everything should wake someone.** A status feed holds months of history and next month's maintenance, and a new install would otherwise page someone for all of it. So the ticketing systems record every incident, while the alert channels skip anything published more than 24 hours ago and all scheduled maintenance. Both rules are settings. In the run, none of the real incidents and maintenance notices in watched regions paged anyone, because all were older than a day or planned, while the two demo incidents, which were new, went to every channel.
 
@@ -96,7 +97,7 @@ Every five minutes by default, Skyfarer reads each provider's feed and compares 
 
 **ServiceNow** records carry a correlation ID, `skyfarer-<incident>`, so they can be found from the incident and matched by an instance's own dedup rules, and the dashboard links each incident to its record by number. In a test against a stand-in for the Table API, Skyfarer created nine records from the live feeds and the demo incidents, added the AWS event's 23 updates as one work note on a record created moments earlier in the same pass, and resolved the demo incident's record with its close code. It signs in as an integration user or with an OAuth token.
 
-**The webhook** covers everything else: a chat tool, an automation platform, an on-call service or a system of your own. By default it sends every field as JSON; a template can reshape the body instead, and is checked when Skyfarer starts, so a typo in a field name or a template that wouldn't make valid JSON stops it with a message rather than failing later. With a Slack-style template, an incident opening and then closing sends bodies like these (an illustrative example, with a made-up incident link):
+**Webhooks** cover everything else: a chat tool, an automation platform, an on-call service or a system of your own, as many as you need, each with its own events. By default a webhook sends every field as JSON; a template can reshape the body instead, and is checked when it's saved, so a typo in a field name or a template that wouldn't make valid JSON is refused with a message rather than failing later. With a Slack-style template, an incident opening and then closing sends bodies like these (an illustrative example, with a made-up incident link):
 
 ```json
 {"text": "opened: [DigitalOcean] LON1 Droplet creates failing in LON1 https://status.digitalocean.com/incidents/abc123example", "incident": 48}
@@ -111,7 +112,7 @@ Each notice goes through a delivery queue: a poll records the incident and queue
 
 ## The dashboard
 
-The dashboard is a read-only web page that refreshes every 30 seconds. It runs only `SELECT` queries, so it's safe to leave on a wall screen or give to people who shouldn't be able to change anything. It opens in a dark theme; one button switches to light, and the browser remembers the choice.
+The dashboard is a web page that refreshes every 30 seconds, for everyone who signs in. A viewer account sees this page and nothing else, so it's safe to leave on a wall screen or give to people who shouldn't be able to change anything. It opens in a dark theme; one button switches to light, and the browser remembers the choice.
 
 Below the provider cards, a panel per notification channel shows whether it is healthy, retrying or failing, and a chart shows the last poll cycles, with failed ones marked.
 
@@ -137,6 +138,52 @@ The same page in the light theme, and on a phone, where the tiles and cards stac
 
 ---
 
+## Settings, sign-in and roles
+
+Everything that decides what Skyfarer watches and where it sends things is set in the browser, under **Settings**, by an admin. Changes apply from the poller's next poll, without a restart. Only the secret key, the database connection and the dashboard's address stay in the `.env` file.
+
+**The first start** imports whatever the `.env` file already had, then asks for the first admin account. That page wants a setup code that Skyfarer prints to its own log, so whoever happens to reach a new install first can't take it over.
+
+![The first-run page: the settings found in .env and imported, then fields for the setup code, name, email and password](images/12-first-run.png)
+
+*The first start of the run: six providers with 13 regions and five channels came across from `.env`.*
+
+**Providers and regions.** Each provider has a switch that stops it being read without forgetting its regions. Regions are tags, typed in or picked from suggestions in that provider's own naming, and the page also holds the keyword filter and how often to poll. Saving says exactly when the change will be used.
+
+![Providers and regions: a card per provider with its feed status, region tags with remove buttons, suggestions, and a switch; a save message naming the time of the next poll](images/13-settings-providers.png)
+
+*After adding FRA1 to DigitalOcean, switching Scaleway on with `fr-par`, and removing HEL1 from Hetzner. The poller logged "Settings changed in the dashboard" on its next cycle and read Scaleway from then on.*
+
+**Channels.** The alert rules come first: which events to send, how old is too old, how long to keep retrying, and whether maintenance counts. Then every channel has its own switch, status, editor and test button. A test uses the saved settings and does the real thing: a ServiceNow test creates a record and resolves it, a Zendesk test opens a ticket and sets it to pending, a PagerDuty test triggers an alert and clears it.
+
+![The channels page: alert rules, then Zendesk not set up, ServiceNow, Pushover, PagerDuty and Teams healthy, SNMP not set up, and two webhooks, each with a switch and an Edit button](images/14-settings-channels.png)
+
+**Keys stay secret.** Passwords, tokens, routing keys, Teams' workflow URL and webhook headers are encrypted in the database and never shown again once saved. The editor says when and by whom each was set, and offers to replace or remove it. Settings are checked before they're saved: extra ServiceNow fields that aren't valid JSON, a webhook template with an unknown field, or a channel left half set up is refused with a message, and nothing changes.
+
+![The ServiceNow editor: instance, user, a stored password with a Replace button, impact, urgency, assignment group, close code, and a test result reading "Test record INC0010006 created and resolved"](images/15-servicenow-editor.png)
+
+*Changing the assignment group, then raising a test ticket against the ServiceNow stand-in.*
+
+**Webhooks** are added from the same page, each with its own URL, method, events, template, headers and signing secret, and each gets its own row in the dashboard's delivery health. In the run, a second webhook for a Slack-style channel was added in the browser; on the next demo incident both webhooks were called, the first with a signed JSON document and the second with its template, alongside ServiceNow, Pushover, PagerDuty and Teams.
+
+![The editor for a webhook named "Slack #cloud-status": URL, method, events Opens and Ends ticked, content type, signing secret, extra headers and a Slack-style body template](images/16-webhook-editor.png)
+
+**People and roles.** Admins see and change everything; viewers see the dashboard and nothing under Settings, and the settings pages and actions refuse them even if they try the address directly. There's always at least one admin, and nobody can change their own role. Skyfarer sends no email, so adding someone gives the admin a one-time setup link to pass on; it works once, expires after 24 hours, and is also how a forgotten password is reset.
+
+![The setup link for a new viewer, shown once with a Copy button, above the list of people](images/17-setup-link.png)
+
+**Every change is recorded**, with who made it and when: regions added and removed, switches, field changes from one value to another, webhooks, and people. A secret change is recorded as "replaced", never with its value.
+
+![The users page: the two roles explained, the list of people with their roles and last sign-in, and the change history](images/18-users.png)
+
+*The change history of the run, from the import on the first start to the viewer setting their password.*
+
+A viewer signed in sees the same dashboard, without the Settings link:
+
+![The dashboard header for a viewer named Sam Patel: Providers, Incidents, Deliveries and Poll log, with no Settings link](images/19-viewer.png)
+
+---
+
 ## Reporting
 
 Everything is in PostgreSQL, so reporting is a SQL query. The feed's own timestamps are kept apart from the time Skyfarer stored each row, which separates how long an incident lasted from how long Skyfarer took to notice.
@@ -152,18 +199,20 @@ SELECT provider, AVG(resolved_at - detected_at) AS avg_resolve_time
 
 ## How it runs
 
-Three containers under Docker or Podman Compose: PostgreSQL 16, the Python poller, and the Flask dashboard, which listens on localhost by default. Settings live in one `.env` file, with the notification channels, regions per provider, keywords and the poll interval, and incident history and undelivered notices survive restarts in a database volume. For checking a setup, `--dry-run` reads the feeds and logs what it would do without sending anything, and `--once` runs a single poll for use from cron.
+Three containers under Docker or Podman Compose: PostgreSQL 16, the Python poller, and the Flask dashboard, which listens on localhost by default. A short `.env` file holds the secret key, the database connection and the dashboard's address; everything else, from regions to channel keys, is kept in the database with the incident history and undelivered notices, and survives restarts in a database volume. For checking a setup, `--dry-run` reads the feeds and logs what it would do without sending anything, and `--once` runs a single poll for use from cron.
 
 ---
 
 ## Status
 
-A small working tool, written for one job. 65 unit tests cover each channel's messages against its published limits, which failures retry, delivery order and startup checks, plus region matching and parsing for the Statuspage and Hetzner feeds, using trimmed copies of real payloads.
+A small working tool, written for one job. 80 unit tests cover each channel's messages against its published limits, which failures retry, delivery order and settings checks, region matching and parsing for the Statuspage and Hetzner feeds (using trimmed copies of real payloads), and how stored settings reach the poller, encryption of secrets, and the change history's wording.
 
-The screenshots come from a run on 8 November 2026 with polls every 30 seconds instead of the default five minutes. All nine providers' feeds were live, and two scripted "Demo:" incidents were added to DigitalOcean's. Pushover, PagerDuty and Teams were stand-ins that recorded each request, set to refuse Teams for two minutes and to fail DigitalOcean's feed for 50 seconds. Zendesk was switched off for this run. An earlier run, on 4 November, covered Zendesk tickets, real SNMP traps decoded by `snmptrapd`, and five deliberate faults, including Zendesk refusing tickets and a database failure mid-poll, all recovered without lost or duplicated tickets. ServiceNow and the webhook were added afterwards and tested on their own run the same day, against a stand-in for the ServiceNow Table API and a receiver that checked every signature.
+The screenshots come from a run on 8 November 2026 with polls every 30 seconds instead of the default five minutes. All nine providers' feeds were live, and two scripted "Demo:" incidents were added to DigitalOcean's. Pushover, PagerDuty and Teams were stand-ins that recorded each request, set to refuse Teams for two minutes and to fail DigitalOcean's feed for 50 seconds. Zendesk was switched off for this run. An earlier run, on 4 November, covered Zendesk tickets, real SNMP traps decoded by `snmptrapd`, and five deliberate faults, including Zendesk refusing tickets and a database failure mid-poll, all recovered without lost or duplicated tickets. ServiceNow and the webhook were added afterwards and tested on their own run the same day, against a stand-in for the ServiceNow Table API and a receiver that checked every signature. The settings pages, sign-in and roles were tested on a third run that evening, driven through a real browser from the first start: the import, every settings page, refused bad values, tests through each stand-in channel, a second webhook receiving live notices, and a viewer refused by every settings page and action.
 
 Some limits to know about:
 
+- **Losing the only admin password needs the database.** Another admin can issue a setup link, but with a single admin there's no other way back in.
+- **Keep the secret key.** Stored keys and passwords can't be decrypted without it; a lost key means entering them again.
 - **Most channels haven't met the real services yet.** ServiceNow, PagerDuty, Pushover and Teams have only been tested against stand-ins. A ServiceNow close code must be one the instance accepts, and older instances use different ones.
 - **Only AWS and Azure updates are passed on.** For providers with a stable incident ID, a new update on an open incident shows on the dashboard when it ends, but sends no ticket note or alert until then.
 - **Azure hasn't been tried on a live event.** Its feed has been empty whenever it was checked, so Azure handling is built from its published history and tested with scripted entries.
