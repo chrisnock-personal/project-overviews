@@ -9,7 +9,7 @@ Overviews of my projects: what each one is for, what it does, and how it looks i
 | [CallNest](callnest/README.md) | A call recorder built on open standards: captures calls from Asterisk, SIPREC, SIP or a packet capture, then transcribes, checks and seals them |
 | [CallOwl](callowl/README.md) | A self-hosted call logging platform: collects Open CDR call records from any phone system, then searches, measures and audits them with scoped access |
 | [CallRaven](callraven/README.md) | A containerised SIP softphone and test tool for phone systems: real calls, captured, measured, transcribed and graded, from a web UI or a REST API |
-| [Cloud Status Poller](cloud-status-poller/README.md) | Watches the public status feeds of AWS, OVHcloud, Azure and Google Cloud and tells you about incidents in the regions you care about, through Zendesk, PagerDuty, Pushover, Teams or SNMP traps |
 | [Desktop Icon Manager](desktop-icon-manager/README.md) | A native Linux app for changing any application's icon in the menu and dock, Chrome web apps included |
 | [Parley](parley/README.md) | An IP intercom in the browser: talk groups and direct calls, with live transcripts, group chat and SIP-REC recording |
+| [Skyfarer](skyfarer/README.md) | Watches the status pages of nine cloud providers, from AWS and Azure to DigitalOcean and Hetzner, and tells you about incidents and maintenance in the regions you run in, through Zendesk, PagerDuty, Pushover, Teams or SNMP traps |
 | [The Open CDR Project](open-cdr/README.md) | An open, vendor-neutral standard for call detail records: one record shape for every call, whichever phone system made it, and one API to read them |
