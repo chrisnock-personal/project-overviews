@@ -1,5 +1,7 @@
 # CallOwl
 
+> *A personal home-lab project, built to learn and experiment. Not for release or distribution.*
+
 **A self-hosted call logging platform: it collects call detail records from any phone system that can produce the [Open CDR Standard](../open-cdr/README.md), stores them, and gives supervisors, operations and compliance staff one place to search, measure and audit them.** It's for organisations that run more than one phone platform, or that need to control exactly who can see which calls.
 
 Each phone system keeps its own call log in its own format, usually behind its own screens and logins. Answering "what happened on this call?" or "how long are callers waiting across all our sites?" means going to each system in turn. CallOwl accepts records in one standard shape, whether they are pushed to it or pulled by it, and refuses any record that doesn't conform. What is in the store can then be filtered, compared and exported as one set, with access limited by team or platform and every query logged.

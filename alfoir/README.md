@@ -1,5 +1,7 @@
 # Alfoir
 
+> *A personal home-lab project, built to learn and experiment. Not for release or distribution.*
+
 **A platform for running checks and scripts on a schedule, against anything you can reach, and keeping the results.** You write a check once, or take one from a catalog of about 150, and Alfoir runs it against your servers, websites, APIs and phone systems, from the server itself or from agents on other machines. It keeps every result, trends what the checks measure, and tells you when something breaks or starts to drift.
 
 It's for the people who look after a mixed estate and have ended up with health checks spread across cron jobs, shell scripts and three different monitoring tools. Alfoir puts the scripts, the schedules, the results and the alerts in one place, and keeps the evidence for each run: the output, the measurements, a screenshot, a recording.

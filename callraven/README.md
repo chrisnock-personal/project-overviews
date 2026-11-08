@@ -1,5 +1,7 @@
 # CallRaven
 
+> *A personal home-lab project, built to learn and experiment. Not for release or distribution.*
+
 **A containerised SIP softphone and test tool for phone systems.** It places and answers real calls, then captures, measures, transcribes and grades them, from its web UI or entirely through its REST API.
 
 CallRaven is for the people who build, run and change phone systems: PBXs, SIP trunks, IVRs and contact-centre voicebots. A desk phone tells you a call worked. CallRaven tells you what was said, what the network did, how it sounded, and whether it still behaves the way it did last week, and it can do that on a schedule, from CI, with nobody listening.

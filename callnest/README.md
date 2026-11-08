@@ -1,5 +1,7 @@
 # CallNest
 
+> *A personal home-lab project, built to learn and experiment. Not for release or distribution.*
+
 **A call recorder built on open standards: it captures calls from a phone system, stores them so they can be trusted, and turns them into something you can search, listen to, check and act on.** It runs on your own server as a handful of containers, and call audio never has to leave it.
 
 A recording nobody can find, or nobody can prove is unaltered, is not worth much. CallNest takes recordings from Asterisk, SIPREC session border controllers, plain SIP or a packet capture, links each one to its call record, measures exactly what was captured and what was lost, and seals it into a tamper-evident chain. On top of that sit the things people actually use recordings for: transcripts, alerts on what was said, compliance checks, quality scoring, and answers to questions about calls, with every word of evidence checked against the transcript.
