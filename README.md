@@ -11,5 +11,5 @@ Overviews of my projects: what each one is for, what it does, and how it looks i
 | [CallRaven](callraven/README.md) | A containerised SIP softphone and test tool for phone systems: real calls, captured, measured, transcribed and graded, from a web UI or a REST API |
 | [Desktop Icon Manager](desktop-icon-manager/README.md) | A native Linux app for changing any application's icon in the menu and dock, Chrome web apps included |
 | [Parley](parley/README.md) | An IP intercom in the browser: talk groups and direct calls, with live transcripts, group chat and SIP-REC recording |
-| [Skyfarer](skyfarer/README.md) | Watches the status pages of nine cloud providers, from AWS and Azure to DigitalOcean and Hetzner, and tells you about incidents and maintenance in the regions you run in, through Zendesk, PagerDuty, Pushover, Teams or SNMP traps |
+| [Skyfarer](skyfarer/README.md) | Watches the status pages of nine cloud providers, from AWS and Azure to DigitalOcean and Hetzner, and tells you about incidents and maintenance in the regions you run in, through Zendesk, ServiceNow, PagerDuty, Pushover, Teams, SNMP traps or a webhook |
 | [The Open CDR Project](open-cdr/README.md) | An open, vendor-neutral standard for call detail records: one record shape for every call, whichever phone system made it, and one API to read them |

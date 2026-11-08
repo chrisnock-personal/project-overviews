@@ -1,6 +1,6 @@
 # Skyfarer
 
-**A small service for support and operations teams that watches the public status pages of nine cloud providers, tells you when an incident or maintenance touches a region you run in, through Zendesk, PagerDuty, Pushover, Microsoft Teams or SNMP traps, and follows up when the provider says it's over.**
+**A small service for support and operations teams that watches the public status pages of nine cloud providers, tells you when an incident or maintenance touches a region you run in, through Zendesk, ServiceNow, PagerDuty, Pushover, Microsoft Teams, SNMP traps or a webhook of your own, and follows up when the provider says it's over.**
 
 When a cloud provider has a problem, the first place to say so is usually its status page, and nobody is paid to sit and refresh nine of them. Customers notice first, or a support engineer finds out by chance. Each provider also publishes differently: one posts every update as a separate entry, another rewords its entries, others just remove them when the event ends. Skyfarer reads them all on a schedule, works out which incidents matter to you, and turns each one into a single ticket and alert, with a record of what happened and when.
 
@@ -17,8 +17,8 @@ When a cloud provider has a problem, the first place to say so is usually its st
 | **Nine providers** | AWS, Azure, Google Cloud, OVHcloud, DigitalOcean, Linode, Cloudflare, Scaleway and Hetzner, each read in the way its feed needs; any of them can be switched off |
 | **Filtering** | By region, using each provider's own names (`me-central-1`, `LON1`, `fr-par`, `FSN1`, `LHR`), and optionally by keyword |
 | **Incidents and maintenance** | Faults and planned work are told apart, so maintenance is recorded without paging anyone |
-| **Zendesk tickets** | One ticket per incident with the provider, region, link and timeline; moved to pending when the incident ends, for a person to close |
-| **Alerts** | Pushover, PagerDuty, Microsoft Teams and SNMP traps, in any combination, with or without Zendesk; old events and planned maintenance don't interrupt anyone |
+| **Tickets** | Zendesk or ServiceNow: one ticket per incident with the provider, region, link and timeline; pending (Zendesk) or Resolved (ServiceNow) when the incident ends |
+| **Alerts** | Pushover, PagerDuty, Microsoft Teams, SNMP traps and an outbound webhook, in any combination, with or without tickets; old events and planned maintenance don't interrupt anyone |
 | **Failure handling** | Each channel fails and retries alone through a delivery queue; an unreadable feed closes nothing and shows on the dashboard |
 | **Dashboard** | Read-only web view, dark by default with a light theme: provider and channel health, incidents, search, filters, and logs of every notification and poll |
 | **History** | Every incident and update is kept in PostgreSQL, with the provider's own timestamps, ready for SQL reporting |
@@ -66,7 +66,7 @@ Each incident is shown with its state, provider, region, the provider's latest w
 
 *All incidents during the run. The AWS row is the real UAE event, open for 251 days with 23 updates. Scheduled work shows when it starts, such as Hetzner's power work in NBG1-DC2. A resolved incident shows the provider's final word on it.*
 
-Planned work is told apart from faults: from a Statuspage provider's maintenance list, from OVH's "scheduled event" marker, and from Hetzner's planned and in-progress labels or a start date in the future. Maintenance still gets a Zendesk ticket, but by default no alerts.
+Planned work is told apart from faults: from a Statuspage provider's maintenance list, from OVH's "scheduled event" marker, and from Hetzner's planned and in-progress labels or a start date in the future. Maintenance still gets a ticket, but by default no alerts.
 
 ![Hetzner's notices only: router maintenance in progress, a firmware advisory, and power work scheduled in NBG1-DC2](images/04-hetzner.png)
 
@@ -76,21 +76,34 @@ Planned work is told apart from faults: from a Statuspage provider's maintenance
 
 ## From a status feed to a ticket and an alert
 
-Every five minutes by default, Skyfarer reads each provider's feed and compares it with what it already knows. A new incident in a watched region gets a Zendesk ticket and an alert straight away. An incident that was already over the first time Skyfarer saw it is recorded for history, without raising anything nobody needs to act on. When an open incident ends, the ticket gets an internal note and moves to **pending**, and closing it stays a human decision.
+Every five minutes by default, Skyfarer reads each provider's feed and compares it with what it already knows. A new incident in a watched region gets a ticket and an alert straight away. An incident that was already over the first time Skyfarer saw it is recorded for history, without raising anything nobody needs to act on. When an open incident ends, a Zendesk ticket gets an internal note and moves to **pending**, so closing it stays a human decision; a ServiceNow record moves to **Resolved**, and the instance's own auto-close takes it from there.
 
 | Channel | What it sends |
 |---|---|
 | **Zendesk** | A ticket per incident with the provider, region, link and timeline; a note and pending status when it ends |
+| **ServiceNow** | A record in the incident table through the Table API, with your assignment group, caller, category, impact and urgency; work notes for updates; Resolved with a close code when it ends |
 | **PagerDuty** | An Events API v2 alert, which clears itself when the incident ends |
 | **Pushover** | A push message to a phone, with a link to the status page; emergency priority repeats until someone acknowledges it |
 | **Microsoft Teams** | An Adaptive Card posted to a channel through a Workflows webhook |
 | **SNMP traps** | A v2c trap to each receiver, with a MIB file so they decode by name |
+| **Webhook** | A request to any URL, as a JSON document or a body of your own, optionally signed |
 
-**Not everything should wake someone.** A status feed holds months of history and next month's maintenance, and a new install would otherwise page someone for all of it. So Zendesk records every incident, while the alert channels skip anything published more than 24 hours ago and all scheduled maintenance. Both rules are settings. In the run, none of the real incidents and maintenance notices in watched regions paged anyone, because all were older than a day or planned, while the two demo incidents, which were new, went to every channel.
+**Not everything should wake someone.** A status feed holds months of history and next month's maintenance, and a new install would otherwise page someone for all of it. So the ticketing systems record every incident, while the alert channels skip anything published more than 24 hours ago and all scheduled maintenance. Both rules are settings. In the run, none of the real incidents and maintenance notices in watched regions paged anyone, because all were older than a day or planned, while the two demo incidents, which were new, went to every channel.
 
 ![The notifications log: three channels told about two demo incidents opening and one closing, with Teams taking two attempts on the close](images/05-notifications.png)
 
 *Every notification of the run. When the LON1 demo incident ended, Teams answered `429 Too Many Requests`, and the notice went through on the next attempt about a minute later, while Pushover and PagerDuty had already delivered theirs. PagerDuty's all-clear reuses its alert's key, so the same alert closes.*
+
+**ServiceNow** records carry a correlation ID, `skyfarer-<incident>`, so they can be found from the incident and matched by an instance's own dedup rules, and the dashboard links each incident to its record by number. In a test against a stand-in for the Table API, Skyfarer created nine records from the live feeds and the demo incidents, added the AWS event's 23 updates as one work note on a record created moments earlier in the same pass, and resolved the demo incident's record with its close code. It signs in as an integration user or with an OAuth token.
+
+**The webhook** covers everything else: a chat tool, an automation platform, an on-call service or a system of your own. By default it sends every field as JSON; a template can reshape the body instead, and is checked when Skyfarer starts, so a typo in a field name or a template that wouldn't make valid JSON stops it with a message rather than failing later. This is what one Slack-style template sent in the same test, for the demo incident opening and then closing:
+
+```json
+{"text": "opened: [DigitalOcean] LON1 Demo: Droplet creates failing in LON1 http://sink:8000/do/incidents/demolon1a1794150600", "incident": 48}
+{"text": "resolved: [DigitalOcean] LON1 Demo: Droplet creates failing in LON1 http://sink:8000/do/incidents/demolon1a1794150600", "incident": 48}
+```
+
+The incident number pairs an opening with its close. Each request can also carry headers such as an API key, and an HMAC-SHA256 signature of the body, so the receiver can check that it came from Skyfarer.
 
 Each notice goes through a delivery queue: a poll records the incident and queues one notice per channel in the same database transaction, and sends them once that's committed. So each channel fails and retries alone, notices for one incident stay in order, and a cycle that fails partway can't raise a ticket and then forget it. Failures are treated the way each service asks: a `429` from PagerDuty or Teams is retried, while Pushover says never to repeat a 4xx, so that notice is marked failed and shown on the dashboard.
 
@@ -145,14 +158,14 @@ Three containers under Docker or Podman Compose: PostgreSQL 16, the Python polle
 
 ## Status
 
-A small working tool, written for one job. 45 unit tests cover each channel's messages against its published limits, which failures retry, delivery order and startup checks, plus region matching and parsing for the Statuspage and Hetzner feeds, using trimmed copies of real payloads.
+A small working tool, written for one job. 65 unit tests cover each channel's messages against its published limits, which failures retry, delivery order and startup checks, plus region matching and parsing for the Statuspage and Hetzner feeds, using trimmed copies of real payloads.
 
-The screenshots come from a run on 8 November 2026 with polls every 30 seconds instead of the default five minutes. All nine providers' feeds were live, and two scripted "Demo:" incidents were added to DigitalOcean's. Pushover, PagerDuty and Teams were stand-ins that recorded each request, set to refuse Teams for two minutes and to fail DigitalOcean's feed for 50 seconds. Zendesk was switched off for this run. An earlier run, on 4 November, covered Zendesk tickets, real SNMP traps decoded by `snmptrapd`, and five deliberate faults, including Zendesk refusing tickets and a database failure mid-poll, all recovered without lost or duplicated tickets.
+The screenshots come from a run on 8 November 2026 with polls every 30 seconds instead of the default five minutes. All nine providers' feeds were live, and two scripted "Demo:" incidents were added to DigitalOcean's. Pushover, PagerDuty and Teams were stand-ins that recorded each request, set to refuse Teams for two minutes and to fail DigitalOcean's feed for 50 seconds. Zendesk was switched off for this run. An earlier run, on 4 November, covered Zendesk tickets, real SNMP traps decoded by `snmptrapd`, and five deliberate faults, including Zendesk refusing tickets and a database failure mid-poll, all recovered without lost or duplicated tickets. ServiceNow and the webhook were added afterwards and tested on their own run the same day, against a stand-in for the ServiceNow Table API and a receiver that checked every signature.
 
 Some limits to know about:
 
-- **The alert channels haven't met the real services yet.** PagerDuty, Pushover and Teams have only been tested against stand-ins.
-- **Only AWS and Azure updates are passed on.** For providers with a stable incident ID, a new update on an open incident shows on the dashboard when it ends, but sends no Zendesk note or alert until then.
+- **Most channels haven't met the real services yet.** ServiceNow, PagerDuty, Pushover and Teams have only been tested against stand-ins. A ServiceNow close code must be one the instance accepts, and older instances use different ones.
+- **Only AWS and Azure updates are passed on.** For providers with a stable incident ID, a new update on an open incident shows on the dashboard when it ends, but sends no ticket note or alert until then.
 - **Azure hasn't been tried on a live event.** Its feed has been empty whenever it was checked, so Azure handling is built from its published history and tested with scripted entries.
 - **Events in the same region can merge.** AWS and Azure give no event ID in their feeds, so two separate events open in one region at the same time share one incident, one ticket and one alert.
 - **Vultr isn't covered.** Its status page refuses automated requests.
