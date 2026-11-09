@@ -21,7 +21,7 @@ It started as a simple test harness for my own tools: a few IVRs for CallRaven's
 | **Call records with answers** | CDRs and channel events from every call, the rows each call should leave predicted to the second, and every call turned into Open CDR and pushed to CallOwl |
 | **Recordings that go wrong on purpose** | Ten numbers, each recording and posting to CallNest with one thing wrong: missing, cut short, late, one-sided, unreadable, no call record, wrong time zone |
 | **A contact centre** | Queues of virtual agents that ring, answer, speak, put the caller on hold, and hang up or really transfer the caller, blind or attended; ringall queues and conferences |
-| **SIPREC from the PBX** | Six numbers recorded over SIPREC, each with one thing wrong in the session or its metadata, for testing a SIPREC recorder |
+| **SIPREC from the PBX** | Every call recorded over SIPREC if a scenario asks, with agents added to the session as they join, and six numbers that each get one thing wrong in the session or its metadata, for testing a SIPREC recorder |
 | **CDR dialects** | The same calls in three invented vendor formats, each with an answer key, for testing tools that map vendor data |
 | **Twins and bad networks** | An IVR cloned from a CallRaven map, and a second instance with loss and jitter applied |
 
@@ -51,7 +51,7 @@ Each call in the log is set against its prediction. Expected is drawn as a dashe
 
 *Four calls placed to the same queue at once. This one waited 12 s for the agent, who was still ringing for another caller; everything after that ran exactly to plan, 12 s late. CallRoost says so, rather than listing five unrelated errors.*
 
-The full set of reference calls (every fault number, every IVR path, every queue, the endpoints and a number that doesn't exist) runs with one command, `checkcdr`. On 8 November all 47 matched, row for row. With the newer contact-centre and SIPREC numbers added, the set is 58 calls, and on 9 November all 58 matched.
+The full set of reference calls (every fault number, every IVR path, every queue, the endpoints and a number that doesn't exist) runs with one command, `checkcdr`. On 8 November all 47 matched, row for row. With the newer contact-centre, per-party and SIPREC numbers added, the set is 60 calls, and on 9 November all 60 matched.
 
 ![The call log after the 8 November run: every call set against its prediction](images/10-calls.png)
 
@@ -98,6 +98,8 @@ Queues of virtual agents: each rings for a set time (or never), answers, says it
 
 The harder cases are there too. In a ringall queue every agent rings at once and the first to answer gets the caller, while the others' legs end unanswered. An agent can put the caller on hold, with hold music and hold and resume events in the call record. An attended transfer is the agent pressing *2 and a number, talking to whoever answers, then hanging up, which leaves a real attended transfer and the caller IDs Asterisk rewrites along the way. In a conference, agents are brought in as the caller joins and leave one by one. All of these are predicted leg by leg, and each matched in every CDR row and Open CDR record.
 
+A queue can also record per party, as a contact-centre recorder does: the caller and each agent who answers on their own leg, each posted to CallNest with its party. On 7208 that's the caller, Gina, and Hank after Gina transfers the caller to him, each marked as recorded in the Open CDR.
+
 ![Queue 7207: Frank answers, consults billing with *2 7203, and hangs up, leaving the caller with Dave](images/11-attended-transfer.png)
 
 *An attended transfer on a real call: seven CDR rows, every one where it was predicted. Frank talks to the caller, dials billing, waits while Dave answers, then hangs up; the caller's queue leg carries on, bridged to Dave.*
@@ -122,6 +124,8 @@ Asterisk has no SIPREC client, so CallRoost has its own. It listens in on each d
 | 7825 | one stream only |
 
 For each, CallRoost says what the recorder should end up holding. All six matched CallNest on the first live run, and again on 9 November.
+
+A scenario can also record every answered call over SIPREC, not just these six. When an agent comes to talk to the caller, whether from a queue, a transfer or a conference, the client adds them to the session with a metadata update mid-call, and CallRoost predicts each session's length, participants and updates. With every call on the contact-centre scenario recorded this way, 59 of 60 matched CallNest; the one miss was an attended transfer that ran 3 s long once under the extra load, and it matched alone and in two other runs.
 
 ![7823: the call, its CDR, and what CallNest should hold: linked by the metadata, with a correlation conflict](images/12-siprec-fault.png)
 
@@ -171,4 +175,4 @@ One container: Asterisk 20, the YAML compiler, an HTTP API and the web UI on por
 
 ## Status
 
-CallRoost is the lab fixture the other tools in the family are tested against. Its rule is that nothing goes in without its expected output: every feature came with the answer a test should get, and was checked with real calls, not only unit tests. Next is a second peer that isn't Asterisk, rvoip, so that call testers meet a SIP stack with different habits, and SIPREC for every call rather than only its six numbers.
+CallRoost is the lab fixture the other tools in the family are tested against. Its rule is that nothing goes in without its expected output: every feature came with the answer a test should get, and was checked with real calls, not only unit tests. Recorders are read through adapters, with CallNest the first, so other recorders can be checked against the same answers. Next is a second peer that isn't Asterisk, rvoip, so that call testers meet a SIP stack with different habits.
