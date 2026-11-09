@@ -1,6 +1,6 @@
 # CallRoost
 
-**A phone system with known answers, for testing the tools that test, record and log calls.** Every number on it behaves exactly as written down, every time, and CallRoost says in advance what each call should leave behind: the IVR tree a mapper should find, the call's outcome, its CDR rows, its Open CDR record, its recording and the verdict a compliance checker should reach.
+**The tester of testers: a test platform for compliance capture and telephony tools.** CallRoost is a phone system with known answers, for testing the tools that test, record and log calls. Every number on it behaves exactly as written down, every time, and CallRoost says in advance what each call should leave behind: the IVR tree a mapper should find, the call's outcome, its CDR rows, its Open CDR record, its recording and the verdict a compliance checker should reach.
 
 Testing a call tester, a recorder or a call-record pipeline against a real PBX only tells you that something happened. CallRoost tells you what should have happened, so a test can say right or wrong. It is Asterisk 20, configured from YAML, with its expected outputs worked out from the same YAML and checked against real calls.
 
