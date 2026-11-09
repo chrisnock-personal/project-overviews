@@ -4,6 +4,8 @@
 
 On Linux, the icon an application shows in the app grid, the dock and the alt-tab switcher comes from a line in its `.desktop` file. Changing it by hand means finding the right file among a hundred or more, knowing that a dock ignores an icon given as a file path, rasterising the image into the icon theme at several sizes, and refreshing the icon cache. Chrome web apps (PWAs) add one more trap: if the launcher's `StartupWMClass` doesn't match the window Chrome opens, the dock can't connect the two and shows the wrong icon or a second, generic one. Desktop Icon Manager does all of this from one window: pick the app, pick an image, save.
 
+Source code: [github.com/chrisnock-personal/desktop-icon-manager](https://github.com/chrisnock-personal/desktop-icon-manager)
+
 ![Desktop Icon Manager showing the ten Chrome web apps as a grid of cards, with Apple Music open in the edit panel](images/01-hero.png)
 
 *The ten Chrome web apps on a Fedora 44 laptop, with Apple Music open in the edit panel: its icon, its `Icon=` value, and the Chrome web app settings that tie its windows to the dock.*
