@@ -4,7 +4,7 @@
 
 GitHub shows pull requests one repository at a time, and only to the people already looking. Across a few dozen repos, nobody can see which PRs have waited three days for a reviewer, which ones were approved and then forgotten, or how many branches are still around months after their PR merged. Branchwarden scans the lot on a schedule (or as soon as a webhook says something changed), works out each PR's state and who has to act next, and tells the right channel. It only reads branches: it never pushes and never deletes, and its one write to GitHub is requesting reviewers.
 
-Source code: not published yet.
+Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden)
 
 ![The Branchwarden overview in its default dark theme: summary tiles, a card per repository, the pull requests that need attention, delivery channel health and the scan log](images/01-overview.png)
 
