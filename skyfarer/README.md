@@ -17,7 +17,7 @@ When a cloud provider has a problem, the first place to say so is usually its st
 | **Nine providers** | AWS, Azure, Google Cloud, OVHcloud, DigitalOcean, Linode, Cloudflare, Scaleway and Hetzner, each read in the way its feed needs; any of them can be switched off |
 | **Filtering** | By region, using each provider's own names (`me-central-1`, `LON1`, `fr-par`, `FSN1`, `LHR`), and optionally by keyword |
 | **Incidents and maintenance** | Faults and planned work are told apart, so maintenance is recorded without paging anyone |
-| **Tickets** | Zendesk, ServiceNow or Jira Service Management: one ticket per incident with the provider, region, link and timeline; pending (Zendesk) or resolved (ServiceNow, Jira) when the incident ends |
+| **Tickets** | Zendesk, ServiceNow or Jira Service Management: one ticket per incident with the provider, region, link and timeline, a note for each update the provider posts, and pending (Zendesk) or resolved (ServiceNow, Jira) when the incident ends |
 | **Alerts** | Pushover, PagerDuty, Microsoft Teams, SNMP traps and any number of outbound webhooks, in any combination, with or without tickets; old events and planned maintenance don't interrupt anyone |
 | **Failure handling** | Each channel fails and retries alone through a delivery queue; an unreadable feed closes nothing and shows on the dashboard |
 | **Dashboard** | Web view, dark by default with a light theme: provider and channel health, incidents, search, filters, and logs of every notification and poll |
@@ -81,7 +81,7 @@ Every five minutes by default, Skyfarer reads each provider's feed and compares 
 
 | Channel | What it sends |
 |---|---|
-| **Zendesk** | A ticket per incident with the provider, region, link and timeline; a note and pending status when it ends |
+| **Zendesk** | A ticket per incident with the provider, region, link and timeline; internal notes for updates; a note and pending status when it ends |
 | **ServiceNow** | A record in the incident table through the Table API, with your assignment group, caller, category, impact and urgency; work notes for updates; Resolved with a close code when it ends |
 | **Jira Service Management** | A request in a service desk, with your request type and fields; internal comments for updates; resolved through your workflow's transition when it ends |
 | **PagerDuty** | An Events API v2 alert, which clears itself when the incident ends |
