@@ -16,7 +16,7 @@ Source code: [github.com/chrisnock-personal/desktop-icon-manager](https://github
 
 | | |
 |---|---|
-| **Every app in one place** | Reads every `.desktop` entry in the user and system application folders and shows them as a grid of icon cards or a compact list, with a search over names and icon values and filters for web apps and unsaved changes |
+| **Every app in one place** | Reads every `.desktop` entry in the user and system application folders and shows them as a grid of icon cards or a compact list, previewing each icon the way the desktop finds it, with a search over names and icon values and filters for web apps and unsaved changes |
 | **Change an icon properly** | Choose a PNG, JPG, SVG, ICO, BMP or WebP image: it is installed into the icon theme at every standard size and `Icon=` is set to a theme name, so docks and launchers pick it up |
 | **Chrome web app fixes** | Spots Chrome PWA entries, shows their app ID, and sets `StartupWMClass` in one click so the dock matches the window to its launcher |
 | **Safe edits** | Nothing is written until you press Save (or Ctrl+S); Save changes only the `Icon=` and `StartupWMClass=` lines; Discard reloads the entry from disk |
@@ -31,7 +31,9 @@ The app reads every `.desktop` file in `~/.local/share/applications`, `/usr/shar
 
 ![The grid view: 174 applications from three folders as icon cards](images/02-all-apps.png)
 
-*174 entries on a Fedora 44 GNOME laptop. Icons in the hicolor theme or given as a file show a preview. GNOME's own apps use icons from the Adwaita theme, which the preview doesn't search, so they get a coloured tile with their initial instead; their `Icon=` value is still shown and can be changed.*
+*174 entries on a Fedora 44 GNOME laptop, 145 of them with a preview of their icon.*
+
+An `Icon=` value is usually a name, not a file, and the desktop looks it up in the icon theme. The preview does the same: it searches your own icon folders first, then the active theme (Adwaita here) and the themes it inherits from, then hicolor and the pixmaps folders, and it renders SVG as well as PNG, JPEG, ICO, BMP and WebP. GNOME Settings panels and other symbolic icons, which are plain single-colour shapes, are drawn on a coloured tile so they stay visible in both themes. An entry gets a tile with its initial when there is nothing to show: on this laptop, 13 entries have no `Icon=` line at all, two web apps point at icon files that no longer exist, and a few KDE apps use icons that exist only in KDE's Breeze theme, which GNOME doesn't use either.
 
 The search box matches both names and icon values, so "settings" finds 28 entries, most of them GNOME Settings panels whose names don't contain the word but whose icons are `org.gnome.Settings-…`. The filter buttons beside it narrow the view to **Web apps** (10 on this machine) or to entries with **Unsaved** changes, each with its count. The **List** view shows the same entries as compact rows with each one's `Icon=` value under its name, and the sun and moon button switches between the light and dark themes.
 
@@ -100,10 +102,10 @@ The status bar shows where chosen icons are kept and which application folders w
 
 ## How it runs
 
-A single binary for Linux x86-64, built with Rust and [egui](https://github.com/emilk/egui), that runs on X11 or Wayland (through XWayland) with OpenGL 2.1 or later. A build script installs the few system libraries it needs with apt, dnf/yum, zypper, pacman or xbps, builds it, and optionally installs it to `~/.local/bin` with its own icon and a menu entry. Build and usage details are in the [project README](https://github.com/chrisnock-personal/desktop-icon-manager).
+A single binary for Linux x86-64, built with Rust and [egui](https://github.com/emilk/egui), that runs on X11 or Wayland (through XWayland) with OpenGL 2.1 or later. Each [release](https://github.com/chrisnock-personal/desktop-icon-manager/releases) has a prebuilt binary, which needs glibc 2.35 or later (Ubuntu 22.04, Debian 12 and newer), with a script that installs it with its icon and a menu entry. To build from source, a build script installs the few system libraries it needs with apt, dnf/yum, zypper, pacman or xbps, builds it, and optionally installs it to `~/.local/bin` with its own icon and a menu entry. Build and usage details are in the [project README](https://github.com/chrisnock-personal/desktop-icon-manager).
 
 ---
 
 ## Status
 
-Version 1.0: a small, single-purpose tool. It has unit tests for reading malformed `Icon=` values without crashing. The app screenshots on this page are from the current build, with its redesigned interface, run on Fedora 44 against a real laptop's application entries; the file picker, app grid and dock shots are from the author's GNOME desktop.
+Version 1.1: a small, single-purpose tool. Its 11 unit tests cover reading malformed `Icon=` values without crashing and the icon theme lookup (theme order, inherited themes, your own icons overriding the theme, sizes and the pixmaps fallback). GitHub Actions builds and tests every change, and builds and publishes each tagged version as a release. The app screenshots on this page are from the current build, with its redesigned interface, run on Fedora 44 against a real laptop's application entries; the file picker, app grid and dock shots are from the author's GNOME desktop.
