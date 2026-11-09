@@ -4,6 +4,8 @@
 
 Testing a call tester, a recorder or a call-record pipeline against a real PBX only tells you that something happened. CallRoost tells you what should have happened, so a test can say right or wrong. It is Asterisk 20, configured from YAML, with its expected outputs worked out from the same YAML and checked against real calls.
 
+It started as a simple test harness for my own tools: a few IVRs for CallRaven's IVR mapper to find, the same every time. Then each of the other tools needed the same thing. CallOwl needed call records with known answers, CallNest needed recordings that go wrong in known ways, and both needed a contact centre's queues and transfers and a SIPREC source. One piece at a time, the harness grew into a platform in its own right.
+
 ![CallRoost's overview: the newest calls set against what was expected, the numbers, and what reached CallOwl and CallNest](images/01-overview.png)
 
 *After the 8 November run of all 47 reference calls on the contact-centre scenario: the newest 20 all as expected, 402 Open CDR records all with CallOwl, and the latest recording run, where CallNest took six recordings, refused 7804's as it should, and 7803's waits out its 20 minutes.*
@@ -18,7 +20,8 @@ Testing a call tester, a recorder or a call-record pipeline against a real PBX o
 | **Fault numbers** | 25 numbers that misbehave on purpose: busy, 503, 404, rings forever, early media, silence, hold music, a hang-up mid-prompt, DTMF sent three ways, a mid-call re-INVITE or UPDATE |
 | **Call records with answers** | CDRs and channel events from every call, the rows each call should leave predicted to the second, and every call turned into Open CDR and pushed to CallOwl |
 | **Recordings that go wrong on purpose** | Ten numbers, each recording and posting to CallNest with one thing wrong: missing, cut short, late, one-sided, unreadable, no call record, wrong time zone |
-| **A contact centre** | Queues of virtual agents that ring, answer, speak and hang up or really transfer the caller |
+| **A contact centre** | Queues of virtual agents that ring, answer, speak, put the caller on hold, and hang up or really transfer the caller, blind or attended; ringall queues and conferences |
+| **SIPREC from the PBX** | Six numbers recorded over SIPREC, each with one thing wrong in the session or its metadata, for testing a SIPREC recorder |
 | **CDR dialects** | The same calls in three invented vendor formats, each with an answer key, for testing tools that map vendor data |
 | **Twins and bad networks** | An IVR cloned from a CallRaven map, and a second instance with loss and jitter applied |
 
@@ -48,7 +51,7 @@ Each call in the log is set against its prediction. Expected is drawn as a dashe
 
 *Four calls placed to the same queue at once. This one waited 12 s for the agent, who was still ringing for another caller; everything after that ran exactly to plan, 12 s late. CallRoost says so, rather than listing five unrelated errors.*
 
-The full set of reference calls (every fault number, every IVR path, every queue, the endpoints and a number that doesn't exist) runs with one command, `checkcdr`. On 8 November all 47 matched, row for row.
+The full set of reference calls (every fault number, every IVR path, every queue, the endpoints and a number that doesn't exist) runs with one command, `checkcdr`. On 8 November all 47 matched, row for row; later that day, with the newer contact-centre and SIPREC numbers added, all 58 did.
 
 ![The call log after the 8 November run: every call set against its prediction](images/10-calls.png)
 
@@ -56,7 +59,7 @@ The full set of reference calls (every fault number, every IVR path, every queue
 
 ## Numbers that misbehave on purpose
 
-Whatever the scenario, the fault numbers are always there, each with the outcome a caller should see: the SIP response, whether it's answered, early media, when the far end hangs up, what the caller hears. 7486 is busy, 7503 unavailable, 7480 rings for a minute, 7183 plays "not in service" as early media, 7999 answers and says nothing for five minutes, 7110 hangs up four seconds into a menu. 7701-7703 send the caller DTMF by RFC 4733, SIP INFO and in-band tones; 7461 and 7462 refresh the session mid-call by re-INVITE and by UPDATE.
+Whatever the scenario, the fault numbers are always there, each with the outcome a caller should see: the SIP response, whether it's answered, early media, when the far end hangs up, what the caller hears. 7486 is busy, 7503 unavailable, 7480 rings for a minute, 7183 plays "not in service" as early media, 7999 answers and says nothing for five minutes, 7110 hangs up four seconds into a menu. 7701-7703 send the caller DTMF by RFC 4733, SIP INFO and in-band tones; 7461 and 7462 refresh the session mid-call by re-INVITE and by UPDATE. Extension 1115 has SIP session timers on, so every call to or from it is refreshed every 45 s.
 
 CallRoost's own test caller checks all of them, including an in-band DTMF decoder for 7703.
 
@@ -93,9 +96,28 @@ Ten numbers, 7800-7809, each answer and play 30 seconds of known audio. CallRoos
 
 Queues of virtual agents: each rings for a set time (or never), answers, says its line, talks, then hangs up or blind-transfers the caller by pressing ## and a number, as a person on a FreePBX phone would. The transfer is a real one, so the CDRs split exactly where a real PBX's do. Agents that never answer, failover to the next agent, a queue that gives up and sends the caller elsewhere: each has its legs predicted, and each matched Asterisk to the second.
 
+The harder cases are there too. In a ringall queue every agent rings at once and the first to answer gets the caller, while the others' legs end unanswered. An agent can put the caller on hold, with hold music and hold and resume events in the call record. An attended transfer is the agent pressing *2 and a number, talking to whoever answers, then hanging up, which leaves a real attended transfer and the caller IDs Asterisk rewrites along the way. In a conference, agents are brought in as the caller joins and leave one by one. All of these are predicted leg by leg, and on 8 November the standard set of 51 calls matched in every CDR row and Open CDR record.
+
 ![Queue 7201: the legs a call should leave when Bob answers and transfers the caller to billing, where Dave answers](images/05-queue-legs.png)
 
 *Bob answers after 4 s, talks, and presses ##7203; the caller goes to billing, where Dave answers. Four rows, each with its start and length. Asterisk writes the first caller row's destination as 7201 or 7203 depending on a race inside it, so either is accepted.*
+
+---
+
+## SIPREC from the PBX side
+
+Asterisk has no SIPREC client, so CallRoost has its own. It listens in on each direction of a call and sends both streams to a SIPREC recorder, with the session's metadata, without sitting in the call's path or changing its CDRs. Six numbers, 7820-7825, each record over SIPREC with one thing wrong:
+
+| Number | What's wrong |
+|---|---|
+| 7820 | nothing: the Open CDR call ID is in the metadata (the control) |
+| 7821 | the call ID is only in a SIP header |
+| 7822 | the call ID is in neither |
+| 7823 | it's in both, and they disagree |
+| 7824 | the recording session ends 10 s in |
+| 7825 | one stream only |
+
+For each, CallRoost says what the recorder should end up holding. All six matched CallNest on the first live run. This gives CallNest a second, independent SIPREC source beside CallRaven.
 
 ---
 
@@ -123,7 +145,7 @@ The editor compiles a scenario as you type and shows what a mapper should see ch
 
 ![Editing Acme v2: the YAML, that it compiles, and what a mapper should see change against v1](images/06-scenario-editor.png)
 
-A real IVR can be cloned too: `roost import-map` turns a CallRaven map into a scenario, a twin to test against without calling the live system, and checks that the twin maps back to the same tree.
+CallRaven's own CI IVRs are a scenario as well, built from Asterisk's stock voicemail prompts just as the CI builds them, so CallRaven's maps of them can be checked against a known tree. A real IVR can be cloned too: `roost import-map` turns a CallRaven map into a scenario, a twin to test against without calling the live system, and checks that the twin maps back to the same tree.
 
 ---
 
@@ -141,4 +163,4 @@ One container: Asterisk 20, the YAML compiler, an HTTP API and the web UI on por
 
 ## Status
 
-CallRoost is the lab fixture the other tools in the family are tested against. Its rule is that nothing goes in without its expected output: every feature came with the answer a test should get, and was checked with real calls, not only unit tests. Conferences, attended transfers and hold are still to come.
+CallRoost is the lab fixture the other tools in the family are tested against. Its rule is that nothing goes in without its expected output: every feature came with the answer a test should get, and was checked with real calls, not only unit tests. Next is a second peer that isn't Asterisk, rvoip, so that call testers meet a SIP stack with different habits, and SIPREC for every call rather than only its six numbers.
