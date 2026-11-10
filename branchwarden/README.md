@@ -21,6 +21,7 @@ Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chr
 | **Branches** | Branches with no PR, flagged stale after a set number of days; branches left behind by a merged PR, by a closed PR, or pushed to after their merge. All are flagged only, never deleted |
 | **Teams and Slack** | Messages when a PR opens or is marked ready, gets a review, merges or closes. Reminders when it sits too long, counted in working hours, each with a snooze button. A weekly digest of branches to tidy up. In Slack, each PR's messages can stay in one thread |
 | **Metrics** | Time to first review, time to merge, merges per week, and daily trends of PRs needing review and stale branches, overall or per repo |
+| **MVP** | For the last 7 days: who reviewed, merged, pruned branches and opened PRs the most, with an optional weekly post of the winners |
 | **GitHub** | A GitHub App, a personal access token, or both. Webhooks trigger a rescan within seconds. Can point at GitHub Enterprise Server |
 | **Access and security** | Sign in with GitHub, with roles taken from GitHub teams, or local accounts. HTTPS with a generated certificate and an upload page, secrets sealed with AES-256-GCM, no default accounts, three roles |
 
@@ -126,7 +127,27 @@ The Metrics page answers "are reviews getting faster?" for the last 30, 90 or 18
 - **daily trends** of PRs needing review and of stale branches, from a snapshot written every hour,
 - a table **by repository**, and the **reviewers** with the most requests waiting on them now, with how long the oldest has waited.
 
-Times count from when a PR was ready for review, and an author's own replies don't count as a first review. Every chart can be shown as a table. History starts when Branchwarden starts watching an account, so the page fills in over the first weeks. That's also why there's no screenshot of it here yet: the test repos have a single author and no reviews.
+Times count from when a PR was ready for review, and an author's own replies don't count as a first review. Every chart can be shown as a table. History starts when Branchwarden starts watching an account, so the page fills in over the first weeks.
+
+![The metrics page: median time to first review and to merge, merges per week, weekly time to first review, daily charts of PRs needing review and stale branches, a table by repository and the reviewers with requests waiting](images/09-metrics.png)
+
+*Made-up test activity: five weeks across three repos and eight people, in which first reviews speed up from about 20 hours to about 3, and stale branches get tidied. The test repositories used elsewhere on this page have a single author and no reviews, so they can't show this page.*
+
+---
+
+## MVP
+
+The MVP page shows, for the last 7 days or the 7 before, who did the most of four things. Each board has an MVP and places 2 to 5, with team totals across the top:
+- **Most reviews:** PRs they reviewed for someone else. Reviewing your own PR doesn't count, and neither do repeat comments on one PR.
+- **Most merges:** PRs they pressed merge on.
+- **Most branch prunes:** branches they deleted. Who deleted a branch only comes from the GitHub App's `delete` webhook. A deletion that only a scan noticed counts in the team total, but for nobody by name, and the board says so.
+- **Most PRs raised:** PRs they opened.
+
+Bots are left out of every board. An optional weekly post, off by default, sends each board's winner and the next two to Teams and Slack, at a set day and time (Fridays 16:00 unless changed). Winners are @mentioned.
+
+![The MVP page: team totals, then four boards for most reviews, merges, branch prunes and PRs raised, each with its MVP and places 2 to 5](images/10-mvp.png)
+
+*The same made-up test activity. The note on the prunes board is because three deletions were only seen by a scan.*
 
 ---
 
@@ -134,7 +155,7 @@ Times count from when a PR was ready for review, and an author's own replies don
 
 Every message is queued per channel and retried with back-off when Teams or Slack answers 429 or 5xx. Other errors are permanent and shown as failed, with the reason, such as Slack's `HTTP 404: no_team` for a webhook that has been removed. One broken channel never holds up another. Webhook URLs and bot tokens are secrets, so they never appear in an error.
 
-![The deliveries page: channel health, webhook events received, and every message with its status](images/09-deliveries.png)
+![The deliveries page: channel health, webhook events received, and every message with its status](images/11-deliveries.png)
 
 *Each message, its channel and its result. The one webhook event shown was a deliberately unsigned request, refused as "bad signature".*
 
@@ -150,7 +171,7 @@ A full scan of the two test repos took about 4 seconds, and after several scans 
 
 ## Connecting GitHub
 
-![Settings for the GitHub App: App ID, private key, webhook secret and the webhook URL to paste into GitHub](images/10-settings-github.png)
+![Settings for the GitHub App: App ID, private key, webhook secret and the webhook URL to paste into GitHub](images/12-settings-github.png)
 
 Two kinds of connection, usable together:
 - **A GitHub App** suits organisations. It has its own API budget and sends webhooks, so PR changes show up in seconds instead of at the next scan. Once its ID and private key are in, the page lists every installation and its permissions.
@@ -168,7 +189,7 @@ Each account can be set to use the App, the token, or the App with the token as 
 - **The token:** the sign-in uses PKCE and a state check. The GitHub token is only used to read the person's teams, and is never stored.
 - **Fallback:** local accounts keep working, so an admin can always get in.
 
-![The sign-in with GitHub settings: client ID and secret, the callback URL to register, and the GitHub teams or logins for each role](images/11-github-sign-in.png)
+![The sign-in with GitHub settings: client ID and secret, the callback URL to register, and the GitHub teams or logins for each role](images/13-github-sign-in.png)
 
 The three roles: *admins* change settings; *members* request reviewers, snooze reminders and ignore branches; *viewers* only read.
 
@@ -193,7 +214,7 @@ The project was built against a security review of all my repos, with its "secur
   - Forms carry CSRF tokens, sign-ins are throttled, and channel URLs must be HTTPS on Slack's or Microsoft's hosts.
 - **Data kept no longer than needed.** Closed PRs are kept for 365 days (the metrics use them). Messages and scans are kept for 90 days. Older records are removed every hour.
 
-![The TLS certificate page: the generated self-signed certificate with its names, validity and SHA-256 fingerprint, and the upload form](images/12-settings-tls.png)
+![The TLS certificate page: the generated self-signed certificate with its names, validity and SHA-256 fingerprint, and the upload form](images/14-settings-tls.png)
 
 ---
 
@@ -205,13 +226,14 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 
 New (November 2026).
 
-- **Unit tests:** 47 run on every push. They cover:
+- **Unit tests:** 52 run on every push. They cover:
   - PR states, branch rules and CODEOWNERS matching,
   - reviewer selection and working-hours maths,
   - message rendering and escaping,
   - Slack API answers,
   - webhook signatures, encryption and key rotation,
-  - the GitHub sign-in role rules and certificate checks.
+  - the GitHub sign-in role rules and certificate checks,
+  - the MVP rankings and the weekly post.
 
   CI also runs `pip-audit` (no known vulnerabilities in the pinned versions) and `gitleaks`.
 - **End-to-end test:** run against two throwaway private repositories. It covered:
@@ -220,7 +242,8 @@ New (November 2026).
   - a digest, and a refused review request,
   - a simulated week of reminders: sent on the first due time, held for the repeat interval, stopped at the maximum, silent on Sunday, and skipped for a snoozed PR,
   - auto-assign making one attempt per PR,
-  - the start of a GitHub sign-in, and the refusal of a forged one.
+  - the start of a GitHub sign-in, and the refusal of a forged one,
+  - the metrics and MVP pages, and the weekly MVP post, on made-up activity. That covered self-reviews, bots and deletions with nobody named.
 - **Not yet tested:**
   - a GitHub App installation on a real organisation,
   - GitHub Enterprise Server,
