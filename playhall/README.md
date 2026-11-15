@@ -1,6 +1,6 @@
 # Playhall
 
-**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with nine games (chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Texas Hold'em and a colour-matching card game), a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
+**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with ten games (chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Texas Hold'em, a colour-matching card game and a crossword tile game), a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
 
 Most online games give you a match against a stranger. Playhall is closer to a games night: a room that stays open, people drifting in, a queue for the next game, and a running argument in the corner about who should have played d4. The host decides who plays, who waits and what the people watching may say, and the scores carry on from one evening to the next.
 
@@ -15,7 +15,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 | | |
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
-| **Nine games** | Chess, checkers, Four in a Row, Snakes and Ladders, Ludo and Sea Battle; Blackjack, Texas Hold'em and Colour Clash with play chips and cards. One to four players, all drawn from one set of boards, pieces, cards, chips and dice |
+| **Ten games** | Chess, checkers, Four in a Row, Snakes and Ladders, Ludo and Sea Battle; Blackjack, Texas Hold'em and Colour Clash with play chips and cards; Letterworks, a crossword tile game. One to four players, all drawn from one set of boards, pieces, cards, chips and dice |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
 | **The host's rules** | Who may sit down, what happens after each game, a move timer, an optional delay for watchers, who may write where, private rooms with a password, removing people |
@@ -87,6 +87,10 @@ The five ships are drawn for Playhall: a carrier with its flight deck, a battles
 
 ![Colour Clash with four players: the others' card counts across the top, the draw pile and a rose 1 in play, and Priya's hand of five cards](images/19-colour-clash.png)
 
+**Letterworks** is a crossword tile game for two to four players, on our own board layout and tile set rather than the commercial game's. You build words from a private rack of seven tiles: tap a tile then a square (or drag it), and Playhall shows the words you're making and what they'd score before you commit. Every word is checked against ENABLE, a public-domain list of about 173,000 English words, and one that isn't allowed is turned down before anything is placed, so there are no challenges and no penalties. The Moves tab keeps the words played, and a panel lists all 96 two-letter words.
+
+![Letterworks with three players: HALL across the centre, PAWN down through its A and QUEEN ending on PAWN's N, Priya's rack of seven tiles under the board, and the Moves tab listing the three words and their scores](images/23-letterworks.png)
+
 Every game explains itself. The **Rules** tab in any room, and **How to play** when you pick a game in the lobby, give the goal in a sentence and then the essentials: taking turns, how the pieces move, how a game ends, and a few tips. Each new game has to come with its own.
 
 ![The Rules tab in a chess room: the goal, then taking turns, how the pieces move, special moves and how a game ends](images/12-rules.png)
@@ -140,13 +144,13 @@ Finished games of chess, checkers and Four in a Row can be **replayed** move by 
 
 Playhall is planned in five phases, with a backlog behind them.
 
-1. **Phase 1, done: the games.** The nine games above, on one shared kit.
+1. **Phase 1, done: the games.** Nine games on one shared kit, and since then Letterworks.
 2. **Phase 2, next: voice and video, and then any board game at all.** Voice and video in every room, split the same way as the chat, so watchers can talk among themselves without the players hearing. Video brings the **camera table**: the host points a camera (a phone on a stand will do) at a real board on their own table and moves the pieces for everyone, and Playhall keeps the rest: the seats and turns, a shared dice roller, a score pad, a move timer and the chat. That works for any board game, including all the ones nobody has written for Playhall, and the host enters the result at the end so it can still count.
 3. **Phase 3: OpenBOR rooms.** The server runs the open-source OpenBOR engine for beat-'em-ups and streams the game into the room, and up to four players control it from their browsers with a gamepad or keyboard. Playhall supplies neither the engine nor any games: an admin installs the engine from its official releases, and players import their own games.
 4. **Phase 4: share a game from your own PC.** A host runs any local-multiplayer game on their own computer; Playhall streams it to the room and friends play it remotely with their own controllers, which appear on the host's PC as ordinary game controllers.
 5. **Phase 5: games from anyone.** A plug-in kit so other people's web games can run in a room, plus a faster, smoother version of sharing a game from your PC.
 
-**In the backlog:** Ship2Shore, a hidden-role game for 5-11 players set aboard a 1943 merchant ship where the Royal Navy, enemy spies and a black-market fixer each steer for a different port and the crew throw suspects to the sharks; tournaments (knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round); more games, among them a crossword tile game, a country-house murder mystery and a fantasy creature card duel, each under our own name and artwork; and computer opponents.
+**In the backlog:** Ship2Shore, a hidden-role game for 5-11 players set aboard a 1943 merchant ship where the Royal Navy, enemy spies and a black-market fixer each steer for a different port and the crew throw suspects to the sharks; tournaments (knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round); more games, among them a country-house murder mystery and a fantasy creature card duel, each under our own name and artwork; and computer opponents.
 
 ---
 
@@ -156,6 +160,6 @@ Playhall is a Node.js server with a Postgres database, packaged as two container
 
 ## Status
 
-Early: phase 1 of five is done, and Playhall has been run on a home network, not yet in public. CI runs on every push: 64 unit tests of the game rules, the room logic and the scoring, including 100 random games of Hold'em that check no chips are ever created or lost; an end-to-end test that plays a game over the real WebSocket and checks the results, stats and private rooms; a browser test that plays on the real board on desktop and phone; loading and removing the demo data; and building and starting the container image.
+Early: phase 1 of five is done, and Playhall has been run on a home network, not yet in public. CI runs on every push: 77 unit tests of the game rules, the room logic and the scoring, including 100 random games of Hold'em that check no chips are ever created or lost; an end-to-end test that plays games of chess and Letterworks over the real WebSocket and checks the results, stats and private rooms; a browser test that plays on the real board on desktop and phone; loading and removing the demo data; and building and starting the container image.
 
 Source: [github.com/chrisnock-personal/playhall](https://github.com/chrisnock-personal/playhall)
