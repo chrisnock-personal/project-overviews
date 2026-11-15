@@ -1,6 +1,6 @@
 # Playhall
 
-**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with six board games so far (chess, checkers, Four in a Row, Snakes and Ladders, Ludo and Sea Battle), a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
+**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with nine games (chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Texas Hold'em and a colour-matching card game), a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
 
 Most online games give you a match against a stranger. Playhall is closer to a games night: a room that stays open, people drifting in, a queue for the next game, and a running argument in the corner about who should have played d4. The host decides who plays, who waits and what the people watching may say, and the scores carry on from one evening to the next.
 
@@ -15,11 +15,11 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 | | |
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
-| **Six board games** | Chess, checkers, Four in a Row, Snakes and Ladders, Ludo and Sea Battle, for two to four players, all drawn from one set of boards, pieces and dice. Card games are next |
+| **Nine games** | Chess, checkers, Four in a Row, Snakes and Ladders, Ludo and Sea Battle; Blackjack, Texas Hold'em and Colour Clash with play chips and cards. One to four players, all drawn from one set of boards, pieces, cards, chips and dice |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
-| **The host's rules** | Who may sit down, what happens after each game, a move timer, an optional delay for watchers, who may write where, private rooms with a password |
-| **Points and leaderboards** | 3 for a win, 1 for a draw; weekly, monthly and all-time tables; every player's record and head-to-heads |
+| **The host's rules** | Who may sit down, what happens after each game, a move timer, an optional delay for watchers, who may write where, private rooms with a password, removing people |
+| **Points and leaderboards** | 3 for a win, 1 for a draw or second place; weekly, monthly and all-time tables; every player's record, head-to-heads and replays |
 
 ---
 
@@ -74,6 +74,19 @@ When a game ends, the room shows what it meant: the points each player won, thei
 
 ![Sea Battle from Jordan's side: Jordan's fleet with Lee's shots in it on the left, and the enemy waters with Jordan's shots on the right](images/16-sea-battle.png)
 
+The five ships are drawn for Playhall: a carrier with its flight deck, a battleship with three turrets, a cruiser, a submarine and a destroyer. You can place them yourself: click a ship to pick it up, turn it, and a shadow shows where it would go, red if it won't fit. Or press Shuffle for a random layout.
+
+![Placing a fleet: the Battleship picked up, its red shadow showing it would overlap the Carrier, and the buttons to choose a ship, rotate, shuffle or say you're ready](images/17-sea-battle-placing.png)
+
+**The card games** share one deck design, a card back with the Playhall mark, and chips that always show their amount, and they use play chips only: nothing to buy and nothing to cash out. **Blackjack** is one to four players against the house over a session of 5, 10 or 20 hands, most chips at the end winning (a game on your own is practice and doesn't count). **Texas Hold'em** is a sit-and-go: everyone starts with the same chips, the blinds double every few hands, side pots look after short stacks, and the last player with chips wins. **Colour Clash** is our own colour-matching card game in the four player colours. In all three, your cards are hidden from everyone else, people watching included.
+
+<p>
+<img src="images/18-blackjack.png" width="49%" alt="Blackjack, hand 2 of 10: the dealer's 2 showing and a face-down card, Sam on 7 deciding whether to hit, Kai on 18 and Priya with a blackjack">
+<img src="images/20-holdem.png" width="49%" alt="Texas Hold'em after the turn: four shared cards, Morgan's own two cards face up and the others face down, and the buttons to fold, check, bet or go all in">
+</p>
+
+![Colour Clash with four players: the others' card counts across the top, the draw pile and a rose 1 in play, and Priya's hand of five cards](images/19-colour-clash.png)
+
 Every game explains itself. The **Rules** tab in any room, and **How to play** when you pick a game in the lobby, give the goal in a sentence and then the essentials: taking turns, how the pieces move, how a game ends, and a few tips. Each new game has to come with its own.
 
 ![The Rules tab in a chess room: the goal, then taking turns, how the pieces move, special moves and how a game ends](images/12-rules.png)
@@ -86,15 +99,18 @@ The board always gets the space. Everything around it (the top bar, the players,
 
 ![The same room in the Focus layout: a thin top bar, players as avatars, the chat shrunk to a rail of icons, and the board filling the screen](images/06-focus.png)
 
-On a phone the board takes the full width and everything else stacks beneath it.
+On a phone the board takes the full width and everything else stacks beneath it. There's a light theme too, which follows your system unless you pick one.
 
-<p><img src="images/07-phone.png" width="300" alt="The room on a phone: the full-width board, the players, and the watchers' strip with the button to ask for a seat"></p>
+<p>
+<img src="images/07-phone.png" width="300" alt="The room on a phone: the full-width board, the players, and the watchers' strip with the button to ask for a seat">
+<img src="images/22-light-lobby.png" width="62%" alt="The lobby in the light theme, with rooms for Hold'em, Colour Clash, Blackjack, Sea Battle and chess">
+</p>
 
 ---
 
 ## The host's rules
 
-The host sets how the room works and can change most of it at any time: whether anyone may take a free seat or only people the host seats, the after-game rule, the time control (between games), a **move timer** for the games with turns (15 seconds to 5 minutes a move; run out and you lose, or in a game for more players your roll is made for you), a **delay for watchers** (off unless the host wants it: watchers then see the board and the players' chat up to two minutes late, so nobody can feed a player moves), whether watchers may write at the table, whether guests may play, whether the room shows in the lobby, and whether its games count for the leaderboard. The host can also move a player to watching, hand the room to someone else, or close it.
+The host sets how the room works and can change most of it at any time: whether anyone may take a free seat or only people the host seats, the after-game rule, the time control (between games), a **move timer** for the games with turns (15 seconds to 5 minutes a move; run out and you lose, or in a game for more players your roll is made for you), a **delay for watchers** (off unless the host wants it: watchers then see the board and the players' chat up to two minutes late, so nobody can feed a player moves), whether watchers may write at the table, whether guests may play, whether the room shows in the lobby, and whether its games count for the leaderboard. The host can also move a player to watching, remove someone from the room for good, hand the room to someone else, or close it. If a player's connection drops mid-game, they have a minute to come back (everyone sees the countdown); after that, a two-player game goes to their opponent, and in bigger games play carries on without them.
 
 ![The Room rules dialog: seats, the after-game rule, the delay for watchers, the move timer, and the switches for who reads and writes what](images/08-room-rules.png)
 
@@ -114,19 +130,23 @@ Each player has a page of their own: points, games played, points per game, win 
 
 ![Sam's stats: 120 points from 73 chess games, results as White and Black, points per week and how games ended, and head-to-head records](images/11-stats.png)
 
+Finished games of chess, checkers and Four in a Row can be **replayed** move by move, from a player's recent games or from the card at the end of the game.
+
+![A chess replay: the board five moves in, with buttons to go to the first move, back, next or last, and a slider](images/21-replay.png)
+
 ---
 
 ## What's next
 
 Playhall is planned in five phases, with a backlog behind them.
 
-1. **Phase 1, now: the card games.** Blackjack and Texas Hold'em (with play chips only) and a colour-matching card game, on one shared deck design, to go with the six board games already in.
-2. **Phase 2: voice and video, and then any board game at all.** Voice and video in every room, split the same way as the chat, so watchers can talk among themselves without the players hearing. Video brings the **camera table**: the host points a camera (a phone on a stand will do) at a real board on their own table and moves the pieces for everyone, and Playhall keeps the rest: the seats and turns, a shared dice roller, a score pad, a move timer and the chat. That works for any board game, including all the ones nobody has written for Playhall, and the host enters the result at the end so it can still count.
+1. **Phase 1, done: the games.** The nine games above, on one shared kit.
+2. **Phase 2, next: voice and video, and then any board game at all.** Voice and video in every room, split the same way as the chat, so watchers can talk among themselves without the players hearing. Video brings the **camera table**: the host points a camera (a phone on a stand will do) at a real board on their own table and moves the pieces for everyone, and Playhall keeps the rest: the seats and turns, a shared dice roller, a score pad, a move timer and the chat. That works for any board game, including all the ones nobody has written for Playhall, and the host enters the result at the end so it can still count.
 3. **Phase 3: OpenBOR rooms.** The server runs the open-source OpenBOR engine for beat-'em-ups and streams the game into the room, and up to four players control it from their browsers with a gamepad or keyboard. Playhall supplies neither the engine nor any games: an admin installs the engine from its official releases, and players import their own games.
 4. **Phase 4: share a game from your own PC.** A host runs any local-multiplayer game on their own computer; Playhall streams it to the room and friends play it remotely with their own controllers, which appear on the host's PC as ordinary game controllers.
 5. **Phase 5: games from anyone.** A plug-in kit so other people's web games can run in a room, plus a faster, smoother version of sharing a game from your PC.
 
-**In the backlog:** Ship2Shore, a hidden-role game set aboard a 1943 merchant ship where the Royal Navy, enemy spies and a black-market fixer each steer for a different port and the crew throw suspects to the sharks; tournaments (knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round); more games, among them a crossword tile game, a country-house murder mystery and a fantasy creature card duel, each under our own name and artwork; computer opponents; and replays of finished games.
+**In the backlog:** Ship2Shore, a hidden-role game for 5-11 players set aboard a 1943 merchant ship where the Royal Navy, enemy spies and a black-market fixer each steer for a different port and the crew throw suspects to the sharks; tournaments (knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round); more games, among them a crossword tile game, a country-house murder mystery and a fantasy creature card duel, each under our own name and artwork; and computer opponents.
 
 ---
 
@@ -136,6 +156,6 @@ Playhall is a Node.js server with a Postgres database, packaged as two container
 
 ## Status
 
-Early: phase 1 of five is under way, and Playhall has been run on a home network, not yet in public. CI runs on every push: 43 unit tests of the game rules, the room logic and the scoring; an end-to-end test that plays a game over the real WebSocket and checks the results, stats and private rooms; a browser test that plays on the real board on desktop and phone; loading and removing the demo data; and building and starting the container image.
+Early: phase 1 of five is done, and Playhall has been run on a home network, not yet in public. CI runs on every push: 64 unit tests of the game rules, the room logic and the scoring, including 100 random games of Hold'em that check no chips are ever created or lost; an end-to-end test that plays a game over the real WebSocket and checks the results, stats and private rooms; a browser test that plays on the real board on desktop and phone; loading and removing the demo data; and building and starting the container image.
 
 Source: [github.com/chrisnock-personal/playhall](https://github.com/chrisnock-personal/playhall)
