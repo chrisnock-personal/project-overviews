@@ -59,6 +59,10 @@ When a game ends, the room shows what it meant: the points each player won, thei
 
 ![Four in a Row, Jordan to play: the frame with amber and teal discs, and a faint teal disc where Jordan's would land in the first column](images/05-four-in-a-row.png)
 
+Every game explains itself. The **Rules** tab in any room, and **How to play** when you pick a game in the lobby, give the goal in a sentence and then the essentials: taking turns, how the pieces move, how a game ends, and a few tips. Each new game has to come with its own.
+
+![The Rules tab in a chess room: the goal, then taking turns, how the pieces move, special moves and how a game ends](images/12-rules.png)
+
 ---
 
 ## A room that gets out of the way
@@ -99,7 +103,15 @@ Each player has a page of their own: points, games played, points per game, win 
 
 ## What's next
 
-Phase 1 adds seven more games on the shared kit: checkers, snakes and ladders, Ludo, a fleet-hunting game, blackjack and Texas Hold'em (with play chips only), and a colour-matching card game. After that come **voice and video** in every room, following the same table and gallery split; **OpenBOR rooms**, where the server runs the OpenBOR beat-'em-up engine and streams the game to up to four players with controllers (Playhall supplies neither the engine nor any games: the admin installs the engine and players import their own); and **sharing a game from your own PC**, so friends can play a local multiplayer game remotely with their own controllers.
+Playhall is planned in five phases, with a backlog behind them.
+
+1. **Phase 1, now: more games.** Seven more on the shared kit, so they all look like one set: checkers, snakes and ladders, Ludo, a fleet-hunting game, blackjack and Texas Hold'em (with play chips only), and a colour-matching card game. Games for three or more players are scored by place: 3 for the winner, 1 for second.
+2. **Phase 2: voice and video, and then any board game at all.** Voice and video in every room, split the same way as the chat, so watchers can talk among themselves without the players hearing. Video brings the **camera table**: the host points a camera (a phone on a stand will do) at a real board on their own table and moves the pieces for everyone, and Playhall keeps the rest: the seats and turns, a shared dice roller, a score pad, a move timer and the chat. That works for any board game, including all the ones nobody has written for Playhall, and the host enters the result at the end so it can still count.
+3. **Phase 3: OpenBOR rooms.** The server runs the open-source OpenBOR engine for beat-'em-ups and streams the game into the room, and up to four players control it from their browsers with a gamepad or keyboard. Playhall supplies neither the engine nor any games: an admin installs the engine from its official releases, and players import their own games.
+4. **Phase 4: share a game from your own PC.** A host runs any local-multiplayer game on their own computer; Playhall streams it to the room and friends play it remotely with their own controllers, which appear on the host's PC as ordinary game controllers.
+5. **Phase 5: games from anyone.** A plug-in kit so other people's web games can run in a room, plus a faster, smoother version of sharing a game from your PC.
+
+**In the backlog:** tournaments (knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round); more games, among them a crossword tile game, a country-house murder mystery and a fantasy creature card duel, each under our own name and artwork; computer opponents; and replays of finished games.
 
 ---
 
