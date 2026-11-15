@@ -4,7 +4,7 @@
 
 GitHub shows pull requests one repository at a time, and only to the people already looking. Across a few dozen repos, nobody can see which PRs have waited three days for a reviewer, which ones were approved and then forgotten, or how many branches are still around months after their PR merged. Branchwarden scans everything on a schedule, or as soon as a webhook says something changed. It works out each PR's state and who has to act next, tells the right channel, and keeps the numbers that show whether reviews are getting faster or slower. It only reads branches: it never pushes and never deletes. Its one write to GitHub is requesting reviewers.
 
-Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.3.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.3.0)
+Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.4.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.4.0) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
 
 ![The Branchwarden overview in its default dark theme: summary tiles, a card per repository, the pull requests that need attention and delivery channel health](images/01-overview.png)
 
@@ -324,24 +324,32 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 - **The image:** each release is published for amd64 and arm64 at `ghcr.io/chrisnock-personal/branchwarden`, so installing is `podman-compose pull && podman-compose up -d`, and so is updating.
 - **Health checks:** compose checks the dashboard through `/healthz`, which also checks the database. It checks the worker by a heartbeat that keeps beating through long scans.
 - **Running as a service:** Podman quadlet files run the same containers as systemd services, on the same volumes, for an always-on server.
+- **Trying it without GitHub:** `python demo.py` in the worker loads made-up activity for a demo organisation: six repositories, eight people, PRs in every state and five weeks of history. While it's loaded, every page says so, nothing is scanned or sent, and connecting GitHub is refused until `python demo.py --remove` takes it out.
 
 ## Status
 
-Version 0.3.0 (November 2026): repositories and their health, big, stalled and ticketed PRs, faster scans, health checks and a published image. Workflows arrived in 0.2.0.
+Version 0.4.0 (November 2026): demo mode, and integration and browser tests. Repositories and their health, big, stalled and ticketed PRs, faster scans and a published image came in 0.3.0, and workflows in 0.2.0.
 
-- **Unit tests:** 111 run on every push. They cover:
-  - PR states, an author's next step, branch rules and CODEOWNERS matching,
-  - reviewer selection and working-hours maths,
-  - message rendering and escaping,
-  - Slack API answers,
-  - webhook signatures, encryption and key rotation,
-  - the GitHub sign-in role rules and certificate checks,
-  - the MVP rankings and the weekly post,
-  - cron parsing, reading workflow files, matching scheduled runs to their due times (including runs hours late, and dropped ones), and when a workflow counts as failing or fixed,
-  - importing past PRs, skipping unchanged repos, waiting out GitHub's rate limits, health checks and the scans-stopped rule,
-  - repository health flags, PR size and stall rules, and ticket keys.
-
-  CI also runs `pip-audit` (no known vulnerabilities in the pinned versions) and `gitleaks`.
+- **Continuous integration:** every push runs 120 tests and two checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
+  - **Unit tests (111):**
+    - PR states, an author's next step, branch rules and CODEOWNERS matching,
+    - reviewer selection and working-hours maths,
+    - message rendering and escaping, and Slack API answers,
+    - webhook signatures, encryption and key rotation, the GitHub sign-in role rules and certificate checks,
+    - the MVP rankings and the weekly post,
+    - cron parsing, reading workflow files, matching scheduled runs to their due times (including runs hours late, and dropped ones), and when a workflow counts as failing or fixed,
+    - importing past PRs, skipping unchanged repos, waiting out GitHub's rate limits, health checks and the scans-stopped rule,
+    - repository health flags, PR size and stall rules, and ticket keys.
+  - **Integration tests (8), against a real Postgres:**
+    - the scanner end to end against a stand-in for GitHub: a silent first scan, then opened, ready, review, merged and closed events, and deleted branches recorded,
+    - unchanged repos skipped with a single request,
+    - messages routed to the right channel, then sent, retried after a minute, or failed for good, without the webhook URL ever appearing in an error,
+    - a workflow starting to fail,
+    - the demo data loading, refusing to mix with real data, and coming out again,
+    - every page rendering with it, and forms posting (and refused without their CSRF token).
+  - **Browser test, in Chromium:** first-run setup, every section from the header, a repository page, filters, a workflow row, the theme switch, a form and the menu, failing on any script error.
+  - **Checks:** `pip-audit` (no known vulnerabilities in the pinned versions) and `gitleaks` (no secrets anywhere in the history).
+  - **Releases:** the release workflow builds the published image only from a tag that matches the version in the code and whose commit has passed CI.
 - **End-to-end test:** run against two throwaway private repositories. It covered:
   - a first scan and three live events,
   - Teams and Slack delivery, and Slack threads, against local stand-ins,
@@ -349,10 +357,11 @@ Version 0.3.0 (November 2026): repositories and their health, big, stalled and t
   - a simulated week of reminders: sent on the first due time, held for the repeat interval, stopped at the maximum, silent on Sunday, and skipped for a snoozed PR,
   - auto-assign making one attempt per PR,
   - the start of a GitHub sign-in, and the refusal of a forged one.
-- **Made-up demo activity** was used to check the pages a two-repo test can't fill, and for every screenshot here. That covered metrics, MVP (self-reviews, bots, deletions with nobody named), the weekly MVP post, My work, the menu's badge, and Deliveries being admin-only.
+- **In real use:** a GitHub App installation on a real organisation, with real Teams and Slack workspaces. The one problem it found, merges counting 0 on a new install, was fixed in 0.2.1 by importing the last 180 days of PRs.
+- **Made-up demo activity** was used to check the pages a small test can't fill, and for every screenshot here.
 - **Not yet tested:**
-  - a GitHub App installation on a real organisation,
+  - scans of an organisation with hundreds of repositories,
+  - the quadlet files, outside a dry run,
   - GitHub Enterprise Server,
   - a full GitHub sign-in,
-  - an auto-assigned review on a repo with more than one person,
-  - messages in real Teams and Slack workspaces.
+  - an auto-assigned review on a repo with more than one person.
