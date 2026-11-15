@@ -4,7 +4,7 @@
 
 Live productions, events and operations rooms run on talkback. The director talks to the cameras, the floor manager to the producer, everyone to everyone when it matters. Dedicated intercom hardware does this well and costs accordingly; a conference bridge is cheap but has no idea who should hear whom. Parley sits between the two. Each person logs in from any browser (a desk PC, a laptop, an iPad), sees the groups they belong to and the people they can call, and joins as many groups at once as their job needs. What was said in a group is written down as it's said, typed messages sit beside it, and calls can be recorded to a compliance recorder.
 
-Source code: [github.com/chrisnock-personal/parley](https://github.com/chrisnock-personal/parley)
+Source code: [github.com/chrisnock-personal/parley](https://github.com/chrisnock-personal/parley) · latest release: [v0.1.0](https://github.com/chrisnock-personal/parley/releases/tag/v0.1.0)
 
 ![Parley in use: the Floor Manager is in the Production group while the Director talks. Its conversation mixes what was said with what was typed, and the Studio Floor transcript can be read without joining](images/01-hero.png)
 
@@ -59,7 +59,7 @@ For people whose eyes are busy, a group's typed messages can be **read aloud**. 
 
 ![The Production conversation with spoken and typed lines, and Studio Floor's transcript read without joining](images/04-conversation.png)
 
-Transcription runs on your own server with whisper.cpp, sharing one GPU (or CPU) speech model. It listens to each member's own voice, so lines are attributed correctly even when two people talk over each other, and it never sends silence or a muted microphone. A pitch check keeps music, tones and other held notes out of both the transcript and the "who's talking" ring. In these runs each member's audio reached the transcriber within about 60 ms of them joining. It isn't perfect: the first word of an utterance is sometimes lost ("Standby everyone" came out as "and by everyone"), as the screenshots show.
+Transcription runs on your own server with whisper.cpp, sharing one GPU (or CPU) speech model. It listens to each member's own voice, so lines are attributed correctly even when two people talk over each other, and it never sends silence or a muted microphone. A pitch check keeps music, tones and other held notes out of both the transcript and the "who's talking" ring. In these runs each member's audio reached the transcriber within about 60 ms of them joining. When these screenshots were taken it sometimes lost the first word of an utterance ("Standby everyone" came out as "and by everyone"); that was fixed in v0.1.0, which gives whisper a moment of silence before each line.
 
 ---
 
