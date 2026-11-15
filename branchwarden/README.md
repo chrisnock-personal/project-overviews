@@ -1,10 +1,10 @@
 # Branchwarden
 
-**A self-hosted dashboard for engineering teams that watches every pull request and branch across a GitHub organisation or account. It shows each person what's waiting on them, shows what each PR is waiting on, flags stale branches and branches left behind by merged PRs, requests reviewers (by hand or automatically), and reminds people in Microsoft Teams or Slack when a review, merge or close is overdue.**
+**A self-hosted dashboard for engineering teams that watches every pull request and branch across a GitHub organisation or account. It shows each person what's waiting on them, shows what each PR is waiting on, flags stale branches and branches left behind by merged PRs, tracks whether each GitHub Actions workflow ran when it should and passed, requests reviewers (by hand or automatically), and reminds people in Microsoft Teams or Slack when a review, merge or close is overdue.**
 
 GitHub shows pull requests one repository at a time, and only to the people already looking. Across a few dozen repos, nobody can see which PRs have waited three days for a reviewer, which ones were approved and then forgotten, or how many branches are still around months after their PR merged. Branchwarden scans everything on a schedule, or as soon as a webhook says something changed. It works out each PR's state and who has to act next, tells the right channel, and keeps the numbers that show whether reviews are getting faster or slower. It only reads branches: it never pushes and never deletes. Its one write to GitHub is requesting reviewers.
 
-Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.1.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.1.0)
+Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.2.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.2.0)
 
 ![The Branchwarden overview in its default dark theme: summary tiles, a card per repository, the pull requests that need attention and delivery channel health](images/01-overview.png)
 
@@ -20,7 +20,8 @@ Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chr
 | **Pull requests** | Every open PR across the accounts you add, with one headline state (draft, conflicts, changes requested, approved, no reviewer, in review, awaiting review), CI status, who it's waiting on and for how long |
 | **Reviewers** | Request or withdraw reviewers from the dashboard, with suggestions from CODEOWNERS and recent reviewers. Or let a rule pick one automatically: code owners first, then whoever is least busy |
 | **Branches** | Branches with no PR, flagged stale after a set number of days; branches left behind by a merged PR, by a closed PR, or pushed to after their merge. All are flagged only, never deleted |
-| **Teams and Slack** | Messages when a PR opens or is marked ready, gets a review, merges or closes. Reminders when it sits too long, counted in working hours, each with a snooze button. A weekly digest of branches to tidy up. In Slack, each PR's messages can stay in one thread |
+| **Workflows** | Every GitHub Actions workflow, day by day: when each scheduled one was due, whether it ran, and whether its runs passed. Flags workflows failing on the default branch, scheduled runs that never started, and schedules GitHub switched off |
+| **Teams and Slack** | Messages when a PR opens or is marked ready, gets a review, merges or closes, or a workflow starts failing or misses its schedule. Reminders when it sits too long, counted in working hours, each with a snooze button. A weekly digest of branches to tidy up. In Slack, each PR's messages can stay in one thread |
 | **Metrics** | Time to first review, time to merge, merges per week, and daily trends of PRs needing review and stale branches, overall or per repo |
 | **MVP** | For the last 7 days: who reviewed, merged, pruned branches and opened PRs the most, with an optional weekly post of the winners |
 | **GitHub** | A GitHub App, a personal access token, or both. Webhooks trigger a rescan within seconds. Can point at GitHub Enterprise Server |
@@ -94,6 +95,27 @@ Branchwarden never deletes anything. The way out is GitHub's own "Automatically 
 
 ---
 
+## Workflows: did it run, and did it pass?
+
+GitHub Actions shows runs, but not runs that never happened. A nightly build, a weekly dependency check or a backup job on a cron schedule can stop running, and nothing on GitHub tells you. Sometimes GitHub drops a scheduled run when it's busy. It also switches a scheduled workflow off for good after 60 days with no activity in the repo. The Workflows page reads each workflow's file, works out from its cron schedule when it was due, and matches those times against the runs that actually happened.
+
+![The Workflows page over 14 days: tiles for workflows, runs, failing now, missed schedules and switched off, a Needs attention list, and auth-service's CI and nightly build as a strip of days](images/08-workflows.png)
+
+*auth-service's nightly build has failed the last three nights, and one night it never ran. data-pipeline's docs backup was switched off by GitHub after 60 quiet days.*
+
+Each workflow is one row, grouped by repository, with a square per day over the last 7, 14 or 30 days:
+- **Scheduled workflows** due up to four times a day get one bar per due time: passed, failed, cancelled, still running, still due, or **missed**.
+- **Other workflows** (on push, pull request or by hand) show that day's runs, sized by how many passed, failed or were cancelled.
+- **Tiles and a "Needs attention" list** pick out workflows whose last run on the default branch failed (with how long they've been failing), missed scheduled runs, and workflows that are switched off.
+
+Clicking a row shows its schedule in words ("daily at 03:17 UTC"), when it's next due, and its last 15 runs: trigger, branch, result, how long it took, who started it, and a link to the run on GitHub.
+
+**Late isn't missed.** GitHub runs schedules in UTC, and often late. On one quiet repository, a nightly due at 03:17 started between 10:00 and 11:25 every day for two weeks. So Branchwarden learns each workflow's usual delay from its own runs. A due time counts as missed only after one and a half times that delay plus an hour: 90 minutes for a workflow GitHub runs on time, about 12 hours for that nightly. The page shows the usual delay too.
+
+Two rules post to Teams and Slack (see below): one when a workflow starts failing and again when it passes, and one when a scheduled run is missed or a schedule is switched off. It needs the **Actions: read** permission. Without it, pull requests and branches are scanned as before, and the page lists the repos it can't read.
+
+---
+
 ## Messages to Teams and Slack
 
 Each channel is routed by repo patterns (`api-*`, `my-org/web-console`), by teams (a PR matches when that team is asked to review it), or gets everything. Teams channels use a **Workflows** webhook (the replacement for the retired Office 365 connectors) and receive Adaptive Cards. Slack channels receive Block Kit messages through an incoming webhook or a bot token.
@@ -101,7 +123,9 @@ Each channel is routed by repo patterns (`api-*`, `my-org/web-console`), by team
 **Events** are posted when a scan sees them happen:
 - a PR opens, or is marked ready for review,
 - a review approves or requests changes,
-- a PR merges or closes. If its branch is still there, the message says so.
+- a PR merges or closes. If its branch is still there, the message says so,
+- a workflow starts failing, and passes again. That's one message per change, not one per failed run, for scheduled runs, the default branch, or every branch,
+- a scheduled run is missed, or a scheduled workflow is switched off.
 
 A repo's first scan only records what's there, so adding an organisation doesn't flood the channels with history.
 
@@ -115,17 +139,17 @@ Each reminder has its own wait, repeat interval and maximum count. Waits can be 
 
 **The weekly digest** lists, per channel, the stale branches and the branches left behind in that channel's repos, with each branch's last committer @mentioned.
 
-![The rules: event rules, four reminders with their waits and limits, one open for editing, and the weekly digest](images/08-rules.png)
+![The rules: event rules, four reminders with their waits and limits, one open for editing, and the weekly digest](images/09-rules.png)
 
 *"Waiting for review" open for editing: 24 working hours, then every 24 working hours, at most three times, @mentioning the reviewers.*
 
 **Snooze.** Every reminder carries a Snooze button. It opens the PR in Branchwarden, where a member can silence its reminders for 1, 3 or 7 days while it's parked on purpose. The other PRs keep their reminders.
 
-![The reviewer panel of a pull request with its reminders section: snoozed until Friday by Dana, with buttons for 1, 3 or 7 days and Turn back on](images/09-snooze.png)
+![The reviewer panel of a pull request with its reminders section: snoozed until Friday by Dana, with buttons for 1, 3 or 7 days and Turn back on](images/10-snooze.png)
 
 **Threads in Slack.** With a bot token instead of a webhook, the first message about a PR starts a thread. Everything after it (the reminder, the review, the auto-assigned reviewer) is a reply in that thread, so a busy channel shows one line per PR. Merges and closes are also shown in the channel, and the digest is posted on its own. Teams webhooks can't reply in a thread, so Teams channels get one card per message.
 
-![A Slack channel set up with a bot token and channel ID, routed to two repos, so each PR's messages stay in one thread](images/10-slack-threads.png)
+![A Slack channel set up with a bot token and channel ID, routed to two repos, so each PR's messages stay in one thread](images/11-slack-threads.png)
 
 @mentions work through a People page that matches each GitHub login to a Teams user and a Slack member ID. Anyone without a match appears as a bold name, so a message never breaks.
 
@@ -148,7 +172,7 @@ The Metrics page answers "are reviews getting faster?" for the last 30, 90 or 18
 
 Times count from when a PR was ready for review, and an author's own replies don't count as a first review. Every chart can be shown as a table. History starts when Branchwarden starts watching an account, so the page fills in over the first weeks.
 
-![The metrics page: median time to first review and to merge, merges per week, weekly time to first review, daily charts of PRs needing review and stale branches, a table by repository and the reviewers with requests waiting](images/11-metrics.png)
+![The metrics page: median time to first review and to merge, merges per week, weekly time to first review, daily charts of PRs needing review and stale branches, a table by repository and the reviewers with requests waiting](images/12-metrics.png)
 
 *In the demo history, first reviews speed up from about 20 hours to a few, and stale branches get tidied over the month.*
 
@@ -164,7 +188,7 @@ The MVP page shows, for the last 7 days or the 7 before, who did the most of fou
 
 Bots are left out of every board. An optional weekly post, off by default, sends each board's winner and the next two to Teams and Slack, at a set day and time (Fridays 16:00 unless changed). Winners are @mentioned.
 
-![The MVP page: team totals, then four boards for most reviews, merges, branch prunes and PRs raised, each with its MVP and places 2 to 5](images/12-mvp.png)
+![The MVP page: team totals, then four boards for most reviews, merges, branch prunes and PRs raised, each with its MVP and places 2 to 5](images/13-mvp.png)
 
 *The note on the prunes board is because three of the week's deletions were only seen by a scan.*
 
@@ -176,7 +200,7 @@ Every message is queued per channel and retried with back-off when Teams or Slac
 
 The full record is under *Settings › Deliveries*, for admins. Everyone else sees each channel's health on the overview.
 
-![Settings › Deliveries: channel health, the webhook events received from GitHub and what each triggered, and every message with its status](images/13-deliveries.png)
+![Settings › Deliveries: channel health, the webhook events received from GitHub and what each triggered, and every message with its status](images/14-deliveries.png)
 
 The same page lists each scan with:
 - what triggered it (the schedule, a webhook, or someone pressing *Scan now*),
@@ -190,9 +214,9 @@ In the end-to-end test, a full scan of the two test repos took about 4 seconds, 
 
 ## Connecting GitHub
 
-![Settings › GitHub: a stored personal access token that expires in 53 days, and the organisation being scanned through it](images/14-settings-github.png)
+![Settings › GitHub: a stored personal access token that expires in 53 days, and the organisation being scanned through it](images/15-settings-github.png)
 
-Two kinds of connection, usable together:
+Two kinds of connection, usable together. Both need read access to pull requests, contents, metadata, members and Actions, plus write access to pull requests, only for requesting reviewers:
 - **A GitHub App** suits organisations. It has its own API budget and sends webhooks, so PR changes show up in seconds instead of at the next scan. Once its ID and private key are in, the page lists every installation and its permissions.
 - **A fine-grained personal access token** is the quickest start. Branchwarden reads its expiry date from GitHub and warns 14 days ahead.
 
@@ -209,7 +233,7 @@ Each account can be set to use the App, the token, or the App with the token as 
 - **Landing page:** people who sign in this way go straight to My work.
 - **Fallback:** local accounts keep working, so an admin can always get in.
 
-![The sign-in with GitHub settings: client ID and secret, the callback URL to register, and the GitHub teams for each role](images/15-github-sign-in.png)
+![The sign-in with GitHub settings: client ID and secret, the callback URL to register, and the GitHub teams for each role](images/16-github-sign-in.png)
 
 The three roles:
 - **Viewers** read everything outside Settings, including their own My work.
@@ -235,9 +259,9 @@ The project was built against a security review of all my repos, with its "secur
   - The database has no default password and isn't reachable from outside.
   - Webhooks without a valid signature are refused, and so is everything when no secret is set.
   - Forms carry CSRF tokens, sign-ins are throttled, and channel URLs must be HTTPS on Slack's or Microsoft's hosts.
-- **Data kept no longer than needed.** Closed PRs are kept for 365 days (the metrics use them). Messages and scans are kept for 90 days. Older records are removed every hour.
+- **Data kept no longer than needed.** Closed PRs are kept for 365 days (the metrics use them). Messages, workflow runs and scans are kept for 90 days. Older records are removed every hour.
 
-![The TLS certificate page: the generated self-signed certificate with its names, validity and SHA-256 fingerprint, and the upload form](images/16-settings-tls.png)
+![The TLS certificate page: the generated self-signed certificate with its names, validity and SHA-256 fingerprint, and the upload form](images/17-settings-tls.png)
 
 ---
 
@@ -247,16 +271,17 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 
 ## Status
 
-Version 0.1.0, the first release (November 2026).
+Version 0.2.0 (November 2026), which added workflows.
 
-- **Unit tests:** 54 run on every push. They cover:
+- **Unit tests:** 84 run on every push. They cover:
   - PR states, an author's next step, branch rules and CODEOWNERS matching,
   - reviewer selection and working-hours maths,
   - message rendering and escaping,
   - Slack API answers,
   - webhook signatures, encryption and key rotation,
   - the GitHub sign-in role rules and certificate checks,
-  - the MVP rankings and the weekly post.
+  - the MVP rankings and the weekly post,
+  - cron parsing, reading workflow files, matching scheduled runs to their due times (including runs hours late, and dropped ones), and when a workflow counts as failing or fixed.
 
   CI also runs `pip-audit` (no known vulnerabilities in the pinned versions) and `gitleaks`.
 - **End-to-end test:** run against two throwaway private repositories. It covered:
