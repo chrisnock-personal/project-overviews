@@ -234,6 +234,7 @@ Alongside them, in no fixed order:
   - **Real-time games:** fast games like Pong that the server runs moment by moment, rather than turn by turn.
   - **More games, including our own:** family games for mixed ages and more hidden-role games like Ship2Shore.
   - **Classic card games:** Bridge (with bots to fill the four seats), Hearts, Spades, Gin Rummy and Shithead.
+  - **Chinese checkers:** the star-board hopping race for up to six players.
   - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and team battles, two against two or three against three.
 - **Playing with others**
   - **Tournaments:** knockout, round robin and Swiss, with Playhall pairing the players, opening the rooms each round and telling players when their game is ready.
