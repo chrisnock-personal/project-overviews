@@ -114,7 +114,7 @@ The chart is a diamond of hexagonal sea areas, from the start at the bottom to t
 
 **Who Dat?** is a guess-the-face game for two, with our own cast of 24 drawn characters. Each player has a secret face. On your turn you ask a yes/no question about the other player's face, picked from the faces' features (a hat? glasses? red hair? green eyes?), and Playhall answers it from their secret face, so the answer is always right, then flips down the faces it rules out on your board. When you're sure, name the face: right and you win, wrong and you lose. Skin tone is never a question. Its computer player asks whichever question splits its faces still up closest to half.
 
-![Who Dat? against a computer player: Sam's board with all but three faces flipped down (Abe, Oz and Vic), his own secret face Cal, the questions with the ones already asked crossed out, and the questions both players have asked with their answers](images/31-who-dat.png)
+![Who Dat? against a computer player: Sam's board with all but three faces flipped down (Abe, Oz and Vic), his own secret face (Abe), the questions with the ones already asked crossed out, and the questions both players have asked with their answers](images/31-who-dat.png)
 
 *Sam against Ada (bot). After four questions each, Sam is down to Abe, Oz and Vic; Ada has two faces left.*
 
