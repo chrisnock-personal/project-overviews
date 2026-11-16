@@ -216,12 +216,18 @@ The three remaining phases, in order:
 
 Alongside them, in no fixed order:
 
-- **Tournaments:** knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round.
-- **More computer players:** chess, Letterworks and Manor Mystery don't have bots yet.
-- **AI players:** a language model on the platform's own server playing a seat, so it can talk at the table and bluff in games like Ship2Shore.
-- **Reporting:** players can report a room or a person, and admins see the reports.
-- **Every platform:** voice and video in Safari, and instructions for running the server on Windows and macOS as well as Linux.
-- **More games.**
+- **New kinds of game**
+  - **Real-time games:** fast games like Pong that the server runs moment by moment, rather than turn by turn.
+  - **More games.**
+  - **Realm Duel in full:** the 30-creature pool, and a draft mode where players take turns picking creatures from a shared pool.
+- **Playing with others**
+  - **Tournaments:** knockout, round robin and Swiss, with Playhall pairing the players, opening the rooms each round and telling players when their game is ready.
+  - **More computer players:** chess, Letterworks and Manor Mystery don't have bots yet.
+  - **AI players:** a language model on the platform's own server playing a seat, so it can talk at the table and bluff in games like Ship2Shore.
+- **Learning a game:** a short guided first game for each, and pictures in the rules.
+- **Running it**
+  - **Reporting:** players can report a room or a person, and admins see the reports.
+  - **Every platform:** voice and video in Safari, and instructions for running the server on Windows and macOS as well as Linux.
 
 ---
 
