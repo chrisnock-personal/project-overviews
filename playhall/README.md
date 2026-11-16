@@ -1,6 +1,6 @@
 # Playhall
 
-**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with twelve games (chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Texas Hold'em, a colour-matching card game, a crossword tile game, a creature card duel and a country-house murder mystery), voice and video, a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
+**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with thirteen games (chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Texas Hold'em, a colour-matching card game, a crossword tile game, a creature card duel, a country-house murder mystery and a WW2 hidden-role game), a camera table for any real board game, voice and video, a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
 
 Most online games give you a match against a stranger. Playhall is closer to a games night: a room that stays open, people drifting in, a queue for the next game, and a running argument in the corner about who should have played d4. The host decides who plays, who waits and what the people watching may say, and the scores carry on from one evening to the next.
 
@@ -15,7 +15,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 | | |
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
-| **Twelve games** | Chess, checkers, Four in a Row, Snakes and Ladders, Ludo and Sea Battle; Blackjack, Texas Hold'em and Colour Clash with play chips and cards; Letterworks, a crossword tile game; Realm Duel, a creature card duel; Manor Mystery, a murder mystery for up to six. One to six players, all drawn from one set of boards, pieces, cards, chips and dice |
+| **Thirteen games, and any board game** | Chess, checkers, Four in a Row, Snakes and Ladders, Ludo and Sea Battle; Blackjack, Texas Hold'em and Colour Clash with play chips and cards; Letterworks, a crossword tile game; Realm Duel, a creature card duel; Manor Mystery, a murder mystery for up to six; Ship2Shore, a hidden-role game for five to eleven. One to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
 | **The host's rules** | Who may sit down, what happens after each game, a move timer, an optional delay for watchers, who may write where, private rooms with a password, removing people |
@@ -103,11 +103,25 @@ The five ships are drawn for Playhall: a carrier with its flight deck, a battles
 
 ![Manor Mystery: the plan of Blackthorn Hall with three tokens in the Chapel and the hidden passages marked, the move buttons, Priya's six cards, the envelope, and her notebook with what she knows already filled in](images/26-manor-mystery.png)
 
+**Ship2Shore** is our own hidden-role game for five to eleven players, set aboard the merchant ship SS Marigold in 1943. Everyone secretly belongs to the Royal Navy, the enemy spies or the black market, and each side is steering for a different port: Plymouth, a U-boat rendezvous, or Lisbon. Each round a captain picks a watch, course orders are passed along in secret, and the ship moves on the chart; the crew can mutiny, inspect each other, or throw a suspect to the sharks, which is exactly how the black market's fixer hopes to win. Roles stay hidden from everyone, watchers included, until the end.
+
+![Ship2Shore with five players: your secret role card (Royal Navy), the captain picking the watch, the chart of the Bay of Biscay with the ship near the start, and the ship's log](images/28-ship2shore.png)
+
 Every game can be replayed move by move once it's over, with cards kept hidden that weren't shown at the time, and the players can ask for a rematch that starts when they all agree.
 
 Every game explains itself. The **Rules** tab in any room, and **How to play** when you pick a game in the lobby, give the goal in a sentence and then the essentials: taking turns, how the pieces move, how a game ends, and a few tips. Each new game has to come with its own.
 
 ![The Rules tab in a chess room: the goal, then taking turns, how the pieces move, special moves and how a game ends](images/12-rules.png)
+
+---
+
+## Any board game: the camera table
+
+For everything nobody has written for Playhall, there's the camera table. The host types the game's name (Catan, say), points a camera at the real board on their own table and moves the pieces for everyone. A phone on a stand will do: the host shows a QR code, the phone opens it without signing in, and its rear camera fills everyone's stage, never cropped or mirrored. The link can only show a picture on that room's stage: no seat, no sound, no view of the room, and the host can cut it off at any time.
+
+Playhall keeps the rest: the seats and whose turn it is, a dice roller (any mix of d4 to d20, rolled on the server and posted in the chat, so nobody argues about a roll), a score pad everyone can see, the move timer, voice and the chat. At the end the host enters the places, every player confirms, and only then does it count, on a leaderboard of its own for each game name.
+
+![The camera table: whose turn it is with a Next turn button, a board on a wooden table filling the camera picture, the dice with Kai's roll of 12, the score pad, and the rolls in the table chat](images/27-camera-table.png)
 
 ---
 
@@ -165,7 +179,7 @@ Finished games of chess, checkers and Four in a Row can be **replayed** move by 
 Playhall is planned in five phases, with a backlog behind them.
 
 1. **Phase 1, done: the games.** Nine games on one shared kit, and since then Letterworks.
-2. **Phase 2, mostly done: voice and video, and then any board game at all.** Voice, video and transcripts are in every room, split the same way as the chat (above). What's left is the part video makes possible: the **camera table**: the host points a camera (a phone on a stand will do) at a real board on their own table and moves the pieces for everyone, and Playhall keeps the rest: the seats and turns, a shared dice roller, a score pad, a move timer and the chat. That works for any board game, including all the ones nobody has written for Playhall, and the host enters the result at the end so it can still count.
+2. **Phase 2, done: voice and video, and any board game at all.** Voice, video and transcripts are in every room, split the same way as the chat, and the **camera table** below.
 3. **Phase 3: OpenBOR rooms.** The server runs the open-source OpenBOR engine for beat-'em-ups and streams the game into the room, and up to four players control it from their browsers with a gamepad or keyboard. Playhall supplies neither the engine nor any games: an admin installs the engine from its official releases, and players import their own games.
 4. **Phase 4: share a game from your own PC.** A host runs any local-multiplayer game on their own computer; Playhall streams it to the room and friends play it remotely with their own controllers, which appear on the host's PC as ordinary game controllers.
 5. **Phase 5: games from anyone.** A plug-in kit so other people's web games can run in a room, plus a faster, smoother version of sharing a game from your PC.
@@ -180,6 +194,6 @@ Playhall is a Node.js server with a Postgres database, packaged as two container
 
 ## Status
 
-Early: phase 1 of five is done and phase 2 nearly, and Playhall has been run on a home network, not yet in public. CI runs on every push: 160 unit tests of the game rules, the room logic and the scoring, including hundreds of random games (Hold'em checking no chips are ever created or lost, Realm Duel and Manor Mystery checking nobody sees hidden cards); an end-to-end test that plays games of chess and Letterworks over the real WebSocket and checks the results, stats and private rooms; a browser test in Chromium, Firefox and WebKit that plays on the real board on desktop and phone and checks the device settings with a fake microphone and camera; loading and removing the demo data; and building and starting the container image, then running the end-to-end test against it over HTTPS and two browsers talking to each other through the media server.
+Early: phases 1 and 2 of five are done, and Playhall has been run on a home network, not yet in public. CI runs on every push: over 200 unit tests of the game rules, the room logic and the scoring, including hundreds of random games (Hold'em checking no chips are ever created or lost, Realm Duel and Manor Mystery checking nobody sees hidden cards); an end-to-end test that plays games of chess and Letterworks over the real WebSocket and checks the results, stats and private rooms; a browser test in Chromium, Firefox and WebKit that plays on the real board on desktop and phone and checks the device settings with a fake microphone and camera; loading and removing the demo data; and building and starting the container image, then running the end-to-end test against it over HTTPS and two browsers talking to each other through the media server.
 
 Source: [github.com/chrisnock-personal/playhall](https://github.com/chrisnock-personal/playhall)
