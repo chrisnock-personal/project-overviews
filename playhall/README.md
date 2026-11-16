@@ -16,6 +16,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
 | **Thirteen games, and any board game** | Chess, checkers, Four in a Row, Snakes and Ladders, Ludo and Sea Battle; Blackjack, Texas Hold'em and Colour Clash with play chips and cards; Letterworks, a crossword tile game; Realm Duel, a creature card duel; Manor Mystery, a murder mystery for up to six; Ship2Shore, a hidden-role game for five to eleven. One to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
+| **Computer players** | Bots for ten of the games, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; they play from their own seat's view and never count for the leaderboards |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
 | **The host's rules** | Who may sit down, what happens after each game, a move timer, an optional delay for watchers, who may write where, private rooms with a password, removing people |
@@ -131,6 +132,18 @@ Playhall keeps the rest: the seats and whose turn it is, a dice roller (any mix 
 
 ---
 
+## Computer players
+
+When there aren't enough people for a game, the host can fill a free seat with a computer player: **Add a bot**, between games. Bots have names like "Ada (bot)", show as computer players in the room, and move on their own turn after a short pause so everyone can follow what they did. Ten games have them so far: Ship2Shore, Snakes and Ladders, Ludo, Four in a Row, checkers, Blackjack, Texas Hold'em, Colour Clash, Sea Battle and Realm Duel.
+
+A bot plays from its own seat's view, exactly what a person sitting there would see, so it never knows anyone's hidden cards or roles. In Ship2Shore it steers for its own side's port, backs players it knows are on its side and votes against ones it knows aren't; Four in a Row and checkers look a few moves ahead; the Hold'em bot plays the odds of its own two cards; the Blackjack bot plays basic strategy. Games with a bot never count for the leaderboards.
+
+![Four in a Row against a computer player: Sam has stacked three amber discs in the fourth column and Ada (bot) has blocked the top with a teal one](images/29-computer-players.png)
+
+*Sam against Ada (bot). Sam's three in a row up the fourth column was blocked; Ada is building along the bottom right.*
+
+---
+
 ## A room that gets out of the way
 
 The board always gets the space. Everything around it (the top bar, the players, the watchers, the chat) can be expanded, shrunk or hidden on its own, and three layouts set them all at once: **Default**, **Focus** for when you're playing, and **Social** for when the conversation matters more. Your choice is remembered for each game. During a game, the players panel shrinks to avatars on its own (the game shows the players already) and opens again between games; on a laptop-sized window the chat shrinks to a rail of icons with unread counts until you open it. Clocks and whose turn it is stay visible however small the panels get.
@@ -190,7 +203,7 @@ Playhall is planned in five phases, with a backlog behind them.
 4. **Phase 4: share a game from your own PC.** A host runs any local-multiplayer game on their own computer; Playhall streams it to the room and friends play it remotely with their own controllers, which appear on the host's PC as ordinary game controllers.
 5. **Phase 5: games from anyone.** A plug-in kit so other people's web games can run in a room, plus a faster, smoother version of sharing a game from your PC.
 
-**In the backlog:** tournaments (knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round); more games; and computer opponents.
+**In the backlog:** tournaments (knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round); computer players for chess, Letterworks and Manor Mystery; AI players run by a language model on the platform's own server, which can talk at the table and bluff; and more games.
 
 ---
 
