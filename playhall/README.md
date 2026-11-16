@@ -144,6 +144,8 @@ A bot plays from its own seat's view, exactly what a person sitting there would 
 
 **AI players** go a step further, in Ship2Shore so far. If the platform's admin points Playhall at a language model on their own server (it was built against a small model, Llama 3.1 8B, on the same machine), the host can add an AI player as well as a bot. It makes the social moves itself (who to trust with the bridge, how to vote, who gets inspected or thrown to the sharks) and talks at the table, bluffing when that helps its side, while the computer player's rules make the moves that are pure arithmetic. If the model is slow or answers something that can't be played, the rules play that move instead, so a game never waits. Nothing is sent anywhere except the admin's own server.
 
+Ask a bot or an AI player in the table chat what orders it had on the bridge ("Ada, what did you have?", or "helmsman, what were the orders?") and it answers, as a person would, truthfully or not: a bot on the spies' side that passed over a Navy order claims it never had one, and an AI player decides for itself whether to bluff.
+
 ![Ship2Shore in round 7 with two AI players and two bots: the ship mid-chart, Ada (AI) as captain picking the bridge watch, and the table chat with Ada and Bram talking about who to trust](images/30-ai-players.png)
 
 *Sam (Royal Navy) with Ada (AI), Bram (AI), Cleo (bot) and Dov (bot). Ada has just inspected Bram and is picking the watch; in the chat Bram says he trusts Ada to get them to Plymouth.*
@@ -225,7 +227,8 @@ Alongside them, in no fixed order:
 - **New kinds of game**
   - **Real-time games:** fast games like Pong that the server runs moment by moment, rather than turn by turn.
   - **More games.**
-  - **Realm Duel in full:** the 30-creature pool, and a draft mode where players take turns picking creatures from a shared pool.
+  - **Who Dat?:** a guess-the-face game for two with our own cast of characters: ask yes/no questions about the other player's secret face and flip down the ones ruled out.
+  - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and team battles, two against two or three against three.
 - **Playing with others**
   - **Tournaments:** knockout, round robin and Swiss, with Playhall pairing the players, opening the rooms each round and telling players when their game is ready.
   - **More computer players:** chess, Letterworks and Manor Mystery don't have bots yet.
