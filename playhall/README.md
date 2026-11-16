@@ -195,17 +195,33 @@ Finished games of chess, checkers and Four in a Row can be **replayed** move by 
 
 ---
 
-## What's next
+## Done, and still to do
 
-Playhall is planned in five phases, with a backlog behind them.
+Playhall is planned in five phases. Two are done, three are still to come, and a few smaller pieces can land alongside them.
 
-1. **Phase 1, done: the games.** Nine games on one shared kit, and since then Letterworks.
-2. **Phase 2, done: voice and video, and any board game at all.** Voice, video and transcripts are in every room, split the same way as the chat, and the **camera table** below.
-3. **Phase 3: OpenBOR rooms.** The server runs the open-source OpenBOR engine for beat-'em-ups and streams the game into the room, and up to four players control it from their browsers with a gamepad or keyboard. Playhall supplies neither the engine nor any games: an admin installs the engine from its official releases, and players import their own games.
-4. **Phase 4: share a game from your own PC.** A host runs any local-multiplayer game on their own computer; Playhall streams it to the room and friends play it remotely with their own controllers, which appear on the host's PC as ordinary game controllers.
-5. **Phase 5: games from anyone.** A plug-in kit so other people's web games can run in a room, plus a faster, smoother version of sharing a game from your PC.
+### Done
 
-**In the backlog:** tournaments (knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round); computer players for chess, Letterworks and Manor Mystery; AI players run by a language model on the platform's own server, which can talk at the table and bluff; and more games.
+- **Phase 1: the games.** Nine games on one shared kit of boards, pieces, cards, chips and dice: chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Colour Clash and Texas Hold'em.
+- **Phase 2: voice and video, and any board game.** Voice, video and transcripts in every room, split between the players and the people watching the same way as the chat, and the camera table for real board games.
+- **New games since then:** Letterworks, Realm Duel, Manor Mystery and Ship2Shore.
+- **Since then, for every game:** animations and table sounds; computer players for ten games; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
+
+### Still to do
+
+The three remaining phases, in order:
+
+1. **Phase 3: OpenBOR rooms.** The server runs the open-source OpenBOR engine for beat-'em-ups and streams the game into the room, and up to four players control it from their browsers with a gamepad or keyboard. Playhall supplies neither the engine nor any games: an admin installs the engine from its official releases, and players import their own games.
+2. **Phase 4: share a game from your own PC.** A host runs any local-multiplayer game on their own computer; Playhall streams it to the room and friends play it remotely with their own controllers, which appear on the host's PC as ordinary game controllers.
+3. **Phase 5: games from anyone.** A plug-in kit so other people's web games can run in a room, plus a faster, smoother version of sharing a game from your PC.
+
+Alongside them, in no fixed order:
+
+- **Tournaments:** knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round.
+- **More computer players:** chess, Letterworks and Manor Mystery don't have bots yet.
+- **AI players:** a language model on the platform's own server playing a seat, so it can talk at the table and bluff in games like Ship2Shore.
+- **Reporting:** players can report a room or a person, and admins see the reports.
+- **Every platform:** the browser test running in Chrome, Firefox and Safari, voice and video in Safari, and instructions for running the server on Windows and macOS as well as Linux.
+- **More games.**
 
 ---
 
