@@ -86,11 +86,11 @@ The five ships are drawn for Playhall: a carrier with its flight deck, a battles
 **The card games** share one deck design, a card back with the Playhall mark, and chips that always show their amount, and they use play chips only: nothing to buy and nothing to cash out. **Blackjack** is one to seven players against the house over a session of 5, 10 or 20 hands, most chips at the end winning (a game on your own is practice and doesn't count). **Texas Hold'em** is a sit-and-go for two to eight: everyone starts with the same chips, the blinds double every few hands, side pots look after short stacks, and the last player with chips wins. **Colour Clash** is our own colour-matching card game in the four player colours. In all three, your cards are hidden from everyone else, people watching included.
 
 <p>
-<img src="images/18-blackjack.png" width="49%" alt="Blackjack, hand 2 of 10: the dealer's 2 showing and a face-down card, Sam on 7 deciding whether to hit, Kai on 18 and Priya with a blackjack">
-<img src="images/20-holdem.png" width="49%" alt="Texas Hold'em after the turn: four shared cards, Morgan's own two cards face up and the others face down, and the buttons to fold, check, bet or go all in">
+<img src="images/18-blackjack.png" width="49%" alt="Blackjack, hand 2 of 10: the dealer's 10 showing and a face-down card, Sam on 10 deciding whether to hit or double, Ada (bot) on 19 and Bram (bot) on 14">
+<img src="images/20-holdem.png" width="49%" alt="Texas Hold'em with six players after the flop: three shared cards, Sam's pair of nines face up and the bots' cards face down, two bots folded, and the buttons to fold, check, bet or go all in">
 </p>
 
-![Colour Clash with four players: the others' card counts across the top, the draw pile and a rose 1 in play, and Priya's hand of five cards](images/19-colour-clash.png)
+![Colour Clash with three computer players: their card counts across the top, the draw pile and a Wild draw four in play (violet chosen), and Sam's hand of twelve with the one card that fits raised](images/19-colour-clash.png)
 
 **Hearts** is the classic trick-avoiding game for four: pass three cards, follow suit, and avoid taking hearts (a point each) and the queen of spades (13), unless you take every one of them and shoot the moon. **Poophead** is the shedding game many people know by a ruder name (it's also called Palace): three cards face down, three face up and three in hand, play equal or higher or pick up the pile, 2s reset it and 10s burn it, and the last player left holding cards is the Poophead. Both have computer players, so one person can fill a Hearts table.
 
