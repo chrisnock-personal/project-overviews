@@ -181,7 +181,9 @@ A room can also have a **password**. The host and anyone already playing go stra
 
 Every finished game is scored: **3 points for a win, 1 for a draw, 0 for a loss** (in games for three or more, second place will earn 1). The leaderboard ranks players for this week, this month and all time, separately for each game and for all games together, once they've played five games in the period. Only games between people with accounts, in rooms set to count, are scored; a game the host stopped doesn't count.
 
-![This month's chess leaderboard: Sam first with 34 points from 16 games, the podium, every player's record and their last five results](images/10-leaderboard.png)
+The top three stand on a podium, on gold, silver and bronze steps with a crown to match, and the leader gets a glow and a few sparkles. The table below puts the same crowns next to the top three (players who tie share one), shows each player's points as a bar against the leader's, and puts a flame next to anyone who has won three or more in a row.
+
+![The all-time leaderboard for all games: Sam on the gold step in the middle with 120 points, Priya on silver with 116 and Alex on bronze with 94, each with a crown; below, the table with crowns next to the top three, a points bar in every row and everyone's last five results](images/10-leaderboard.png)
 
 Each player has a page of their own: points, games played, points per game, win rate and their current streak; how they do as White and as Black; points week by week; how their games ended; their recent games; and their record against everyone they've played.
 
