@@ -226,7 +226,7 @@ Alongside them, in no fixed order:
 
 - **New kinds of game**
   - **Real-time games:** fast games like Pong that the server runs moment by moment, rather than turn by turn.
-  - **More games.**
+  - **More games, including our own:** family games for mixed ages and more hidden-role games like Ship2Shore.
   - **Who Dat?:** a guess-the-face game for two with our own cast of characters: ask yes/no questions about the other player's secret face and flip down the ones ruled out.
   - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and team battles, two against two or three against three.
 - **Playing with others**
