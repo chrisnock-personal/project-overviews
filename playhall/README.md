@@ -220,7 +220,7 @@ Alongside them, in no fixed order:
 - **More computer players:** chess, Letterworks and Manor Mystery don't have bots yet.
 - **AI players:** a language model on the platform's own server playing a seat, so it can talk at the table and bluff in games like Ship2Shore.
 - **Reporting:** players can report a room or a person, and admins see the reports.
-- **Every platform:** the browser test running in Chrome, Firefox and Safari, voice and video in Safari, and instructions for running the server on Windows and macOS as well as Linux.
+- **Every platform:** voice and video in Safari, and instructions for running the server on Windows and macOS as well as Linux.
 - **More games.**
 
 ---
