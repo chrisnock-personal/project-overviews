@@ -62,22 +62,22 @@ When a game ends, the room shows what it meant: the points each player won, thei
 
 **Four in a Row** is the first game built from Playhall's shared kit of boards, discs and player colours, which the games still to come will use too, so they look like one set. Hovering over a column shows where your disc would land, discs drop with a short animation, and the winning four are ringed.
 
-![Four in a Row, Jordan to play: the frame with amber and teal discs, and a faint teal disc where Jordan's would land in the first column](images/05-four-in-a-row.png)
+![Four in a Row against a computer player, Sam to play: the frame with amber and teal discs, and a faint amber disc showing where Sam's next one would land](images/05-four-in-a-row.png)
 
 **Checkers** is English draughts. Captures are compulsory, so the board only offers a capture when there is one, and a piece that can keep jumping must: you click each landing square in turn. A man that reaches the far row is crowned and then moves backwards too.
 
-![Checkers, Kai (White) to play: Kai has picked a piece that must capture, and the one square it can land on is marked](images/13-checkers.png)
+![Checkers against a computer player, Sam (Black) to play: Sam has picked up a piece and the square it can move to is marked; White's last move is highlighted](images/13-checkers.png)
 
 **Snakes and Ladders** and **Ludo** are for two to four players and bring in the dice: always rolled on the server, never in anyone's browser, so nobody can load them. Snakes and Ladders has its own drawn snakes and ladders and needs an exact roll to finish on 100. Ludo follows the usual rules: a 6 to bring a token out and another roll after a 6, rivals sent back to their yard (except on the starred squares), and an exact roll to get home. In both, everyone gets a finishing place, and second place earns a point.
 
 <p>
-<img src="images/14-snakes.png" width="49%" alt="Snakes and Ladders with three players: Jordan on 57 after rolling a 1, Lee on 19, Priya to roll">
-<img src="images/15-ludo.png" width="49%" alt="Ludo with four players, a few tokens out on the track and the rest still in their yards">
+<img src="images/14-snakes.png" width="49%" alt="Snakes and Ladders with Sam and two computer players a few rolls in, Sam to roll">
+<img src="images/15-ludo.png" width="49%" alt="Ludo with Sam and three computer players, tokens out on the track and the rest still in their yards">
 </p>
 
 **Sea Battle** is the first game with hidden information. Each player's fleet is laid out at random (shuffle until you like it, then press Ready); you only ever see your own ships and the results of the shots, red for a hit and white for a miss, and people watching see the shots alone until the game ends and both fleets are shown.
 
-![Sea Battle from Jordan's side: Jordan's fleet with Lee's shots in it on the left, and the enemy waters with Jordan's shots on the right](images/16-sea-battle.png)
+![Sea Battle from Sam's side against a computer player: Sam's fleet on the left with the bot's hits, the Carrier and Battleship sunk, and the enemy waters with Sam's shots on the right](images/16-sea-battle.png)
 
 The five ships are drawn for Playhall: a carrier with its flight deck, a battleship with three turrets, a cruiser, a submarine and a destroyer. You can place them yourself: click a ship to pick it up, turn it, and a shadow shows where it would go, red if it won't fit. Or press Shuffle for a random layout.
 
