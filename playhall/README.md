@@ -105,7 +105,13 @@ The five ships are drawn for Playhall: a carrier with its flight deck, a battles
 
 **Ship2Shore** is our own hidden-role game for five to eleven players, set aboard the merchant ship SS Marigold in 1943. Everyone secretly belongs to the Royal Navy, the enemy spies or the black market, and each side is steering for a different port: Plymouth, a U-boat rendezvous, or Lisbon. Each round a captain picks a watch, course orders are passed along in secret, and the ship moves on the chart; the crew can mutiny, inspect each other, or throw a suspect to the sharks, which is exactly how the black market's fixer hopes to win. Roles stay hidden from everyone, watchers included, until the end.
 
-![Ship2Shore with five players: your secret role card (Royal Navy), the captain picking the watch, the chart of the Bay of Biscay with the ship near the start, and the ship's log](images/28-ship2shore.png)
+The chart is a diamond of hexagonal sea areas, from the start at the bottom to the three ports' waters along the top: the U-boats on the left, Lisbon in the middle and Plymouth on the right. Every course order is on one side's heading, and every sea area marks on its edges where each heading takes the ship from there. Usually that's towards that side's port, but some areas send a heading sideways or even back, so where the ship can go next changes as she sails. Those areas are tuned so that if every order were picked at random, the spies and the Navy would each win about 40% of games and the black market about 20%: the hardest win, with the sharks as its way out.
+
+![Ship2Shore in round 6 with six players: the ship mid-chart with the three places she could sail next, the U-boat, Lisbon and Plymouth waters along the top, your secret role card (Royal Navy), Lee picking the bridge watch, and what only you know](images/28-ship2shore.png)
+
+*Sam is Royal Navy. The ship's area shows its three heading marks larger, with a dotted line to where each order would take her. The players are shrunk to avatars and the chat to a rail, as they are in any game on a window this size.*
+
+Moves are animated so you can follow what happened: dice tumble, Snakes and Ladders tokens walk and climb or slide, Ludo tokens step and captured ones go home, checkers hop, Four in a Row discs bounce, Sea Battle missiles arc in and land with a flash or a splash, cards are dealt from a deck that riffles, chips slide to the pot and on to the winner, and Ship2Shore's orders fly in when they're passed to you. Each comes with a short **table sound** (dice, cards, chips, moves, shots, your turn, the move timer running low, the end of a game), made in the browser rather than played from files. They're kept quiet under voice chat and quieter still while someone is talking. A speaker button in the room mutes them or sets the volume, and they're off for people watching unless they turn them on.
 
 Every game can be replayed move by move once it's over, with cards kept hidden that weren't shown at the time, and the players can ask for a rematch that starts when they all agree.
 
@@ -127,7 +133,7 @@ Playhall keeps the rest: the seats and whose turn it is, a dice roller (any mix 
 
 ## A room that gets out of the way
 
-The board always gets the space. Everything around it (the top bar, the players, the watchers, the chat) can be expanded, shrunk or hidden on its own, and three layouts set them all at once: **Default**, **Focus** for when you're playing, and **Social** for when the conversation matters more. Your choice is remembered for each game. Clocks and whose turn it is stay visible however small the panels get.
+The board always gets the space. Everything around it (the top bar, the players, the watchers, the chat) can be expanded, shrunk or hidden on its own, and three layouts set them all at once: **Default**, **Focus** for when you're playing, and **Social** for when the conversation matters more. Your choice is remembered for each game. During a game, the players panel shrinks to avatars on its own (the game shows the players already) and opens again between games; on a laptop-sized window the chat shrinks to a rail of icons with unread counts until you open it. Clocks and whose turn it is stay visible however small the panels get.
 
 ![The same room in the Focus layout: a thin top bar, players as avatars, the chat shrunk to a rail of icons, and the board filling the screen](images/06-focus.png)
 
@@ -184,7 +190,7 @@ Playhall is planned in five phases, with a backlog behind them.
 4. **Phase 4: share a game from your own PC.** A host runs any local-multiplayer game on their own computer; Playhall streams it to the room and friends play it remotely with their own controllers, which appear on the host's PC as ordinary game controllers.
 5. **Phase 5: games from anyone.** A plug-in kit so other people's web games can run in a room, plus a faster, smoother version of sharing a game from your PC.
 
-**In the backlog:** Ship2Shore, a hidden-role game for 5-11 players set aboard a 1943 merchant ship where the Royal Navy, enemy spies and a black-market fixer each steer for a different port and the crew throw suspects to the sharks; tournaments (knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round); more games; animations and sounds for dice, cards and pieces; and computer opponents.
+**In the backlog:** tournaments (knockout, round robin and Swiss, with Playhall pairing the players and opening the rooms each round); more games; and computer opponents.
 
 ---
 
