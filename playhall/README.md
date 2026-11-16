@@ -105,6 +105,10 @@ The board always gets the space. Everything around it (the top bar, the players,
 
 On a phone the board takes the full width and everything else stacks beneath it. There's a light theme too, which follows your system unless you pick one.
 
+Everyone has a **Settings** page. Ahead of voice and video, it's where you choose your microphone, speakers and camera if you have more than one of any, and check them before a game: a level meter that moves as you speak, a test sound through the speakers you picked, and a preview of your camera. Each computer or phone remembers its own choice. (A separate settings page for the person running Playhall, for things that apply to everyone, comes with the admin role.)
+
+<img src="images/24-settings.png" width="62%" alt="The Settings page: a microphone chosen from a list with its level meter moving, speakers with a Play a test sound button, a camera preview, and the theme">
+
 <p>
 <img src="images/07-phone.png" width="300" alt="The room on a phone: the full-width board, the players, and the watchers' strip with the button to ask for a seat">
 <img src="images/22-light-lobby.png" width="62%" alt="The lobby in the light theme, with rooms for Hold'em, Colour Clash, Blackjack, Sea Battle and chess">
@@ -145,7 +149,7 @@ Finished games of chess, checkers and Four in a Row can be **replayed** move by 
 Playhall is planned in five phases, with a backlog behind them.
 
 1. **Phase 1, done: the games.** Nine games on one shared kit, and since then Letterworks.
-2. **Phase 2, next: voice and video, and then any board game at all.** Voice and video in every room, split the same way as the chat, so watchers can talk among themselves without the players hearing. Video brings the **camera table**: the host points a camera (a phone on a stand will do) at a real board on their own table and moves the pieces for everyone, and Playhall keeps the rest: the seats and turns, a shared dice roller, a score pad, a move timer and the chat. That works for any board game, including all the ones nobody has written for Playhall, and the host enters the result at the end so it can still count.
+2. **Phase 2, under way: voice and video, and then any board game at all.** The groundwork is in: Playhall serves HTTPS (browsers only allow microphones and cameras on secure pages), the self-hosted media server is running behind it and hands out access that follows the chat rules, and the Settings page picks your devices. Voice and video in every room, split the same way as the chat, so watchers can talk among themselves without the players hearing. Video brings the **camera table**: the host points a camera (a phone on a stand will do) at a real board on their own table and moves the pieces for everyone, and Playhall keeps the rest: the seats and turns, a shared dice roller, a score pad, a move timer and the chat. That works for any board game, including all the ones nobody has written for Playhall, and the host enters the result at the end so it can still count.
 3. **Phase 3: OpenBOR rooms.** The server runs the open-source OpenBOR engine for beat-'em-ups and streams the game into the room, and up to four players control it from their browsers with a gamepad or keyboard. Playhall supplies neither the engine nor any games: an admin installs the engine from its official releases, and players import their own games.
 4. **Phase 4: share a game from your own PC.** A host runs any local-multiplayer game on their own computer; Playhall streams it to the room and friends play it remotely with their own controllers, which appear on the host's PC as ordinary game controllers.
 5. **Phase 5: games from anyone.** A plug-in kit so other people's web games can run in a room, plus a faster, smoother version of sharing a game from your PC.
@@ -156,10 +160,10 @@ Playhall is planned in five phases, with a backlog behind them.
 
 ## How it runs
 
-Playhall is a Node.js server with a Postgres database, packaged as two containers for podman or Docker Compose. People need only a browser. It comes with demo data (eight players, five rooms and two months of games), which is what's in these screenshots.
+Playhall is a Node.js server with a Postgres database, packaged as two containers for podman or Docker Compose, plus an optional third, the self-hosted LiveKit media server, for voice and video. People need only a browser. It serves HTTPS from the start: on first run it makes its own certificate (each device accepts it once), and a real certificate can be swapped in without a restart. It comes with demo data (eight players, six rooms and two months of games), which is what's in these screenshots.
 
 ## Status
 
-Early: phase 1 of five is done, and Playhall has been run on a home network, not yet in public. CI runs on every push: 77 unit tests of the game rules, the room logic and the scoring, including 100 random games of Hold'em that check no chips are ever created or lost; an end-to-end test that plays games of chess and Letterworks over the real WebSocket and checks the results, stats and private rooms; a browser test that plays on the real board on desktop and phone; loading and removing the demo data; and building and starting the container image.
+Early: phase 1 of five is done, and Playhall has been run on a home network, not yet in public. CI runs on every push: 80 unit tests of the game rules, the room logic and the scoring, including 100 random games of Hold'em that check no chips are ever created or lost; an end-to-end test that plays games of chess and Letterworks over the real WebSocket and checks the results, stats and private rooms; a browser test that plays on the real board on desktop and phone and checks the device settings with a fake microphone and camera; loading and removing the demo data; and building and starting the container image, then running the end-to-end test against it over HTTPS.
 
 Source: [github.com/chrisnock-personal/playhall](https://github.com/chrisnock-personal/playhall)
