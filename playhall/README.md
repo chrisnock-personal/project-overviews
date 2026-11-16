@@ -16,7 +16,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
 | **Thirteen games, and any board game** | Chess, checkers, Four in a Row, Snakes and Ladders, Ludo and Sea Battle; Blackjack, Texas Hold'em and Colour Clash with play chips and cards; Letterworks, a crossword tile game; Realm Duel, a creature card duel; Manor Mystery, a murder mystery for up to six; Ship2Shore, a hidden-role game for five to eleven. One to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
-| **Computer players** | Bots for ten of the games, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; they play from their own seat's view and never count for the leaderboards |
+| **Computer players** | Bots for ten of the games, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore that talk and bluff, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
 | **The host's rules** | Who may sit down, what happens after each game, a move timer, an optional delay for watchers, who may write where, private rooms with a password, removing people |
@@ -142,6 +142,12 @@ A bot plays from its own seat's view, exactly what a person sitting there would 
 
 *Sam against Ada (bot). Sam's three in a row up the fourth column was blocked; Ada is building along the bottom right.*
 
+**AI players** go a step further, in Ship2Shore so far. If the platform's admin points Playhall at a language model on their own server (it was built against a small model, Llama 3.1 8B, on the same machine), the host can add an AI player as well as a bot. It makes the social moves itself (who to trust with the bridge, how to vote, who gets inspected or thrown to the sharks) and talks at the table, bluffing when that helps its side, while the computer player's rules make the moves that are pure arithmetic. If the model is slow or answers something that can't be played, the rules play that move instead, so a game never waits. Nothing is sent anywhere except the admin's own server.
+
+![Ship2Shore in round 7 with two AI players and two bots: the ship mid-chart, Ada (AI) as captain picking the bridge watch, and the table chat with Ada and Bram talking about who to trust](images/30-ai-players.png)
+
+*Sam (Royal Navy) with Ada (AI), Bram (AI), Cleo (bot) and Dov (bot). Ada has just inspected Bram and is picking the watch; in the chat Bram says he trusts Ada to get them to Plymouth.*
+
 ---
 
 ## A room that gets out of the way
@@ -204,7 +210,7 @@ Playhall is planned in five phases. Two are done, three are still to come, and a
 - **Phase 1: the games.** Nine games on one shared kit of boards, pieces, cards, chips and dice: chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Colour Clash and Texas Hold'em.
 - **Phase 2: voice and video, and any board game.** Voice, video and transcripts in every room, split between the players and the people watching the same way as the chat, and the camera table for real board games.
 - **New games since then:** Letterworks, Realm Duel, Manor Mystery and Ship2Shore.
-- **Since then, for every game:** animations and table sounds; computer players for ten games; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
+- **Since then, for every game:** animations and table sounds; computer players for ten games, and AI players for Ship2Shore; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
 
 ### Still to do
 
@@ -223,7 +229,7 @@ Alongside them, in no fixed order:
 - **Playing with others**
   - **Tournaments:** knockout, round robin and Swiss, with Playhall pairing the players, opening the rooms each round and telling players when their game is ready.
   - **More computer players:** chess, Letterworks and Manor Mystery don't have bots yet.
-  - **AI players:** a language model on the platform's own server playing a seat, so it can talk at the table and bluff in games like Ship2Shore.
+  - **AI players for more games:** Manor Mystery and Hold'em next, after Ship2Shore.
 - **Learning a game:** a short guided first game for each, and pictures in the rules.
 - **Running it**
   - **Reporting:** players can report a room or a person, and admins see the reports.
