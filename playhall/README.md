@@ -101,7 +101,7 @@ The five ships are drawn for Playhall: a carrier with its flight deck, a battles
 
 **Letterworks** is a crossword tile game for two to four players, on our own board layout and tile set rather than the commercial game's. You build words from a private rack of seven tiles: tap a tile then a square (or drag it), and Playhall shows the words you're making and what they'd score before you commit. Every word is checked against ENABLE, a public-domain list of about 173,000 English words, and one that isn't allowed is turned down before anything is placed, so there are no challenges and no penalties. The Moves tab keeps the words played, and a panel lists all 96 two-letter words.
 
-![Letterworks with three players: HALL across the centre, PAWN down through its A and QUEEN ending on PAWN's N, Priya's rack of seven tiles under the board, and the Moves tab listing the three words and their scores](images/23-letterworks.png)
+![Letterworks: Sam's first word, INERTIA, laid across the centre with all seven of his tiles for 54 points, his new rack beside the board, and the bonus squares](images/23-letterworks.png)
 
 **Realm Duel** is a two-player creature card duel. Each player holds three creatures, each with its own strengths, an element and an ability. Every round both players secretly pick a creature and how it attacks (melee, ranged or magic), then both are revealed together: the quicker creature strikes first, elements beat one another in a cycle, and poison, stuns and shields carry over. The last player with creatures standing wins. The creature stats were balanced by simulating 20,000 games.
 
