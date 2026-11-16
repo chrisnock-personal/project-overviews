@@ -4,9 +4,9 @@
 
 Most online games give you a match against a stranger. Playhall is closer to a games night: a room that stays open, people drifting in, a queue for the next game, and a running argument in the corner about who should have played d4. The host decides who plays, who waits and what the people watching may say, and the scores carry on from one evening to the next.
 
-![A chess room during a game: the host playing White against Alex, three people watching, and the players' chat on the right](images/01-hero.png)
+![A chess room during a game, with the side panels opened out: the players on the left, the board, the table chat on the right with Alex and Sam talking about the opening, and three people watching in the strip at the bottom](images/01-hero.png)
 
-*Sam (White, and the room's host) against Alex in a game with no clock. Three people are watching; Kai's ring in the watchers' strip means he's asked for the next seat. The players' chat says they can't read what the watchers are saying until the game ends.*
+*Sam (White, and the room's host) against Alex in a game with no clock. Three people are watching; Kai's ring in the watchers' strip means he's asked for the next seat. Sam has opened the players panel and the chat out (during a game they shrink to make room for the board until you open them). The players' chat says they can't read what the watchers are saying until the game ends.*
 
 ---
 
@@ -40,9 +40,9 @@ You can come in as a guest with just a name, straight from an invite link. Guest
 
 Watchers talking to players spoils games like chess, so every room has two chats. **The table** is the players' conversation: everyone can read it, and watchers can write there between games. **The gallery** belongs to the people watching: they can say "he's about to blunder the knight" without the player hearing it, because players can't read the gallery until the game is over. The host can relax either rule.
 
-![The same game from Priya's seat in the gallery: the watchers' strip with Kai asking for a seat, and the gallery chat](images/03-watching.png)
+![The same game from Priya's seat in the gallery: the Social layout with the watchers big, Kai marked as wanting a seat, and the gallery chat with Priya and Lee predicting Alex's next move](images/03-watching.png)
 
-*Priya is watching in the Social layout, which gives the watchers more room. Her gallery chat is open; the Table tab shows three messages she hasn't read yet.*
+*Priya is watching in the Social layout, which gives the watchers more room. Her gallery chat is open; the Table tab shows two messages she hasn't read yet.*
 
 **Voice and video follow the same split.** Players talk at the table; watchers talk among themselves in the gallery and can listen in at the table. Everyone joins muted, with open mic or push to talk, a ring around whoever's talking, and a volume (or "silence for me") for each person. Players' cameras appear on their seat cards; watchers' cameras appear in the gallery strip if the host allows it. When a game starts or ends, who may talk and show their camera changes at once. If the host has set a delay for watchers, they don't get the players' voice or video during play, since live media can't be held back. All of it runs on a self-hosted media server (LiveKit) behind Playhall, so no call goes through anyone else's service.
 
