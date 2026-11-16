@@ -28,7 +28,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 
 Anyone with an account can open a room, pick the game and a time control, and decide whether it shows in the lobby or only to people with the invite link. The lobby shows each room's game, who's playing, how many are watching, and whether there's a free seat.
 
-![The lobby: rooms playing chess, checkers, Snakes and Ladders, Ludo and Sea Battle, and the form for a new room listing every game](images/02-lobby.png)
+![The lobby: rooms in play and rooms waiting for players, each with its game, host and seats, and the form for a new room listing every game](images/02-lobby.png)
 
 Inside a room there are three roles. The **host** runs it, and can play too. **Players** are whoever is sitting in the game's seats. Everyone else is **watching**. A watcher who wants to play asks for a seat and joins a queue; when a game ends, the host's rule decides who plays next: the same players, the winner stays and the next in the queue takes the other seat, or both rotate out.
 
@@ -56,7 +56,7 @@ Watchers talking to players spoils games like chess, so every room has two chats
 
 When a game ends, the room shows what it meant: the points each player won, their new totals and rank, and their record against each other.
 
-![A finished game: Priya has mated Lee in four moves, and the card shows +3 and +0, their totals and ranks, and their head-to-head](images/04-result.png)
+![A finished game: Priya has mated Lee in four moves, and the card shows +3 and +0, where they stand, their head-to-head, and the buttons for the next game, a rematch, the replay and the leaderboard](images/04-result.png)
 
 *A four-move mate. Priya takes 3 points and moves to 119, second in the all-time table; she leads Lee 9 to 5 over their games together.*
 
@@ -177,11 +177,11 @@ Everyone has a **Settings** page. Ahead of voice and video, it's where you choos
 
 Whoever runs Playhall gets a separate **platform settings** page, for things that apply to everyone: whether people can sign up or join as guests, whether voice, video and transcripts are allowed, the defaults for new rooms, the HTTPS certificate, other admins, and closing any room. A fresh install comes with an admin account whose password has to be changed at its first sign-in, before anything else opens.
 
-<img src="images/24-settings.png" width="62%" alt="The Settings page: a microphone chosen from a list with its level meter moving, speakers with a Play a test sound button, a camera preview, and the theme">
+<img src="images/24-settings.png" width="62%" alt="The Settings page: the microphone with its level meter, speakers with a Play a test sound button, the camera with a Preview button, and the table sounds: on or off, the volume, sounds while watching, and a test">
 
 <p>
 <img src="images/07-phone.png" width="300" alt="The room on a phone: the full-width board, the players, and the watchers' strip with the button to ask for a seat">
-<img src="images/22-light-lobby.png" width="62%" alt="The lobby in the light theme, with rooms for Hold'em, Colour Clash, Blackjack, Sea Battle and chess">
+<img src="images/22-light-lobby.png" width="62%" alt="The lobby in the light theme">
 </p>
 
 ---
@@ -212,7 +212,7 @@ Each player has a page of their own: points, games played, points per game, win 
 
 Finished games of chess, checkers and Four in a Row can be **replayed** move by move, from a player's recent games or from the card at the end of the game.
 
-![A chess replay: the board five moves in, with buttons to go to the first move, back, next or last, and a slider](images/21-replay.png)
+![A chess replay of Priya's four-move win: the final position, with buttons to go to the first move, back, next or last, and a slider showing move 7 of 7](images/21-replay.png)
 
 ---
 
