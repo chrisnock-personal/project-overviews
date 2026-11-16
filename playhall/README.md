@@ -1,6 +1,6 @@
 # Playhall
 
-**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with thirteen games (chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Texas Hold'em, a colour-matching card game, a crossword tile game, a creature card duel, a country-house murder mystery and a WW2 hidden-role game), a camera table for any real board game, voice and video, a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
+**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with fourteen games (chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Texas Hold'em, a colour-matching card game, a crossword tile game, a creature card duel, a country-house murder mystery, a WW2 hidden-role game and a guess-the-face game), a camera table for any real board game, voice and video, a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
 
 Most online games give you a match against a stranger. Playhall is closer to a games night: a room that stays open, people drifting in, a queue for the next game, and a running argument in the corner about who should have played d4. The host decides who plays, who waits and what the people watching may say, and the scores carry on from one evening to the next.
 
@@ -15,8 +15,8 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 | | |
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
-| **Thirteen games, and any board game** | Chess, checkers, Four in a Row, Snakes and Ladders, Ludo and Sea Battle; Blackjack, Texas Hold'em and Colour Clash with play chips and cards; Letterworks, a crossword tile game; Realm Duel, a creature card duel; Manor Mystery, a murder mystery for up to six; Ship2Shore, a hidden-role game for five to eleven. One to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
-| **Computer players** | Bots for ten of the games, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore that talk and bluff, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
+| **Fourteen games, and any board game** | Chess, checkers, Four in a Row, Snakes and Ladders, Ludo and Sea Battle; Blackjack, Texas Hold'em and Colour Clash with play chips and cards; Letterworks, a crossword tile game; Realm Duel, a creature card duel; Manor Mystery, a murder mystery for up to six; Ship2Shore, a hidden-role game for five to eleven; Who Dat?, a guess-the-face game for two. One to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
+| **Computer players** | Bots for eleven of the games, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore that talk and bluff, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
 | **The host's rules** | Who may sit down, what happens after each game, a move timer, an optional delay for watchers, who may write where, private rooms with a password, removing people |
@@ -112,6 +112,12 @@ The chart is a diamond of hexagonal sea areas, from the start at the bottom to t
 
 *Sam is Royal Navy. The ship's area shows its three heading marks larger, with a dotted line to where each order would take her. The players are shrunk to avatars and the chat to a rail, as they are in any game on a window this size.*
 
+**Who Dat?** is a guess-the-face game for two, with our own cast of 24 drawn characters. Each player has a secret face. On your turn you ask a yes/no question about the other player's face, picked from the faces' features (a hat? glasses? red hair? green eyes?), and Playhall answers it from their secret face, so the answer is always right, then flips down the faces it rules out on your board. When you're sure, name the face: right and you win, wrong and you lose. Skin tone is never a question. Its computer player asks whichever question splits its faces still up closest to half.
+
+![Who Dat? against a computer player: Sam's board with all but three faces flipped down (Abe, Oz and Vic), his own secret face Cal, the questions with the ones already asked crossed out, and the questions both players have asked with their answers](images/31-who-dat.png)
+
+*Sam against Ada (bot). After four questions each, Sam is down to Abe, Oz and Vic; Ada has two faces left.*
+
 Moves are animated so you can follow what happened: dice tumble, Snakes and Ladders tokens walk and climb or slide, Ludo tokens step and captured ones go home, checkers hop, Four in a Row discs bounce, Sea Battle missiles arc in and land with a flash or a splash, cards are dealt from a deck that riffles, chips slide to the pot and on to the winner, and Ship2Shore's orders fly in when they're passed to you. Each comes with a short **table sound** (dice, cards, chips, moves, shots, your turn, the move timer running low, the end of a game), made in the browser rather than played from files. They're kept quiet under voice chat and quieter still while someone is talking. A speaker button in the room mutes them or sets the volume, and they're off for people watching unless they turn them on.
 
 Every game can be replayed move by move once it's over, with cards kept hidden that weren't shown at the time, and the players can ask for a rematch that starts when they all agree.
@@ -134,7 +140,7 @@ Playhall keeps the rest: the seats and whose turn it is, a dice roller (any mix 
 
 ## Computer players
 
-When there aren't enough people for a game, the host can fill a free seat with a computer player: **Add a bot**, between games. Bots have names like "Ada (bot)", show as computer players in the room, and move on their own turn after a short pause so everyone can follow what they did. Ten games have them so far: Ship2Shore, Snakes and Ladders, Ludo, Four in a Row, checkers, Blackjack, Texas Hold'em, Colour Clash, Sea Battle and Realm Duel.
+When there aren't enough people for a game, the host can fill a free seat with a computer player: **Add a bot**, between games. Bots have names like "Ada (bot)", show as computer players in the room, and move on their own turn after a short pause so everyone can follow what they did. Eleven games have them so far: Ship2Shore, Who Dat?, Snakes and Ladders, Ludo, Four in a Row, checkers, Blackjack, Texas Hold'em, Colour Clash, Sea Battle and Realm Duel.
 
 A bot plays from its own seat's view, exactly what a person sitting there would see, so it never knows anyone's hidden cards or roles. In Ship2Shore it steers for its own side's port, backs players it knows are on its side and votes against ones it knows aren't; Four in a Row and checkers look a few moves ahead; the Hold'em bot plays the odds of its own two cards; the Blackjack bot plays basic strategy. Games with a bot never count for the leaderboards.
 
@@ -211,8 +217,8 @@ Playhall is planned in five phases. Two are done, three are still to come, and a
 
 - **Phase 1: the games.** Nine games on one shared kit of boards, pieces, cards, chips and dice: chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Colour Clash and Texas Hold'em.
 - **Phase 2: voice and video, and any board game.** Voice, video and transcripts in every room, split between the players and the people watching the same way as the chat, and the camera table for real board games.
-- **New games since then:** Letterworks, Realm Duel, Manor Mystery and Ship2Shore.
-- **Since then, for every game:** animations and table sounds; computer players for ten games, and AI players for Ship2Shore; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
+- **New games since then:** Letterworks, Realm Duel, Manor Mystery, Ship2Shore and Who Dat?.
+- **Since then, for every game:** animations and table sounds; computer players for eleven games, and AI players for Ship2Shore; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
 
 ### Still to do
 
@@ -227,7 +233,7 @@ Alongside them, in no fixed order:
 - **New kinds of game**
   - **Real-time games:** fast games like Pong that the server runs moment by moment, rather than turn by turn.
   - **More games, including our own:** family games for mixed ages and more hidden-role games like Ship2Shore.
-  - **Who Dat?:** a guess-the-face game for two with our own cast of characters: ask yes/no questions about the other player's secret face and flip down the ones ruled out.
+  - **Classic card games:** Bridge (with bots to fill the four seats), Hearts, Spades, Gin Rummy and Shithead.
   - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and team battles, two against two or three against three.
 - **Playing with others**
   - **Tournaments:** knockout, round robin and Swiss, with Playhall pairing the players, opening the rooms each round and telling players when their game is ready.
