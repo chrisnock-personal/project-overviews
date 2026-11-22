@@ -1,10 +1,10 @@
 # Branchwarden
 
-**A self-hosted dashboard for engineering teams that watches every pull request and branch across a GitHub organisation or account. It shows each person what's waiting on them, shows what each PR is waiting on, flags stale branches and branches left behind by merged PRs, tracks whether each GitHub Actions workflow ran when it should and passed, points out the repository settings behind those problems, requests reviewers (by hand or automatically), and reminds people in Microsoft Teams or Slack when a review, merge or close is overdue.**
+**A self-hosted dashboard for engineering teams that watches every pull request and branch across a GitHub organisation or account. It shows each person what's waiting on them, shows what each PR is waiting on, flags stale branches and branches left behind by merged PRs, tracks whether each GitHub Actions workflow ran when it should and passed, points out the repository settings behind those problems, requests reviewers (by hand or automatically), and reminds people in Microsoft Teams or Slack when a review, merge or close is overdue. Everything it shows or does is also available to scripts, AI agents and Grafana, through an API, a command line and a Prometheus endpoint.**
 
 GitHub shows pull requests one repository at a time, and only to the people already looking. Across a few dozen repos, nobody can see which PRs have waited three days for a reviewer, which ones were approved and then forgotten, or how many branches are still around months after their PR merged. Branchwarden scans everything on a schedule, or as soon as a webhook says something changed. It works out each PR's state and who has to act next, tells the right channel, and keeps the numbers that show whether reviews are getting faster or slower. It only reads branches: it never pushes and never deletes. Its one write to GitHub is requesting reviewers.
 
-Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.4.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.4.0) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
+Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.5.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.5.0) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
 
 ![The Branchwarden overview in its default dark theme: summary tiles, a card per repository, the pull requests that need attention and delivery channel health](images/01-overview.png)
 
@@ -22,9 +22,10 @@ Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chr
 | **Branches** | Branches with no PR, flagged stale after a set number of days; branches left behind by a merged PR, by a closed PR, or pushed to after their merge. All are flagged only, never deleted |
 | **Repositories** | Every repo with what's open and what to tidy, and the settings behind most branch and review problems, each linked to where it's fixed on GitHub. A page per repo pulls it all together |
 | **Workflows** | Every GitHub Actions workflow, day by day: when each scheduled one was due, whether it ran, and whether its runs passed. Flags workflows failing on the default branch, scheduled runs that never started, and schedules GitHub switched off |
-| **Teams and Slack** | Messages when a PR opens or is marked ready, gets a review, merges or closes, or a workflow starts failing or misses its schedule. Reminders when it sits too long, counted in working hours, each with a snooze button. A weekly digest of branches to tidy up. In Slack, each PR's messages can stay in one thread |
+| **Teams and Slack** | Messages when a PR opens or is marked ready, gets a review, merges or closes, or a workflow starts failing or misses its schedule. Reminders when it sits too long, counted in working hours, each with a snooze button. A weekly digest of branches to tidy up. In Slack, each PR's messages can stay in one thread, and each person can get a morning message with what's waiting on them |
 | **Metrics** | Time to first review, time to merge, merges per week, all three by PR size too, and daily trends of PRs needing review and stale branches, overall or per repo |
 | **MVP** | For the last 7 days: who reviewed, merged, pruned branches and opened PRs the most, with an optional weekly post of the winners |
+| **API, CLI and Prometheus** | A JSON API with the same roles as the dashboard, personal and service tokens, a `branchwarden` command line for people, scripts and AI agents, and a Prometheus endpoint for Grafana and alerts |
 | **GitHub** | A GitHub App, a personal access token, or both. Webhooks trigger a rescan within seconds. Can point at GitHub Enterprise Server |
 | **Access and security** | Sign in with GitHub, with roles taken from GitHub teams, or local accounts. HTTPS with a generated certificate and an upload page, secrets sealed with AES-256-GCM, no default accounts, three roles |
 
@@ -193,6 +194,10 @@ Each reminder has its own wait, repeat interval and maximum count. Waits can be 
 
 ![A Slack channel set up with a bot token and channel ID, routed to two repos, so each PR's messages stay in one thread](images/14-slack-threads.png)
 
+**A morning message in Slack.** People who opt in on My work get a direct message on working days, at a set time, with the reviews waiting on them, oldest first, and their own PRs that need something. Nothing is sent on a day when nothing's waiting. It needs a Slack bot token, set in the rule, and the person's Slack member ID on the People page; "Send me one now" checks it works. It's Slack only for now: Teams would need a full bot.
+
+![The Morning message in Slack card on My work: on, working days at 09:15, with buttons to turn it off or send one now](images/15-morning-message.png)
+
 @mentions work through a People page that matches each GitHub login to a Teams user and a Slack member ID. Anyone without a match appears as a bold name, so a message never breaks.
 
 In the end-to-end test on 9 November, with two throwaway private repositories, three events reached a local test receiver as Teams cards within a second of the scan that saw them:
@@ -214,7 +219,7 @@ The Metrics page answers "are reviews getting faster?" for the last 30, 90 or 18
 
 A table by PR size answers "do big PRs wait longer?": in the demo history, small PRs got a first review in a median of 4.7 hours and merged in 22, while those over 500 lines took 2.5 days and 4.4 days. Times count from when a PR was ready for review, and an author's own replies don't count as a first review. Every chart can be shown as a table. The first scan of each repo imports the PRs merged or closed in the last 180 days, so the numbers are there from day one. Only the daily trends, and who pruned which branches, start when Branchwarden does.
 
-![The metrics page: median time to first review and to merge, merges per week, weekly time to first review, daily charts of PRs needing review and stale branches, a table by repository and the reviewers with requests waiting](images/15-metrics.png)
+![The metrics page: median time to first review and to merge, merges per week, weekly time to first review, daily charts of PRs needing review and stale branches, a table by repository and the reviewers with requests waiting](images/16-metrics.png)
 
 *In the demo history, first reviews speed up from about 20 hours to a few, and stale branches get tidied over the month.*
 
@@ -230,7 +235,7 @@ The MVP page shows, for the last 7 days or the 7 before, who did the most of fou
 
 Bots are left out of every board. An optional weekly post, off by default, sends each board's winner and the next two to Teams and Slack, at a set day and time (Fridays 16:00 unless changed). Winners are @mentioned.
 
-![The MVP page: team totals, then four boards for most reviews, merges, branch prunes and PRs raised, each with its MVP and places 2 to 5](images/16-mvp.png)
+![The MVP page: team totals, then four boards for most reviews, merges, branch prunes and PRs raised, each with its MVP and places 2 to 5](images/17-mvp.png)
 
 *The note on the prunes board is because three of the week's deletions were only seen by a scan.*
 
@@ -242,7 +247,7 @@ Every message is queued per channel and retried with back-off when Teams or Slac
 
 The full record is under *Settings › Deliveries*, for admins. Everyone else sees each channel's health on the overview.
 
-![Settings › Deliveries: channel health, the webhook events received from GitHub and what each triggered, and every message with its status](images/17-deliveries.png)
+![Settings › Deliveries: channel health, the webhook events received from GitHub and what each triggered, and every message with its status](images/18-deliveries.png)
 
 The same page lists each scan with:
 - what triggered it (the schedule, a webhook, or someone pressing *Scan now*),
@@ -263,9 +268,80 @@ In the end-to-end test, a full scan of the two test repos took about 4 seconds, 
 
 ---
 
+## API, command line and Prometheus
+
+Everything the dashboard shows or does is also a JSON API under `/api/v1`, so Branchwarden can be driven by scripts, CI and AI agents. Admin settings are covered too. Secrets stay write-only, as in the dashboard.
+
+**Tokens.**
+- **Personal:** each person makes their own on the API tokens page, under their name: read-only, or read and write, with an optional expiry. A token acts with its owner's role at the moment of each request, so changing someone's role changes what their tokens can do.
+- **Service:** admins make service tokens, with a role of their own, for scripts and Grafana.
+- **Storage:** a token is shown once and only its hash is kept, with when it was last used.
+- **History:** every change made through the API appears in the change history, naming the token that made it.
+
+![The API tokens page: a read-only token for a Claude Code agent and a read-and-write one for the laptop CLI, with their access, last use and expiry, and the form to make another](images/19-api-tokens.png)
+
+**The same rules as the dashboard, by construction.** One check decides what a viewer, member or admin may do, and both the dashboard and the API use it. Every change runs through the same code too: the same validation, the same messages and the same history lines. In CI, every endpoint is called as a viewer, a member and an admin, and with a read-only token. Each must be allowed or refused exactly as its page is. The OpenAPI document served by the app is validated and checked against the routes, so the documentation can't drift.
+
+**Safe by default.**
+- Tokens are sent as bearer tokens only; cookies aren't accepted, so a cross-site form has nothing to ride on.
+- HTTPS only, with a rate limit per token.
+- Requesting reviewers takes a dry run, which says what would be sent to GitHub without sending it.
+
+**The `branchwarden` command line** wraps the API for the terminal, scripts and AI agents.
+- **The token** lives in the operating system's keychain.
+- **The certificate:** while Branchwarden uses its self-signed certificate, the CLI shows the certificate's fingerprint at login and pins it. A different certificate at that address is then refused.
+- **Output:** `--json` gives the API's own documented JSON, and `--quiet` gives just ids.
+- **Safety:** exit codes say what happened, nothing prompts when there's no terminal, and anything that writes to GitHub asks first and has a dry run.
+
+This is real output against the demo, as Dana:
+
+```text
+$ branchwarden me
+Reviews waiting on dana: 3
+ID  PR                TITLE                             STATE                  WAITING ON               FOR
+1   auth-service #77  AUTH-214 Rotate signing keys wi…  Awaiting review        dana, demo-org/identity  2 days
+11  mobile-app #210   MOB-512 Offline mode for the in…  Awaiting review · big  dana                     36 h
+13  web-console #96   WEB-12 Dark mode for the settin…  Awaiting review        dana                     24 h
+
+$ branchwarden prs list --filter stalled
+ID  PR                 TITLE                       STATE                      WAITING ON  FOR
+8   data-pipeline #55  Backfill the events table   Conflicts · big · stalled  sam         21 days
+3   auth-service #74   Refactor the session store  In review · big · stalled  reviewers   16 days
+
+$ branchwarden workflows --problems
+REPO           WORKFLOW       RUNS  PASSED  FAILING SINCE  MISSED  STATE
+auth-service   Nightly build  13    77%     2026-11-20     1       active
+data-pipeline  Docs backup    5     100%                           disabled_inactivity
+
+$ branchwarden prs reviewers add 8 --user sam --dry-run
+Would request sam on GitHub.
+```
+
+With the agent's read-only token, `branchwarden scan` answers "This token is read-only." and exits with code 3.
+
+**Prometheus.** `/metrics/prometheus` serves the headline numbers for Grafana and alerting, labelled by repo:
+- open PRs by state, and flagged ones,
+- branches by status, and reviews waiting per reviewer,
+- review and merge times, as medians and 90th percentiles,
+- failing workflows and repo health,
+- the worker's own health: the last scan, errors, the API budget, whether scans have stopped, and messages pending and failed.
+
+It's scraped with a read-only service token, so there's no separate secret to manage. These lines are from a real scrape of the demo:
+
+```text
+branchwarden_reviews_waiting{reviewer="dana"} 3
+branchwarden_pull_requests_flagged{repo="demo-org/data-pipeline",flag="stalled"} 1
+branchwarden_branches{repo="demo-org/auth-service",status="stale"} 2
+branchwarden_time_to_merge_hours{repo="demo-org/billing-api",quantile="0.5"} 45.124
+branchwarden_scans_stopped 0
+branchwarden_messages{status="failed"} 0
+```
+
+---
+
 ## Connecting GitHub
 
-![Settings › GitHub: a stored personal access token that expires in 53 days, and the organisation being scanned through it](images/18-settings-github.png)
+![Settings › GitHub: a stored personal access token that expires in 53 days, and the organisation being scanned through it](images/20-settings-github.png)
 
 Two kinds of connection, usable together. Both need read access to pull requests, contents, metadata, members and Actions, plus write access to pull requests, only for requesting reviewers:
 - **A GitHub App** suits organisations. It has its own API budget and sends webhooks, so PR changes show up in seconds instead of at the next scan. Once its ID and private key are in, the page lists every installation and its permissions.
@@ -284,7 +360,7 @@ Each account can be set to use the App, the token, or the App with the token as 
 - **Landing page:** people who sign in this way go straight to My work.
 - **Fallback:** local accounts keep working, so an admin can always get in.
 
-![The sign-in with GitHub settings: client ID and secret, the callback URL to register, and the GitHub teams for each role](images/19-github-sign-in.png)
+![The sign-in with GitHub settings: client ID and secret, the callback URL to register, and the GitHub teams for each role](images/21-github-sign-in.png)
 
 The three roles:
 - **Viewers** read everything outside Settings, including their own My work.
@@ -313,7 +389,7 @@ The project was built against a security review of all my repos, with its "secur
 - **A private route for reports:** vulnerabilities go through GitHub's private vulnerability reporting, as the repo's SECURITY.md explains.
 - **Data kept no longer than needed.** Closed PRs are kept for 365 days (the metrics use them). Messages, workflow runs and scans are kept for 90 days. Older records are removed every hour.
 
-![The TLS certificate page: the generated self-signed certificate with its names, validity and SHA-256 fingerprint, and the upload form](images/20-settings-tls.png)
+![The TLS certificate page: the generated self-signed certificate with its names, validity and SHA-256 fingerprint, and the upload form](images/22-settings-tls.png)
 
 ---
 
@@ -324,14 +400,15 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 - **The image:** each release is published for amd64 and arm64 at `ghcr.io/chrisnock-personal/branchwarden`, so installing is `podman-compose pull && podman-compose up -d`, and so is updating.
 - **Health checks:** compose checks the dashboard through `/healthz`, which also checks the database. It checks the worker by a heartbeat that keeps beating through long scans.
 - **Running as a service:** Podman quadlet files run the same containers as systemd services, on the same volumes, for an always-on server.
+- **Backups:** one command writes the database, the encryption key, the TLS certificate and the settings to a single file, encrypted with [age](https://age-encryption.org) to a public key, so the server can make backups it can't read. Another command restores them on the same host or a fresh one. CI backs up the real stack, destroys it, restores it and checks a sealed secret still decrypts, on every push.
 - **Trying it without GitHub:** `python demo.py` in the worker loads made-up activity for a demo organisation: six repositories, eight people, PRs in every state and five weeks of history. While it's loaded, every page says so, nothing is scanned or sent, and connecting GitHub is refused until `python demo.py --remove` takes it out.
 
 ## Status
 
-Version 0.4.0 (November 2026): demo mode, and integration and browser tests. Repositories and their health, big, stalled and ticketed PRs, faster scans and a published image came in 0.3.0, and workflows in 0.2.0.
+Version 0.5.0 (November 2026): the API, the command line, the Prometheus endpoint and the Slack morning message. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
 
-- **Continuous integration:** every push runs 120 tests and two checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
-  - **Unit tests (111):**
+- **Continuous integration:** every push runs 162 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
+  - **Unit tests (134):**
     - PR states, an author's next step, branch rules and CODEOWNERS matching,
     - reviewer selection and working-hours maths,
     - message rendering and escaping, and Slack API answers,
@@ -339,15 +416,21 @@ Version 0.4.0 (November 2026): demo mode, and integration and browser tests. Rep
     - the MVP rankings and the weekly post,
     - cron parsing, reading workflow files, matching scheduled runs to their due times (including runs hours late, and dropped ones), and when a workflow counts as failing or fixed,
     - importing past PRs, skipping unchanged repos, waiting out GitHub's rate limits, health checks and the scans-stopped rule,
-    - repository health flags, PR size and stall rules, and ticket keys.
-  - **Integration tests (8), against a real Postgres:**
+    - repository health flags, PR size and stall rules, and ticket keys,
+    - who may do what, the OpenAPI document (valid, and matching every route), the CLI's parsing and output, and its certificate pinning against a real HTTPS server.
+  - **Integration tests (27), against a real Postgres:**
     - the scanner end to end against a stand-in for GitHub: a silent first scan, then opened, ready, review, merged and closed events, and deleted branches recorded,
     - unchanged repos skipped with a single request,
     - messages routed to the right channel, then sent, retried after a minute, or failed for good, without the webhook URL ever appearing in an error,
     - a workflow starting to fail,
     - the demo data loading, refusing to mix with real data, and coming out again,
-    - every page rendering with it, and forms posting (and refused without their CSRF token).
-  - **Browser test, in Chromium:** first-run setup, every section from the header, a repository page, filters, a workflow row, the theme switch, a form and the menu, failing on any script error.
+    - every page rendering with it, and forms posting (and refused without their CSRF token),
+    - every API endpoint called as each role and with a read-only token, and allowed or refused as its page is; tokens expiring, being revoked, and following their owner's role,
+    - every CLI command against the running app, with its exit codes,
+    - the Prometheus output, parsed with Prometheus's own client library,
+    - the morning message: not before its time or on days off, once a day, retried when Slack is busy.
+  - **Browser test, in Chromium:** first-run setup, every section from the header, a repository page, filters, a workflow row, the theme switch, a form and the menu, and an API token made on its page and then used. It fails on any script error.
+  - **Backup round trip:** the real stack with docker compose, backed up, destroyed and restored.
   - **Checks:** `pip-audit` (no known vulnerabilities in the pinned versions) and `gitleaks` (no secrets anywhere in the history).
   - **Releases:** the release workflow builds the published image only from a tag that matches the version in the code and whose commit has passed CI.
 - **End-to-end test:** run against two throwaway private repositories. It covered:
@@ -364,4 +447,5 @@ Version 0.4.0 (November 2026): demo mode, and integration and browser tests. Rep
   - the quadlet files, outside a dry run,
   - GitHub Enterprise Server,
   - a full GitHub sign-in,
-  - an auto-assigned review on a repo with more than one person.
+  - an auto-assigned review on a repo with more than one person,
+  - the morning message in a real Slack workspace (channel messages have been).
