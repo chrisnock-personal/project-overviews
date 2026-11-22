@@ -4,7 +4,7 @@
 
 Live productions, events and operations rooms run on talkback. The director talks to the cameras, the floor manager to the producer, everyone to everyone when it matters. Dedicated intercom hardware does this well and costs accordingly; a conference bridge is cheap but has no idea who should hear whom. Parley sits between the two. Each person logs in from any browser (a desk PC, a laptop, an iPad), sees the groups they belong to and the people they can call, and joins as many groups at once as their job needs. What was said in a group is written down as it's said, typed messages sit beside it, and calls can be recorded to a compliance recorder.
 
-Source code: [github.com/chrisnock-personal/parley](https://github.com/chrisnock-personal/parley) · latest release: [v0.2.0](https://github.com/chrisnock-personal/parley/releases/tag/v0.2.0)
+Source code: [github.com/chrisnock-personal/parley](https://github.com/chrisnock-personal/parley) · latest release: [v0.3.0](https://github.com/chrisnock-personal/parley/releases/tag/v0.3.0)
 
 ![Parley in use: the Floor Manager is in the Production group while the Director talks. Its conversation mixes what was said with what was typed, and the Studio Floor transcript can be read without joining](images/01-hero.png)
 
@@ -79,7 +79,7 @@ Everyone can see it happening. A **REC** tag shows in the top bar when your call
 
 ## Desk, laptop, iPad, phone
 
-The client is a web page: nothing to install, and a person's groups and keys follow them to whichever device they log in on. It has two looks, a graphite **Panel** theme and a warmer, rounder **Warm** one. The microphone and speakers are chosen per device in the profile menu, with a level bar and a test sound, and a change moves calls already in progress (on an iPad or iPhone the output is chosen in Control Centre instead).
+The client is a web page: nothing to install, and a person's groups and keys follow them to whichever device they log in on. It has two looks, a graphite **Panel** theme and a warmer, rounder **Warm** one. The microphone and speakers are chosen per device in the profile menu, with a level bar and a test sound, and a change moves calls already in progress (on an iPad or iPhone the output is chosen in Control Centre instead). At a desk, keyboard shortcuts cover the lot: a key per group (tap to join, hold to talk), F-keys for intercom keys, Space to talk to every joined group and M to mute; each shows as a keycap on the screen and can be changed per device.
 
 ![The same screen in the Warm theme](images/06-warm-theme.png)
 
@@ -96,6 +96,8 @@ On a phone the cards stack into one column, and a group's conversation opens ful
 Administrators run Parley from a separate console with a sidebar: **Live**, **People** and **Groups**, and for admins **Settings**, **Health**, **Audit** and **Backups**. **Live** shows what's happening right now, straight from the SIP core's own state: who's online, each group in use with who's in it and who's talking, direct calls, and what's being recorded.
 
 ![The console's Live page: 5 of 10 people online, Production in use with the Director talking, a direct call between the two cameras, one call being recorded](images/07-console-live.png)
+
+From Live, an editor or admin can open a group's people and **mute** anyone in it. The server stops forwarding their audio, so nobody hears them and nothing is transcribed, while they still hear the group and their card tells them they've been muted. The mute holds if they leave and rejoin, until someone unmutes them, and it's in the audit log.
 
 **People** is everyone with a login, in a list you can search, showing their groups, intercom keys, whether they're online and whether they're recorded. Pick someone to change their name or extension, whether they can log in and whether their calls are recorded, which groups they have and which people they can call with one press, or to reset their password.
 
@@ -127,4 +129,4 @@ Seven containers under Podman (or Docker) Compose on one Linux host: the SIP cor
 
 ## Status
 
-Parley is a working prototype in active development. Every feature shown here was exercised for this page with real calls: a browser client logged in as the Floor Manager, four scripted crew members speaking into the groups, and recordings going to a real SIP-REC recorder. Features are tested by hand and with scripted SIP calls as they are built; there is no automated test suite yet. Next on the list are keyboard hotkeys, saved presets and an admin remote mute.
+Parley is a working prototype in active development. Every feature shown here was exercised for this page with real calls: a browser client logged in as the Floor Manager, four scripted crew members speaking into the groups, and recordings going to a real SIP-REC recorder. Features are tested by hand and with scripted SIP calls as they are built; there is no automated test suite yet. Next on the list are saved presets, Stream Deck control and programme-feed groups.
