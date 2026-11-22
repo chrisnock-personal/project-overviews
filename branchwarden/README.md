@@ -1,10 +1,10 @@
 # Branchwarden
 
-**A self-hosted dashboard for engineering teams that watches every pull request and branch across a GitHub organisation or account. It shows each person what's waiting on them, shows what each PR is waiting on, flags stale branches and branches left behind by merged PRs, tracks whether each GitHub Actions workflow ran when it should and passed, points out the repository settings behind those problems, requests reviewers (by hand or automatically), and reminds people in Microsoft Teams or Slack when a review, merge or close is overdue. Everything it shows or does is also available to scripts, AI agents and Grafana, through an API, a command line and a Prometheus endpoint.**
+**A self-hosted dashboard for engineering teams that watches every pull request and branch across a GitHub organisation or account. It shows each person what's waiting on them, shows what each PR is waiting on, flags stale branches and branches left behind by merged PRs, tracks whether each GitHub Actions workflow ran when it should and passed, points out the repository settings behind those problems, requests reviewers (by hand or automatically), and reminds people in Microsoft Teams or Slack when a review, merge or close is overdue. Everything it shows or does is also available to scripts, AI agents and Grafana, through an API, a command line, an MCP server for AI agents, and a Prometheus endpoint.**
 
 GitHub shows pull requests one repository at a time, and only to the people already looking. Across a few dozen repos, nobody can see which PRs have waited three days for a reviewer, which ones were approved and then forgotten, or how many branches are still around months after their PR merged. Branchwarden scans everything on a schedule, or as soon as a webhook says something changed. It works out each PR's state and who has to act next, tells the right channel, and keeps the numbers that show whether reviews are getting faster or slower. It only reads branches: it never pushes and never deletes. Its one write to GitHub is requesting reviewers.
 
-Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.5.1](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.5.1) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
+Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.6.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.6.0) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
 
 ![The Branchwarden overview in its default dark theme: summary tiles, a card per repository, the pull requests that need attention and delivery channel health](images/01-overview.png)
 
@@ -25,7 +25,7 @@ Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chr
 | **Teams and Slack** | Messages when a PR opens or is marked ready, gets a review, merges or closes, or a workflow starts failing or misses its schedule. Reminders when it sits too long, counted in working hours, each with a snooze button. A weekly digest of branches to tidy up. In Slack, each PR's messages can stay in one thread, and each person can get a morning message with what's waiting on them |
 | **Metrics** | Time to first review, time to merge, merges per week, all three by PR size too, and daily trends of PRs needing review and stale branches, overall or per repo |
 | **MVP** | For the last 7 days: who reviewed, merged, pruned branches and opened PRs the most, with an optional weekly post of the winners |
-| **API, CLI and Prometheus** | A JSON API with the same roles as the dashboard, personal and service tokens, a `branchwarden` command line for people, scripts and AI agents, and a Prometheus endpoint for Grafana and alerts |
+| **API, CLI, MCP and Prometheus** | A JSON API with the same roles as the dashboard, personal and service tokens, a `branchwarden` command line for people and scripts, an MCP server so AI agents like Claude can use it directly, and a Prometheus endpoint for Grafana and alerts |
 | **GitHub** | A GitHub App, a personal access token, or both. Webhooks trigger a rescan within seconds. Can point at GitHub Enterprise Server |
 | **Access and security** | Sign in with GitHub, with roles taken from GitHub teams, or local accounts. HTTPS with a generated certificate and an upload page, secrets sealed with AES-256-GCM, no default accounts, three roles |
 
@@ -319,6 +319,13 @@ Would request sam on GitHub.
 
 With the agent's read-only token, `branchwarden scan` answers "This token is read-only." and exits with code 3.
 
+**For AI agents, an MCP server.** `branchwarden mcp` serves the same things as tools for Claude Code, Claude Desktop and other MCP clients. It signs in the same way as the CLI, and adding it to Claude Code is one line: `claude mcp add branchwarden -- branchwarden mcp`.
+- **Reading:** an agent can ask what's waiting on you, which PRs have stalled, which workflows are failing or which branches to tidy. Those tools are marked read-only.
+- **Acting:** the tools that change things say so. Requesting reviewers is marked as writing to GitHub, and it's a dry run unless the agent explicitly asks otherwise, so it shows what it would do first.
+- **The token sets the limits:** given a read-only token, an agent can look but not change anything, whatever it tries. The server refuses.
+
+In CI, the MCP SDK's own client starts the server over stdio and calls its tools against the running app with the demo data.
+
 **Prometheus.** `/metrics/prometheus` serves the headline numbers for Grafana and alerting, labelled by repo:
 - open PRs by state, and flagged ones,
 - branches by status, and reviews waiting per reviewer,
@@ -405,10 +412,10 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 
 ## Status
 
-Version 0.5.1 (November 2026). 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message. 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
+Version 0.6.0 (November 2026), which added the MCP server for AI agents. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
 
-- **Continuous integration:** every push runs 164 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
-  - **Unit tests (134):**
+- **Continuous integration:** every push runs 167 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
+  - **Unit tests (135):**
     - PR states, an author's next step, branch rules and CODEOWNERS matching,
     - reviewer selection and working-hours maths,
     - message rendering and escaping, and Slack API answers,
@@ -418,7 +425,7 @@ Version 0.5.1 (November 2026). 0.5.0 brought the API, the command line, the Prom
     - importing past PRs, skipping unchanged repos, waiting out GitHub's rate limits, health checks and the scans-stopped rule,
     - repository health flags, PR size and stall rules, and ticket keys,
     - who may do what, the OpenAPI document (valid, and matching every route), the CLI's parsing and output, and its certificate pinning against a real HTTPS server.
-  - **Integration tests (29), against a real Postgres:**
+  - **Integration tests (31), against a real Postgres:**
     - the scanner end to end against a stand-in for GitHub: a silent first scan, then opened, ready, review, merged and closed events, and deleted branches recorded,
     - unchanged repos skipped with a single request,
     - messages routed to the right channel, then sent, retried after a minute, or failed for good, without the webhook URL ever appearing in an error,
@@ -427,6 +434,7 @@ Version 0.5.1 (November 2026). 0.5.0 brought the API, the command line, the Prom
     - every page rendering with it, and forms posting (and refused without their CSRF token),
     - every API endpoint called as each role and with a read-only token, and allowed or refused as its page is; tokens expiring, being revoked, following their owner's role, and lapsing for a GitHub sign-in that's 30 days old; bad tokens throttled,
     - every CLI command against the running app, with its exit codes,
+    - the MCP server over stdio, driven by the MCP SDK's own client: its tools against the demo, the reviewer dry run, and a read-only token refused an action,
     - the Prometheus output, parsed with Prometheus's own client library,
     - the morning message: not before its time or on days off, once a day, retried when Slack is busy.
   - **Browser test, in Chromium:** first-run setup, every section from the header, a repository page, filters, a workflow row, the theme switch, a form and the menu, and an API token made on its page and then used. It fails on any script error.
