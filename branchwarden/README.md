@@ -4,7 +4,7 @@
 
 GitHub shows pull requests one repository at a time, and only to the people already looking. Across a few dozen repos, nobody can see which PRs have waited three days for a reviewer, which ones were approved and then forgotten, or how many branches are still around months after their PR merged. Branchwarden scans everything on a schedule, or as soon as a webhook says something changed. It works out each PR's state and who has to act next, tells the right channel, and keeps the numbers that show whether reviews are getting faster or slower. It only reads branches: it never pushes and never deletes. Its one write to GitHub is requesting reviewers.
 
-Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.5.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.5.0) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
+Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.5.1](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.5.1) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
 
 ![The Branchwarden overview in its default dark theme: summary tiles, a card per repository, the pull requests that need attention and delivery channel health](images/01-overview.png)
 
@@ -45,7 +45,7 @@ It has four parts:
 - **Your branches to tidy:** your stale branches, and branches left behind after your PRs.
 - **Snoozed reminders:** what you've put off, and until when.
 
-![The menu under Dana's name, open: signed in as Dana with GitHub login dana, My work with "3 reviews waiting", and Sign out](images/03-menu.png)
+![The menu under Dana's name, open: signed in as Dana with GitHub login dana, API tokens, My work with "3 reviews waiting", and Sign out](images/03-menu.png)
 
 ---
 
@@ -55,7 +55,7 @@ Each open PR gets one headline state, picked by what matters most: a draft is a 
 
 ![The pull requests page with state filters, a table of open PRs, and the reviewer panel open for one of them, suggesting code owners and recent reviewers](images/04-pull-requests.png)
 
-*Twelve open PRs. The panel is open for `auth-service #77`, which changes files under `src/token/`, so it suggests that folder's code owners (the `identity` team and Sasha) before recent reviewers.*
+*Sixteen open PRs. The panel is open for `auth-service #77`, which changes files under `src/token/`, so it suggests that folder's code owners (the `identity` team and Sasha) before recent reviewers.*
 
 **Requesting reviewers.** The panel suggests people and teams in this order:
 - the **CODEOWNERS** of the files the PR changes (the last matching rule wins, as on GitHub),
@@ -188,11 +188,11 @@ Each reminder has its own wait, repeat interval and maximum count. Waits can be 
 
 **Snooze.** Every reminder carries a Snooze button. It opens the PR in Branchwarden, where a member can silence its reminders for 1, 3 or 7 days while it's parked on purpose. The other PRs keep their reminders.
 
-![The reviewer panel of a pull request with its reminders section: snoozed until Friday by Dana, with buttons for 1, 3 or 7 days and Turn back on](images/13-snooze.png)
+![The reviewer panel of a pull request with its reminders section at the bottom: snoozed until Wednesday by Dana, with buttons for 1, 3 or 7 days and Turn back on](images/13-snooze.png)
 
 **Threads in Slack.** With a bot token instead of a webhook, the first message about a PR starts a thread. Everything after it (the reminder, the review, the auto-assigned reviewer) is a reply in that thread, so a busy channel shows one line per PR. Merges and closes are also shown in the channel, and the digest is posted on its own. Teams webhooks can't reply in a thread, so Teams channels get one card per message.
 
-![A Slack channel set up with a bot token and channel ID, routed to two repos, so each PR's messages stay in one thread](images/14-slack-threads.png)
+![A Slack channel set up with a bot token and channel ID, routed by two repo patterns, so each PR's messages stay in one thread; below it, a channel failing with Slack's not_in_channel](images/14-slack-threads.png)
 
 **A morning message in Slack.** People who opt in on My work get a direct message on working days, at a set time, with the reviews waiting on them, oldest first, and their own PRs that need something. Nothing is sent on a day when nothing's waiting. It needs a Slack bot token, set in the rule, and the person's Slack member ID on the People page; "Send me one now" checks it works. It's Slack only for now: Teams would need a full bot.
 
@@ -221,7 +221,7 @@ A table by PR size answers "do big PRs wait longer?": in the demo history, small
 
 ![The metrics page: median time to first review and to merge, merges per week, weekly time to first review, daily charts of PRs needing review and stale branches, a table by repository and the reviewers with requests waiting](images/16-metrics.png)
 
-*In the demo history, first reviews speed up from about 20 hours to a few, and stale branches get tidied over the month.*
+*In the demo's last 30 days, the median first review came within 10 hours and 70% within a day, and stale branches were tidied from 16 to 7 over the month.*
 
 ---
 
@@ -405,9 +405,9 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 
 ## Status
 
-Version 0.5.0 (November 2026): the API, the command line, the Prometheus endpoint and the Slack morning message. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
+Version 0.5.1 (November 2026). 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message. 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
 
-- **Continuous integration:** every push runs 162 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
+- **Continuous integration:** every push runs 164 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
   - **Unit tests (134):**
     - PR states, an author's next step, branch rules and CODEOWNERS matching,
     - reviewer selection and working-hours maths,
@@ -418,14 +418,14 @@ Version 0.5.0 (November 2026): the API, the command line, the Prometheus endpoin
     - importing past PRs, skipping unchanged repos, waiting out GitHub's rate limits, health checks and the scans-stopped rule,
     - repository health flags, PR size and stall rules, and ticket keys,
     - who may do what, the OpenAPI document (valid, and matching every route), the CLI's parsing and output, and its certificate pinning against a real HTTPS server.
-  - **Integration tests (27), against a real Postgres:**
+  - **Integration tests (29), against a real Postgres:**
     - the scanner end to end against a stand-in for GitHub: a silent first scan, then opened, ready, review, merged and closed events, and deleted branches recorded,
     - unchanged repos skipped with a single request,
     - messages routed to the right channel, then sent, retried after a minute, or failed for good, without the webhook URL ever appearing in an error,
     - a workflow starting to fail,
     - the demo data loading, refusing to mix with real data, and coming out again,
     - every page rendering with it, and forms posting (and refused without their CSRF token),
-    - every API endpoint called as each role and with a read-only token, and allowed or refused as its page is; tokens expiring, being revoked, and following their owner's role,
+    - every API endpoint called as each role and with a read-only token, and allowed or refused as its page is; tokens expiring, being revoked, following their owner's role, and lapsing for a GitHub sign-in that's 30 days old; bad tokens throttled,
     - every CLI command against the running app, with its exit codes,
     - the Prometheus output, parsed with Prometheus's own client library,
     - the morning message: not before its time or on days off, once a day, retried when Slack is busy.
