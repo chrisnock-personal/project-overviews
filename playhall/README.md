@@ -16,7 +16,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
 | **Twenty-three games, and any board game** | Board games, card games with play chips, word and deduction games and a hidden-role game, for one to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
-| **Computer players** | Bots for thirteen of the games, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore that talk and bluff, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
+| **Computer players** | Bots for twenty of the games, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore that talk and bluff, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
 | **The host's rules** | Who may sit down, what happens after each game, a move timer, an optional delay for watchers, who may write where, private rooms with a password, removing people |
@@ -195,6 +195,10 @@ Everyone has a **Settings** page. Ahead of voice and video, it's where you choos
 
 Whoever runs Playhall gets a separate **platform settings** page, for things that apply to everyone: whether people can sign up or join as guests, whether voice, video and transcripts are allowed, the defaults for new rooms, the HTTPS certificate, other admins, and closing any room. A fresh install comes with an admin account whose password has to be changed at its first sign-in, before anything else opens.
 
+Anyone in a room can **report** it, or a person in it, from the People tab: they pick a reason (rude, cheating, spam or something else) and can say what happened. Only admins see reports, and the person reported isn't told who reported them. Each report keeps the room's last 30 chat lines from that moment, so an admin can see what was said, then mark it dealt with and note what they did.
+
+<p><img src="images/41-reports.png" width="70%" alt="The Reports card on the platform settings page: Kai reported Sam in the room Report check as rude or unkind, with Kai's words and the three chat lines before the report, a box for a note and a Mark as dealt with button"></p>
+
 <img src="images/24-settings.png" width="62%" alt="The Settings page: the microphone with its level meter, speakers with a Play a test sound button, the camera with a Preview button, and the table sounds: on or off, the volume, sounds while watching, and a test">
 
 <p>
@@ -243,7 +247,7 @@ Playhall is planned in five phases. Two are done, three are still to come, and a
 - **Phase 1: the games.** Nine games on one shared kit of boards, pieces, cards, chips and dice: chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Colour Clash and Texas Hold'em.
 - **Phase 2: voice and video, and any board game.** Voice, video and transcripts in every room, split between the players and the people watching the same way as the chat, and the camera table for real board games.
 - **New games since then:** Letterworks, Realm Duel, Manor Mystery, Ship2Shore, Who Dat?, Hearts, Poophead, Spades, Thirty-One, Gin Rummy, Bingo, Chinese checkers, Roulette and Craps.
-- **Since then, for every game:** animations and table sounds; computer players for thirteen games, and AI players for Ship2Shore; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
+- **Since then, for every game:** animations and table sounds; computer players for twenty games, and AI players for Ship2Shore; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
 
 ### Still to do
 
@@ -268,7 +272,7 @@ Alongside them, in no fixed order:
   - **AI players for more games:** Manor Mystery and Hold'em next, after Ship2Shore.
 - **Learning a game:** a short guided first game for each, and pictures in the rules.
 - **Running it**
-  - **Reporting:** players can report a room or a person, and admins see the reports.
+  - **Reports, further:** a badge for admins when reports are open, and a way to suspend an account.
   - **Every platform:** voice and video in Safari, and instructions for running the server on Windows and macOS as well as Linux.
 
 ---
