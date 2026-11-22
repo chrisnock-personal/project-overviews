@@ -1,6 +1,6 @@
 # Playhall
 
-**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with nineteen games, from chess and Hearts to a WW2 hidden-role game, a camera table for any real board game, voice and video, a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
+**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with twenty-three games, from chess and Hearts to a WW2 hidden-role game, a camera table for any real board game, voice and video, a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
 
 Most online games give you a match against a stranger. Playhall is closer to a games night: a room that stays open, people drifting in, a queue for the next game, and a running argument in the corner about who should have played d4. The host decides who plays, who waits and what the people watching may say, and the scores carry on from one evening to the next.
 
@@ -15,7 +15,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 | | |
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
-| **Nineteen games, and any board game** | Board games, card games with play chips, word and deduction games and a hidden-role game, for one to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
+| **Twenty-three games, and any board game** | Board games, card games with play chips, word and deduction games and a hidden-role game, for one to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
 | **Computer players** | Bots for thirteen of the games, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore that talk and bluff, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
@@ -104,6 +104,17 @@ The five ships are drawn for Playhall: a carrier with its flight deck, a battles
 </p>
 <p>
 <img src="images/36-gin-rummy.png" width="49%" alt="Gin Rummy against a computer player: Ada knocked with 8 deadwood and won the hand by 50; both hands are shown arranged into melds and deadwood, and Sam's new hand is below">
+</p>
+
+**Bingo** is 90-ball for up to eight, with the traditional calls ("Two little ducks, 22") every few seconds: mark your ticket as the numbers come, or turn on auto-mark, and win one line, two lines and the full house. **Chinese checkers** is the star-board race for two, three, four or six: tap a marble to see every hole a step or a chain of hops reaches. **Roulette** (a single-zero wheel) and **Craps** (pass, don't pass, odds and the field) use play chips like Blackjack and Hold'em: everyone bets, presses Done, and the wheel spins or the dice roll. All four have computer players.
+
+<p>
+<img src="images/37-bingo.png" width="49%" alt="Bingo with two computer players: the last ball, 49, with its call, the board of the 59 numbers called so far, and Sam's ticket with the called numbers marked by auto-mark">
+<img src="images/38-chinese-checkers.png" width="49%" alt="Chinese checkers for three: the star board turned so Sam's amber marbles are at the bottom, one picked with white dots where it can go, and the computer players' violet and teal marbles on the move, with the last hop shown as a dotted line">
+</p>
+<p>
+<img src="images/39-roulette.png" width="49%" alt="Roulette: the wheel with the last number, 15 black, the recent numbers, and the betting table with Sam's chips on 17 and the second dozen">
+<img src="images/40-craps.png" width="49%" alt="Craps: the dice showing 5 and 3, the point puck ON 5, and the pass line, don't pass, odds and field with Sam's chips on the pass line, odds and field">
 </p>
 
 **Letterworks** is a crossword tile game for two to four players, on our own board layout and tile set rather than the commercial game's. You build words from a private rack of seven tiles: tap a tile then a square (or drag it), and Playhall shows the words you're making and what they'd score before you commit. Every word is checked against ENABLE, a public-domain list of about 173,000 English words, and one that isn't allowed is turned down before anything is placed, so there are no challenges and no penalties. The Moves tab keeps the words played, and a panel lists all 96 two-letter words.
@@ -231,7 +242,7 @@ Playhall is planned in five phases. Two are done, three are still to come, and a
 
 - **Phase 1: the games.** Nine games on one shared kit of boards, pieces, cards, chips and dice: chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Colour Clash and Texas Hold'em.
 - **Phase 2: voice and video, and any board game.** Voice, video and transcripts in every room, split between the players and the people watching the same way as the chat, and the camera table for real board games.
-- **New games since then:** Letterworks, Realm Duel, Manor Mystery, Ship2Shore, Who Dat?, Hearts, Poophead, Spades, Thirty-One and Gin Rummy.
+- **New games since then:** Letterworks, Realm Duel, Manor Mystery, Ship2Shore, Who Dat?, Hearts, Poophead, Spades, Thirty-One, Gin Rummy, Bingo, Chinese checkers, Roulette and Craps.
 - **Since then, for every game:** animations and table sounds; computer players for thirteen games, and AI players for Ship2Shore; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
 
 ### Still to do
@@ -246,8 +257,7 @@ Alongside them, in no fixed order:
 
 - **New kinds of game**
   - **Real-time games:** fast games like Pong that the server runs moment by moment, rather than turn by turn.
-  - **More classic games:** Bridge (with bots to fill the four seats) and Chinese checkers.
-  - **Casino and hall games:** craps and roulette with play chips, and bingo for big rooms.
+  - **More classic games:** Bridge, with bots to fill the four seats.
   - **Party games of our own:** a team word-association game, a fill-in-the-blank game with a family deck, and What Am I?, where everyone can see your word but you.
   - **Landgrab:** a property-trading board game with our own board and places.
   - **Our own family and hidden-role games,** beyond takes on known ones.
