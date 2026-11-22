@@ -16,7 +16,7 @@ Source code: [github.com/chrisnock-personal/parley](https://github.com/chrisnock
 
 | | |
 |---|---|
-| **Talk groups** | Open-mic or push-to-talk groups, as many joined at once as you like, each with its own talk, listen and volume controls; who's in each group and who's talking, before you join |
+| **Talk groups** | Open-mic, push-to-talk or listen-only (paging) groups, as many joined at once as you like, each with its own talk, listen and volume controls; who's in each group and who's talking, before you join |
 | **Direct intercom** | Press a key and the other person's intercom answers by itself; hold and resume; call anyone in the directory |
 | **Conversation** | Live per-speaker transcripts and typed group chat, in one timeline, readable without joining; typed messages read aloud if you want them |
 | **Recording** | SIP-REC (RFC 7866) to any compliance recorder, per person, with participant metadata; a REC tag wherever it applies |
@@ -34,6 +34,8 @@ Each group shows who's in it right now and who's talking, whether or not you've 
 ![A person card opened from the Production group: the Director, online and talking, in Production, with a button to call them](images/02-person-card.png)
 
 Muting and push-to-talk happen in your own browser, so pressing the button takes effect at once, with no signalling round trip and nothing for the server to get wrong.
+
+A group can also be **listen only**, for paging: an administrator marks who talks in it (the Director and the Producer, say), and everyone else listens. When one of the talkers is in the group, every listener's client joins it by itself, with no microphone and nothing sent, and leaves again when the talkers have gone. A listener who leaves during a page isn't pulled back in until the next one.
 
 ---
 
@@ -77,7 +79,7 @@ Everyone can see it happening. A **REC** tag shows in the top bar when your call
 
 ## Desk, laptop, iPad, phone
 
-The client is a web page: nothing to install, and a person's groups and keys follow them to whichever device they log in on. It has two looks, a graphite **Panel** theme and a warmer, rounder **Warm** one.
+The client is a web page: nothing to install, and a person's groups and keys follow them to whichever device they log in on. It has two looks, a graphite **Panel** theme and a warmer, rounder **Warm** one. The microphone and speakers are chosen per device in the profile menu, with a level bar and a test sound, and a change moves calls already in progress (on an iPad or iPhone the output is chosen in Control Centre instead).
 
 ![The same screen in the Warm theme](images/06-warm-theme.png)
 
@@ -125,4 +127,4 @@ Seven containers under Podman (or Docker) Compose on one Linux host: the SIP cor
 
 ## Status
 
-Parley is a working prototype in active development. Every feature shown here was exercised for this page with real calls: a browser client logged in as the Floor Manager, four scripted crew members speaking into the groups, and recordings going to a real SIP-REC recorder. Features are tested by hand and with scripted SIP calls as they are built; there is no automated test suite yet. Next on the list are keyboard hotkeys, audio device selection, saved presets and an admin remote mute.
+Parley is a working prototype in active development. Every feature shown here was exercised for this page with real calls: a browser client logged in as the Floor Manager, four scripted crew members speaking into the groups, and recordings going to a real SIP-REC recorder. Features are tested by hand and with scripted SIP calls as they are built; there is no automated test suite yet. Next on the list are keyboard hotkeys, saved presets and an admin remote mute.
