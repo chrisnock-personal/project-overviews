@@ -4,7 +4,7 @@
 
 GitHub shows pull requests one repository at a time, and only to the people already looking. Across a few dozen repos, nobody can see which PRs have waited three days for a reviewer, which ones were approved and then forgotten, or how many branches are still around months after their PR merged. Branchwarden scans everything on a schedule, or as soon as a webhook says something changed. It works out each PR's state and who has to act next, tells the right channel, and keeps the numbers that show whether reviews are getting faster or slower. It only reads branches: it never pushes and never deletes. Its one write to GitHub is requesting reviewers.
 
-Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.6.2](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.6.2) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
+Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.7.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.7.0) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
 
 ![The Branchwarden overview in its default dark theme: summary tiles, a card per repository, the pull requests that need attention and delivery channel health](images/01-overview.png)
 
@@ -22,10 +22,10 @@ Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chr
 | **Branches** | Branches with no PR, flagged stale after a set number of days; branches left behind by a merged PR, by a closed PR, or pushed to after their merge. All are flagged only, never deleted |
 | **Repositories** | Every repo with what's open and what to tidy, and the settings behind most branch and review problems, each linked to where it's fixed on GitHub. A page per repo pulls it all together |
 | **Workflows** | Every GitHub Actions workflow, day by day: when each scheduled one was due, whether it ran, and whether its runs passed. Flags workflows failing on the default branch, scheduled runs that never started, and schedules GitHub switched off |
-| **Teams and Slack** | Messages when a PR opens or is marked ready, gets a review, merges or closes, or a workflow starts failing or misses its schedule. Reminders when it sits too long, counted in working hours, each with a snooze button. A weekly digest of branches to tidy up. In Slack, each PR's messages can stay in one thread, and each person can get a morning message with what's waiting on them |
+| **Teams and Slack** | Messages when a PR opens or is marked ready, gets a review, merges or closes, or a workflow starts failing or misses its schedule. Reminders when it sits too long, counted in working hours, each with a snooze button. A weekly digest of branches to tidy up. In Slack, each PR's messages can stay in one thread. Each person can get a morning message, in Slack or Teams, with what's waiting on them |
 | **Metrics** | Time to first review, time to merge, merges per week, all three by PR size too, and daily trends of PRs needing review and stale branches, overall or per repo |
 | **MVP** | For the last 7 days: who reviewed, merged, pruned branches and opened PRs the most, with an optional weekly post of the winners |
-| **API, CLI, MCP and Prometheus** | A JSON API with the same roles as the dashboard, personal and service tokens, a `branchwarden` command line for people and scripts, an MCP server so AI agents like Claude can use it directly, and a Prometheus endpoint for Grafana and alerts |
+| **API, CLI, MCP and Prometheus** | A JSON API with the same roles as the dashboard, personal and service tokens, a `branchwarden` command line for people and scripts, an MCP server so AI agents like Claude can use it directly, locally or over HTTP, and a Prometheus endpoint for Grafana and alerts |
 | **GitHub** | A GitHub App, a personal access token, or both. Webhooks trigger a rescan within seconds. Can point at GitHub Enterprise Server |
 | **Access and security** | Sign in with GitHub, with roles taken from GitHub teams, or local accounts. HTTPS with a generated certificate and an upload page, secrets sealed with AES-256-GCM, no default accounts, three roles |
 
@@ -194,9 +194,13 @@ Each reminder has its own wait, repeat interval and maximum count. Waits can be 
 
 ![A Slack channel set up with a bot token and channel ID, routed by two repo patterns, so each PR's messages stay in one thread; below it, a channel failing with Slack's not_in_channel](images/14-slack-threads.png)
 
-**A morning message in Slack.** People who opt in on My work get a direct message on working days, at a set time, with the reviews waiting on them, oldest first, and their own PRs that need something. Nothing is sent on a day when nothing's waiting. It needs a Slack bot token, set in the rule, and the person's Slack member ID on the People page; "Send me one now" checks it works. It's Slack only for now: Teams would need a full bot.
+**A morning message, in Slack or Teams.** People who opt in on My work get a message on working days, at a set time, with the reviews waiting on them, oldest first, and their own PRs that need something. Nothing is sent on a day when nothing's waiting. Each person picks where it goes:
+- **Slack:** a direct message from a bot. It needs a Slack bot token, set in the rule, and the person's Slack member ID on the People page.
+- **Teams:** their own chat. A Teams bot would need an Azure app registration, so instead each person makes a Teams Workflows flow that posts to their chat and pastes its URL here. It's stored encrypted, and the message arrives as a card. There's nothing for an admin to set up.
 
-![The Morning message in Slack card on My work: on, working days at 09:15, with buttons to turn it off or send one now](images/15-morning-message.png)
+"Send me one now" checks it works. With demo data loaded, it sends nothing.
+
+![The Morning message card on My work: on, working days at 09:15, in Teams. Slack is unavailable because no Slack bot is set up; the Teams webhook is stored, with Save, Turn it off and Send me one now buttons](images/15-morning-message.png)
 
 @mentions work through a People page that matches each GitHub login to a Teams user and a Slack member ID. Anyone without a match appears as a bold name, so a message never breaks.
 
@@ -328,7 +332,14 @@ The API tokens page shows how to connect, with this server's own details filled 
 
 ![The "Use it from the command line or an AI agent" box on the API tokens page: install the CLI with pipx, sign in with this server's address and certificate fingerprint, and add it to Claude Code, each with a Copy button](images/20-connect.png)
 
-In CI, the MCP SDK's own client starts the server over stdio and calls its tools against the running app with the demo data.
+**Over HTTP, for agents on other machines.** `branchwarden mcp --http` serves the same tools over MCP's streamable HTTP. It keeps no token of its own:
+- **Each client brings its own token.** It sends its own Branchwarden API token, which is checked with Branchwarden and used only for that client's calls, so each agent gets exactly what its own token allows.
+- **Bad tokens are refused and throttled.** A request without a valid token gets 401, and repeated bad tokens from one address are throttled.
+- **Tokens aren't sent in the clear.** Beyond the machine it runs on, it needs TLS (or a proxy in front that does it).
+
+The server moved to version 2 of the MCP SDK at the same time.
+
+In CI, the MCP SDK's own client starts the server over stdio and calls its tools against the running app with the demo data. Over HTTP, two clients with different tokens each get their own token's rights.
 
 **Prometheus.** `/metrics/prometheus` serves the headline numbers for Grafana and alerting, labelled by repo:
 - open PRs by state, and flagged ones,
@@ -418,10 +429,10 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 
 ## Status
 
-Version 0.6.2 (November 2026). 0.6.0 added the MCP server for AI agents, 0.6.1 the connection steps on the API tokens page, and 0.6.2 the upgrade guide and a fix for going back to an older backup. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
+Version 0.7.0 (November 2026). It added the MCP server over HTTP and the morning message in Teams, and moved to Python 3.15 and version 2 of the MCP SDK. 0.6.0 added the MCP server for AI agents, 0.6.1 the connection steps on the API tokens page, and 0.6.2 the upgrade guide and a fix for going back to an older backup. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
 
-- **Continuous integration:** every push runs 167 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
-  - **Unit tests (135):**
+- **Continuous integration:** every push runs 171 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
+  - **Unit tests (137):**
     - PR states, an author's next step, branch rules and CODEOWNERS matching,
     - reviewer selection and working-hours maths,
     - message rendering and escaping, and Slack API answers,
@@ -430,8 +441,8 @@ Version 0.6.2 (November 2026). 0.6.0 added the MCP server for AI agents, 0.6.1 t
     - cron parsing, reading workflow files, matching scheduled runs to their due times (including runs hours late, and dropped ones), and when a workflow counts as failing or fixed,
     - importing past PRs, skipping unchanged repos, waiting out GitHub's rate limits, health checks and the scans-stopped rule,
     - repository health flags, PR size and stall rules, and ticket keys,
-    - who may do what, the OpenAPI document (valid, and matching every route), the CLI's parsing and output, and its certificate pinning against a real HTTPS server.
-  - **Integration tests (31), against a real Postgres:**
+    - who may do what, the OpenAPI document (valid, and matching every route), the CLI's parsing and output, and its certificate pinning against a real HTTPS server, and the MCP server's HTTP token gate, its throttle, and its refusal to send tokens in the clear.
+  - **Integration tests (33), against a real Postgres:**
     - the scanner end to end against a stand-in for GitHub: a silent first scan, then opened, ready, review, merged and closed events, and deleted branches recorded,
     - unchanged repos skipped with a single request,
     - messages routed to the right channel, then sent, retried after a minute, or failed for good, without the webhook URL ever appearing in an error,
@@ -441,8 +452,9 @@ Version 0.6.2 (November 2026). 0.6.0 added the MCP server for AI agents, 0.6.1 t
     - every API endpoint called as each role and with a read-only token, and allowed or refused as its page is; tokens expiring, being revoked, following their owner's role, and lapsing for a GitHub sign-in that's 30 days old; bad tokens throttled,
     - every CLI command against the running app, with its exit codes,
     - the MCP server over stdio, driven by the MCP SDK's own client: its tools against the demo, the reviewer dry run, and a read-only token refused an action,
+    - the MCP server over HTTP with the SDK's HTTP client: a read-write and a read-only client each limited to their own token, and requests without a valid token refused,
     - the Prometheus output, parsed with Prometheus's own client library,
-    - the morning message: not before its time or on days off, once a day, retried when Slack is busy.
+    - the morning message: not before its time or on days off, once a day, retried when Slack is busy; and to Teams instead, with no Slack set up, its webhook URL stored encrypted.
   - **Browser test, in Chromium:** first-run setup, every section from the header, a repository page, filters, a workflow row, the theme switch, a form and the menu, and an API token made on its page and then used. It fails on any script error.
   - **Backup round trip:** the real stack with docker compose, backed up, destroyed and restored, and then restored again over a newer database, as when going back after an upgrade.
   - **Checks:** `pip-audit` (no known vulnerabilities in the pinned versions) and `gitleaks` (no secrets anywhere in the history).
@@ -462,4 +474,5 @@ Version 0.6.2 (November 2026). 0.6.0 added the MCP server for AI agents, 0.6.1 t
   - GitHub Enterprise Server,
   - a full GitHub sign-in,
   - an auto-assigned review on a repo with more than one person,
-  - the morning message in a real Slack workspace (channel messages have been).
+  - the morning message in a real Slack workspace or Teams chat (channel messages have been),
+  - the MCP server over HTTP from a real AI client (CI uses the SDK's own client).
