@@ -270,6 +270,7 @@ Alongside them, in no fixed order:
   - **Landgrab:** a property-trading board game with our own board and places.
   - **Our own family and hidden-role games,** beyond takes on known ones.
   - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and team battles, two against two or three against three.
+  - **More in the newest games:** 75-ball Bingo and a host pause, team play in Chinese checkers, splits and corners in Roulette, and come and place bets in Craps.
 - **Playing with others**
   - **Tournaments:** knockout, round robin and Swiss, with Playhall pairing the players, opening the rooms each round and telling players when their game is ready.
   - **More computer players:** chess, Letterworks and Manor Mystery don't have bots yet.
@@ -277,6 +278,7 @@ Alongside them, in no fixed order:
 - **Learning a game:** a short guided first game for each, and pictures in the rules.
 - **Running it**
   - **Reports, further:** a badge for admins when reports are open, and a way to suspend an account.
+  - **The ladder, further:** hiding the seats a player on the ladder can't take yet, and a celebration when a new tier opens.
   - **Every platform:** voice and video in Safari, and instructions for running the server on Windows and macOS as well as Linux.
 
 ---
