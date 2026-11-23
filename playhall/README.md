@@ -247,6 +247,10 @@ Anyone with an account can run a **tournament** for a two-player game: a knockou
 
 ![A Four in a Row knockout: the semi-finals, one won 1-0 in a game and one settled by the organiser, the final between Lee and Priya with Watch and settle buttons, and who's still in](images/43-tournament.png)
 
+A knockout is also drawn as a bracket, with the later rounds there from the start, and each player's stats page lists the tournaments they've played and where they finished.
+
+![A six-player chess knockout drawn as a bracket: Kai and Ada through on byes, Priya and Sam winning their quarter-finals, Priya through to the final, Ada against Sam being played now, and the final waiting for the winners](images/44-bracket.png)
+
 ---
 
 ## Done, and still to do
@@ -279,7 +283,7 @@ Alongside them, in no fixed order:
   - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and team battles, two against two or three against three.
   - **More in the newest games:** 75-ball Bingo and a host pause, team play in Chinese checkers, splits and corners in Roulette, and come and place bets in Craps.
 - **Playing with others**
-  - **Tournaments, further:** tournaments for games of three or more, more tools for the organiser (withdrawing a player, double forfeits), a drawn bracket, and past tournaments on each player's stats.
+  - **Tournaments, further:** tournaments for games of three or more, and more tools for the organiser (withdrawing a player, double forfeits).
   - **More computer players:** chess, Letterworks and Manor Mystery don't have bots yet.
   - **AI players for more games:** Manor Mystery and Hold'em next, after Ship2Shore.
 - **Learning a game:** a short guided first game for each, and pictures in the rules.
