@@ -4,7 +4,7 @@
 
 Live productions, events and operations rooms run on talkback. The director talks to the cameras, the floor manager to the producer, everyone to everyone when it matters. Dedicated intercom hardware does this well and costs accordingly; a conference bridge is cheap but has no idea who should hear whom. Parley sits between the two. Each person logs in from any browser (a desk PC, a laptop, an iPad), sees the groups they belong to and the people they can call, and joins as many groups at once as their job needs. What was said in a group is written down as it's said, typed messages sit beside it, and calls can be recorded to a compliance recorder.
 
-Source code: [github.com/chrisnock-personal/parley](https://github.com/chrisnock-personal/parley) · latest release: [v0.3.0](https://github.com/chrisnock-personal/parley/releases/tag/v0.3.0)
+Source code: [github.com/chrisnock-personal/parley](https://github.com/chrisnock-personal/parley) · latest release: [v0.3.1](https://github.com/chrisnock-personal/parley/releases/tag/v0.3.1)
 
 ![Parley in use: the Floor Manager is in the Production group while the Director talks. Its conversation mixes what was said with what was typed, and the Studio Floor transcript can be read without joining](images/01-hero.png)
 
