@@ -196,11 +196,11 @@ Everyone has a **Settings** page. Ahead of voice and video, it's where you choos
 
 Whoever runs Playhall gets a separate **platform settings** page, for things that apply to everyone: whether people can sign up or join as guests, whether voice, video and transcripts are allowed, the defaults for new rooms, the HTTPS certificate, other admins, and closing any room. A fresh install comes with an admin account whose password has to be changed at its first sign-in, before anything else opens.
 
-Anyone in a room can **report** it, or a person in it, from the People tab: they pick a reason (rude, cheating, spam or something else) and can say what happened. Only admins see reports, and the person reported isn't told who reported them. Each report keeps the room's last 30 chat lines from that moment, so an admin can see what was said, then mark it dealt with and note what they did.
+Anyone in a room can **report** it, or a person in it, from the People tab: they pick a reason (rude, cheating, spam or something else) and can say what happened. Only admins see reports, and the person reported isn't told who reported them. Each report keeps the room's last 30 chat lines from that moment, so an admin can see what was said, then mark it dealt with and note what they did. A badge on the Platform link says how many reports are waiting, and an admin can suspend an account (straight from a report, or from the list of accounts) with a reason the player sees; it stops their sessions at once until the admin lifts it.
 
 <p><img src="images/41-reports.png" width="70%" alt="The Reports card on the platform settings page: Kai reported Sam in the room Report check as rude or unkind, with Kai's words and the three chat lines before the report, a box for a note and a Mark as dealt with button"></p>
 
-For younger players, an admin can put an account on a **progression ladder**. The admin orders the games into tiers (a suggested four-tier ladder, from Four in a Row and Snakes and Ladders up to Hold'em and Ship2Shore, is there to start from) and sets how many wins open each next tier. A player on the ladder can play and host only the games in their open tiers, can still watch any room, and climbs by winning, against people or computer players. Their lobby shows how many wins they need next, and the rest of the games stay locked until then.
+For younger players, an admin can put an account on a **progression ladder**. The admin orders the games into tiers (a suggested four-tier ladder, from Four in a Row and Snakes and Ladders up to Hold'em and Ship2Shore, is there to start from) and sets how many wins open each next tier. A player on the ladder can play and host only the games in their open tiers, can still watch any room, and climbs by winning, against people or computer players. Their lobby shows how many wins they need next, and the rest of the games stay locked until then: in a locked game's room they see a note instead of a seat to take. When a win opens a new tier, the room's chat says so.
 
 <p><img src="images/42-ladder.png" width="40%" alt="A player's ladder in the lobby: 3 more wins in the open games to unlock tier 2, a progress bar at 0 of 3, tier 1 open with Four in a Row, Snakes and Ladders, Ludo, Colour Clash, Who Dat? and Bingo, and tiers 2 to 4 locked"></p>
 
@@ -243,7 +243,7 @@ Finished games of chess, checkers and Four in a Row can be **replayed** move by 
 
 ### Tournaments
 
-Anyone with an account can run a **tournament** for a two-player game: a knockout (the top seeds get byes, and a drawn game is played again), a round robin where everyone plays everyone, or Swiss, where each round pairs players on the same score who haven't met. Players enter from the tournament's page, or from a link for an invite-only one. When the organiser starts it, Playhall seeds the players, opens a room for every game with both players already sitting down and the tournament's move timer, and puts a "Your game is ready" card in each player's lobby. Results come straight from the games, and they count on the ordinary leaderboards too. Anyone not in their room by the deadline loses by forfeit if the other player is there, and the organiser can settle a match by hand. The tournament's page shows each round with a link to every game, and the table, with a tie-break for players level on points.
+Anyone with an account can run a **tournament** for a two-player game: a knockout (the top seeds get byes, and a drawn game is played again), a round robin where everyone plays everyone, or Swiss, where each round pairs players on the same score who haven't met. Players enter from the tournament's page, or from a link for an invite-only one. When the organiser starts it, Playhall seeds the players, opens a room for every game with both players already sitting down and the tournament's move timer, and puts a "Your game is ready" card in each player's lobby; Playhall also says so in the tab's title and, if the player allows it, with a browser notification. Results come straight from the games, and they count on the ordinary leaderboards too. Anyone not in their room by the deadline loses by forfeit if the other player is there, and the organiser can settle a match by hand. The tournament's page shows each round with a link to every game, and the table, with a tie-break for players level on points.
 
 ![A Four in a Row knockout: the semi-finals, one won 1-0 in a game and one settled by the organiser, the final between Lee and Priya with Watch and settle buttons, and who's still in](images/43-tournament.png)
 
@@ -279,13 +279,11 @@ Alongside them, in no fixed order:
   - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and team battles, two against two or three against three.
   - **More in the newest games:** 75-ball Bingo and a host pause, team play in Chinese checkers, splits and corners in Roulette, and come and place bets in Craps.
 - **Playing with others**
-  - **Tournaments, further:** tournaments for games of three or more, more tools for the organiser (withdrawing a player, double forfeits), browser notifications and a drawn bracket.
+  - **Tournaments, further:** tournaments for games of three or more, more tools for the organiser (withdrawing a player, double forfeits), a drawn bracket, and past tournaments on each player's stats.
   - **More computer players:** chess, Letterworks and Manor Mystery don't have bots yet.
   - **AI players for more games:** Manor Mystery and Hold'em next, after Ship2Shore.
 - **Learning a game:** a short guided first game for each, and pictures in the rules.
 - **Running it**
-  - **Reports, further:** a badge for admins when reports are open, and a way to suspend an account.
-  - **The ladder, further:** hiding the seats a player on the ladder can't take yet, and a celebration when a new tier opens.
   - **Every platform:** voice and video in Safari, and instructions for running the server on Windows and macOS as well as Linux.
 
 ---
