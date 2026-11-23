@@ -1,6 +1,6 @@
 # Playhall
 
-**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with twenty-three games, from chess and Hearts to a WW2 hidden-role game, a camera table for any real board game, voice and video, a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
+**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with twenty-four games, from chess and Hearts to a WW2 hidden-role game, a camera table for any real board game, voice and video, a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
 
 Most online games give you a match against a stranger. Playhall is closer to a games night: a room that stays open, people drifting in, a queue for the next game, and a running argument in the corner about who should have played d4. The host decides who plays, who waits and what the people watching may say, and the scores carry on from one evening to the next.
 
@@ -15,7 +15,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 | | |
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
-| **Twenty-three games, and any board game** | Board games, card games with play chips, word and deduction games and a hidden-role game, for one to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
+| **Twenty-four games, and any board game** | Board games, card games with play chips, word and deduction games and a hidden-role game, for one to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
 | **Computer players** | Bots for every game but the camera table, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore that talk and bluff, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
@@ -117,6 +117,10 @@ The five ships are drawn for Playhall: a carrier with its flight deck, a battles
 <img src="images/39-roulette.png" width="49%" alt="Roulette with two computer players: the wheel after 36 red, the betting table with Sam's chips on 17, the second dozen and red, and everyone's chips, with the bots done betting">
 <img src="images/40-craps.png" width="49%" alt="Craps: the dice showing 5 and 3, the point puck ON 5, and the pass line, don't pass, odds and field with Sam's chips on the pass line, odds and field">
 </p>
+
+**Bridge** is contract bridge for four in two pairs, scored Chicago-style over four deals. The auction explains every call in words as it's made ("2♥: hearts, eight tricks"), the bidding box offers only the calls that are allowed, dummy's hand goes face up after the opening lead and the declarer plays it, and a score sheet keeps each deal and shows the hands afterwards. Computer players can take any seat: they bid a simple natural system (the one the rules describe) and play by the usual rules of thumb, so one person can sit down with three bots.
+
+<p><img src="images/45-bridge.png" width="70%" alt="Bridge with three computer players: East is playing 3NT with West's hand face up as dummy, the ace of clubs and four of clubs on the table, and Sam's hand as South at the bottom"></p>
 
 **Letterworks** is a crossword tile game for two to four players, on our own board layout and tile set rather than the commercial game's. You build words from a private rack of seven tiles: tap a tile then a square (or drag it), and Playhall shows the words you're making and what they'd score before you commit. Every word is checked against ENABLE, a public-domain list of about 173,000 English words, and one that isn't allowed is turned down before anything is placed, so there are no challenges and no penalties. The Moves tab keeps the words played, and a panel lists all 96 two-letter words.
 
@@ -261,7 +265,7 @@ Playhall is planned in five phases. Two are done, three are still to come, and a
 
 - **Phase 1: the games.** Nine games on one shared kit of boards, pieces, cards, chips and dice: chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Colour Clash and Texas Hold'em.
 - **Phase 2: voice and video, and any board game.** Voice, video and transcripts in every room, split between the players and the people watching the same way as the chat, and the camera table for real board games.
-- **New games since then:** Letterworks, Realm Duel, Manor Mystery, Ship2Shore, Who Dat?, Hearts, Poophead, Spades, Thirty-One, Gin Rummy, Bingo, Chinese checkers, Roulette and Craps.
+- **New games since then:** Letterworks, Realm Duel, Manor Mystery, Ship2Shore, Who Dat?, Hearts, Poophead, Spades, Thirty-One, Gin Rummy, Bingo, Chinese checkers, Roulette, Craps and Bridge.
 - **Since then, for every game:** animations and table sounds; computer players for every game, and AI players for Ship2Shore; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
 
 ### Still to do
@@ -276,7 +280,6 @@ Alongside them, in no fixed order:
 
 - **New kinds of game**
   - **Real-time games:** fast games like Pong that the server runs moment by moment, rather than turn by turn.
-  - **More classic games:** Bridge, with bots to fill the four seats.
   - **Party games of our own:** a team word-association game, a fill-in-the-blank game with a family deck, and What Am I?, where everyone can see your word but you.
   - **Landgrab:** a property-trading board game with our own board and places.
   - **Our own family and hidden-role games,** beyond takes on known ones.
