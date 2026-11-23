@@ -4,7 +4,7 @@
 
 GitHub shows pull requests one repository at a time, and only to the people already looking. Across a few dozen repos, nobody can see which PRs have waited three days for a reviewer, which ones were approved and then forgotten, or how many branches are still around months after their PR merged. Branchwarden scans everything on a schedule, or as soon as a webhook says something changed. It works out each PR's state and who has to act next, tells the right channel, and keeps the numbers that show whether reviews are getting faster or slower. It only reads branches: it never pushes and never deletes. Its one write to GitHub is requesting reviewers.
 
-Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.6.1](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.6.1) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
+Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.6.2](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.6.2) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
 
 ![The Branchwarden overview in its default dark theme: summary tiles, a card per repository, the pull requests that need attention and delivery channel health](images/01-overview.png)
 
@@ -409,6 +409,8 @@ The project was built against a security review of all my repos, with its "secur
 Three containers with podman-compose or Docker Compose: Postgres, a worker (scans, rules, auto-assign, delivery and housekeeping) and the dashboard (gunicorn over HTTPS). Settings, channels and rules are all changed in the browser. The `.env` file holds only the database password, the published port and the certificate's names.
 
 - **The image:** each release is published for amd64 and arm64 at `ghcr.io/chrisnock-personal/branchwarden`, so installing is `podman-compose pull && podman-compose up -d`, and so is updating.
+- **Upgrading older installs:** a step-by-step guide covers moving an install built on the server to the published image, and going back. It was tested by upgrading a real 0.1.0 install with data and sealed secrets, then rolling it back. That test caught a bug: an older backup wouldn't restore over a newer database. It was fixed in 0.6.2, and CI now checks that case on every push.
+- **Dependency updates:** Dependabot opens grouped update PRs weekly, and CI tests each one.
 - **Health checks:** compose checks the dashboard through `/healthz`, which also checks the database. It checks the worker by a heartbeat that keeps beating through long scans.
 - **Running as a service:** Podman quadlet files run the same containers as systemd services, on the same volumes, for an always-on server.
 - **Backups:** one command writes the database, the encryption key, the TLS certificate and the settings to a single file, encrypted with [age](https://age-encryption.org) to a public key, so the server can make backups it can't read. Another command restores them on the same host or a fresh one. CI backs up the real stack, destroys it, restores it and checks a sealed secret still decrypts, on every push.
@@ -416,7 +418,7 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 
 ## Status
 
-Version 0.6.1 (November 2026). 0.6.0 added the MCP server for AI agents, and 0.6.1 the connection steps on the API tokens page. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
+Version 0.6.2 (November 2026). 0.6.0 added the MCP server for AI agents, 0.6.1 the connection steps on the API tokens page, and 0.6.2 the upgrade guide and a fix for going back to an older backup. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
 
 - **Continuous integration:** every push runs 167 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
   - **Unit tests (135):**
@@ -442,7 +444,7 @@ Version 0.6.1 (November 2026). 0.6.0 added the MCP server for AI agents, and 0.6
     - the Prometheus output, parsed with Prometheus's own client library,
     - the morning message: not before its time or on days off, once a day, retried when Slack is busy.
   - **Browser test, in Chromium:** first-run setup, every section from the header, a repository page, filters, a workflow row, the theme switch, a form and the menu, and an API token made on its page and then used. It fails on any script error.
-  - **Backup round trip:** the real stack with docker compose, backed up, destroyed and restored.
+  - **Backup round trip:** the real stack with docker compose, backed up, destroyed and restored, and then restored again over a newer database, as when going back after an upgrade.
   - **Checks:** `pip-audit` (no known vulnerabilities in the pinned versions) and `gitleaks` (no secrets anywhere in the history).
   - **Releases:** the release workflow builds the published image only from a tag that matches the version in the code and whose commit has passed CI.
 - **End-to-end test:** run against two throwaway private repositories. It covered:
