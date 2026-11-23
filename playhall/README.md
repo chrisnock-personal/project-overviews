@@ -199,6 +199,10 @@ Anyone in a room can **report** it, or a person in it, from the People tab: they
 
 <p><img src="images/41-reports.png" width="70%" alt="The Reports card on the platform settings page: Kai reported Sam in the room Report check as rude or unkind, with Kai's words and the three chat lines before the report, a box for a note and a Mark as dealt with button"></p>
 
+For younger players, an admin can put an account on a **progression ladder**. The admin orders the games into tiers (a suggested four-tier ladder, from Four in a Row and Snakes and Ladders up to Hold'em and Ship2Shore, is there to start from) and sets how many wins open each next tier. A player on the ladder can play and host only the games in their open tiers, can still watch any room, and climbs by winning, against people or computer players. Their lobby shows how many wins they need next, and the rest of the games stay locked until then.
+
+<p><img src="images/42-ladder.png" width="40%" alt="A player's ladder in the lobby: 3 more wins in the open games to unlock tier 2, a progress bar at 0 of 3, tier 1 open with Four in a Row, Snakes and Ladders, Ludo, Colour Clash, Who Dat? and Bingo, and tiers 2 to 4 locked"></p>
+
 <img src="images/24-settings.png" width="62%" alt="The Settings page: the microphone with its level meter, speakers with a Play a test sound button, the camera with a Preview button, and the table sounds: on or off, the volume, sounds while watching, and a test">
 
 <p>
