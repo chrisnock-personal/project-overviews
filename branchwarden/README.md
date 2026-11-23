@@ -4,7 +4,7 @@
 
 GitHub shows pull requests one repository at a time, and only to the people already looking. Across a few dozen repos, nobody can see which PRs have waited three days for a reviewer, which ones were approved and then forgotten, or how many branches are still around months after their PR merged. Branchwarden scans everything on a schedule, or as soon as a webhook says something changed. It works out each PR's state and who has to act next, tells the right channel, and keeps the numbers that show whether reviews are getting faster or slower. It only reads branches: it never pushes and never deletes. Its one write to GitHub is requesting reviewers.
 
-Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.6.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.6.0) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
+Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.6.1](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.6.1) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
 
 ![The Branchwarden overview in its default dark theme: summary tiles, a card per repository, the pull requests that need attention and delivery channel health](images/01-overview.png)
 
@@ -324,6 +324,10 @@ With the agent's read-only token, `branchwarden scan` answers "This token is rea
 - **Acting:** the tools that change things say so. Requesting reviewers is marked as writing to GitHub, and it's a dry run unless the agent explicitly asks otherwise, so it shows what it would do first.
 - **The token sets the limits:** given a read-only token, an agent can look but not change anything, whatever it tries. The server refuses.
 
+The API tokens page shows how to connect, with this server's own details filled in, including the fingerprint to trust while its certificate is self-signed:
+
+![The "Use it from the command line or an AI agent" box on the API tokens page: install the CLI with pipx, sign in with this server's address and certificate fingerprint, and add it to Claude Code, each with a Copy button](images/20-connect.png)
+
 In CI, the MCP SDK's own client starts the server over stdio and calls its tools against the running app with the demo data.
 
 **Prometheus.** `/metrics/prometheus` serves the headline numbers for Grafana and alerting, labelled by repo:
@@ -348,7 +352,7 @@ branchwarden_messages{status="failed"} 0
 
 ## Connecting GitHub
 
-![Settings › GitHub: a stored personal access token that expires in 53 days, and the organisation being scanned through it](images/20-settings-github.png)
+![Settings › GitHub: a stored personal access token that expires in 53 days, and the organisation being scanned through it](images/21-settings-github.png)
 
 Two kinds of connection, usable together. Both need read access to pull requests, contents, metadata, members and Actions, plus write access to pull requests, only for requesting reviewers:
 - **A GitHub App** suits organisations. It has its own API budget and sends webhooks, so PR changes show up in seconds instead of at the next scan. Once its ID and private key are in, the page lists every installation and its permissions.
@@ -367,7 +371,7 @@ Each account can be set to use the App, the token, or the App with the token as 
 - **Landing page:** people who sign in this way go straight to My work.
 - **Fallback:** local accounts keep working, so an admin can always get in.
 
-![The sign-in with GitHub settings: client ID and secret, the callback URL to register, and the GitHub teams for each role](images/21-github-sign-in.png)
+![The sign-in with GitHub settings: client ID and secret, the callback URL to register, and the GitHub teams for each role](images/22-github-sign-in.png)
 
 The three roles:
 - **Viewers** read everything outside Settings, including their own My work.
@@ -396,7 +400,7 @@ The project was built against a security review of all my repos, with its "secur
 - **A private route for reports:** vulnerabilities go through GitHub's private vulnerability reporting, as the repo's SECURITY.md explains.
 - **Data kept no longer than needed.** Closed PRs are kept for 365 days (the metrics use them). Messages, workflow runs and scans are kept for 90 days. Older records are removed every hour.
 
-![The TLS certificate page: the generated self-signed certificate with its names, validity and SHA-256 fingerprint, and the upload form](images/22-settings-tls.png)
+![The TLS certificate page: the generated self-signed certificate with its names, validity and SHA-256 fingerprint, and the upload form](images/23-settings-tls.png)
 
 ---
 
@@ -412,7 +416,7 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 
 ## Status
 
-Version 0.6.0 (November 2026), which added the MCP server for AI agents. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
+Version 0.6.1 (November 2026). 0.6.0 added the MCP server for AI agents, and 0.6.1 the connection steps on the API tokens page. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
 
 - **Continuous integration:** every push runs 167 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
   - **Unit tests (135):**
