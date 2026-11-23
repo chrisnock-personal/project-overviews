@@ -114,7 +114,7 @@ The five ships are drawn for Playhall: a carrier with its flight deck, a battles
 <img src="images/38-chinese-checkers.png" width="49%" alt="Chinese checkers for three: the star board turned so Sam's amber marbles are at the bottom, one picked with white dots where it can go, and the computer players' violet and teal marbles on the move, with the last hop shown as a dotted line">
 </p>
 <p>
-<img src="images/39-roulette.png" width="49%" alt="Roulette: the wheel with the last number, 15 black, the recent numbers, and the betting table with Sam's chips on 17 and the second dozen">
+<img src="images/39-roulette.png" width="49%" alt="Roulette with two computer players: the wheel after 36 red, the betting table with Sam's chips on 17, the second dozen and red, and everyone's chips, with the bots done betting">
 <img src="images/40-craps.png" width="49%" alt="Craps: the dice showing 5 and 3, the point puck ON 5, and the pass line, don't pass, odds and field with Sam's chips on the pass line, odds and field">
 </p>
 
