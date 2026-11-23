@@ -16,7 +16,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
 | **Twenty-three games, and any board game** | Board games, card games with play chips, word and deduction games and a hidden-role game, for one to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
-| **Computer players** | Bots for twenty of the games, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore that talk and bluff, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
+| **Computer players** | Bots for every game but the camera table, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore that talk and bluff, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
 | **The host's rules** | Who may sit down, what happens after each game, a move timer, an optional delay for watchers, who may write where, private rooms with a password, removing people |
@@ -166,9 +166,9 @@ Playhall keeps the rest: the seats and whose turn it is, a dice roller (any mix 
 
 ## Computer players
 
-When there aren't enough people for a game, the host can fill a free seat with a computer player: **Add a bot**, between games. Bots have names like "Ada (bot)", show as computer players in the room, and move on their own turn after a short pause so everyone can follow what they did. Thirteen games have them so far: everything except chess, Letterworks and Manor Mystery (and the camera table, which is a real board).
+When there aren't enough people for a game, the host can fill a free seat with a computer player: **Add a bot**, between games. Bots have names like "Ada (bot)", show as computer players in the room, and move on their own turn after a short pause so everyone can follow what they did. Every game has them except the camera table, which is a real board.
 
-A bot plays from its own seat's view, exactly what a person sitting there would see, so it never knows anyone's hidden cards or roles. In Ship2Shore it steers for its own side's port, backs players it knows are on its side and votes against ones it knows aren't; Four in a Row and checkers look a few moves ahead; the Hold'em bot plays the odds of its own two cards; the Blackjack bot plays basic strategy. Games with a bot never count for the leaderboards.
+A bot plays from its own seat's view, exactly what a person sitting there would see, so it never knows anyone's hidden cards or roles. In Ship2Shore it steers for its own side's port, backs players it knows are on its side and votes against ones it knows aren't; Four in a Row and checkers look a few moves ahead; the chess bot looks two moves ahead and won't leave a piece hanging; the Letterworks bot searches the whole board for words its rack can make, checking every word it forms across; the Manor Mystery bot reasons from every card shown, even ones shown to someone else, and only accuses when it's certain; the Hold'em bot plays the odds of its own two cards; the Blackjack bot plays basic strategy. Games with a bot never count for the leaderboards.
 
 ![Four in a Row against a computer player: Sam has stacked three amber discs in the fourth column and Ada (bot) has blocked the top with a teal one](images/29-computer-players.png)
 
@@ -262,7 +262,7 @@ Playhall is planned in five phases. Two are done, three are still to come, and a
 - **Phase 1: the games.** Nine games on one shared kit of boards, pieces, cards, chips and dice: chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Colour Clash and Texas Hold'em.
 - **Phase 2: voice and video, and any board game.** Voice, video and transcripts in every room, split between the players and the people watching the same way as the chat, and the camera table for real board games.
 - **New games since then:** Letterworks, Realm Duel, Manor Mystery, Ship2Shore, Who Dat?, Hearts, Poophead, Spades, Thirty-One, Gin Rummy, Bingo, Chinese checkers, Roulette and Craps.
-- **Since then, for every game:** animations and table sounds; computer players for twenty games, and AI players for Ship2Shore; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
+- **Since then, for every game:** animations and table sounds; computer players for every game, and AI players for Ship2Shore; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
 
 ### Still to do
 
@@ -284,7 +284,7 @@ Alongside them, in no fixed order:
   - **More in the newest games:** 75-ball Bingo and a host pause, team play in Chinese checkers, splits and corners in Roulette, and come and place bets in Craps.
 - **Playing with others**
   - **Tournaments, further:** tournaments for games of three or more, and more tools for the organiser (withdrawing a player, double forfeits).
-  - **More computer players:** chess, Letterworks and Manor Mystery don't have bots yet.
+  - **Computer players, further:** difficulty levels the host picks (gentle, fair, strong).
   - **AI players for more games:** Manor Mystery and Hold'em next, after Ship2Shore.
 - **Learning a game:** a short guided first game for each, and pictures in the rules.
 - **Running it**
