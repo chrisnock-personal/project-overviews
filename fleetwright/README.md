@@ -25,6 +25,7 @@ Source code: [github.com/chrisnock-personal/fleetwright](https://github.com/chri
 | **Notifications** | Email, webhook or ntfy when a run fails, a host stays unreachable, a booking needs approval or a critical update appears, batched so an outage is one message |
 | **History** | Every run, every host's output, and every package version change, kept in PostgreSQL |
 | **Secure by default** | HTTPS from the first start, agents that check the server's certificate, pinned SSH host keys, encrypted keys, no default password, three roles and an audit log |
+| **Backups** | A daily encrypted backup of the database and certificate that the server itself can't read, a restore script, and a way to change the encryption key |
 
 ---
 
@@ -118,6 +119,8 @@ FleetWright serves **HTTPS from the first start**, with a self-signed certificat
 
 ![The Ubuntu host's page after FleetWright refused a connection because the host offered a different SSH host key from the pinned one](images/15-hostkey.png)
 
+**Backups** are encrypted with [age](https://age-encryption.org) to a public key, so the server can make them but can't read them; the private key stays on another machine. Each daily backup holds the database and the HTTPS certificate and key, so agents keep trusting a server restored from it. In the test, both volumes were wiped and an empty FleetWright started: its agent refused the new certificate. After `restore.sh`, the hosts, history and users were back, and the agent reconnected by itself. The key that encrypts stored SSH keys and notification secrets can be changed: FleetWright re-encrypts everything under the new key at its next start, and warns admins if the key changed without the old one being given.
+
 There's no default password: the first admin needs a setup code printed in the server's log, and everyone else gets a single-use setup link. There are three roles: admins change everything, operators run updates and edit schedules, and viewers look. SSH private keys are stored encrypted; agent tokens, enrolment tokens and setup links are stored only as hashes. Every change goes into the audit log.
 
 ![The Users settings page: an admin, an operator and a viewer, each with their role and last sign-in](images/16-users.png)
@@ -152,7 +155,9 @@ Added and tested in November 2026, with real agents in Ubuntu and Fedora contain
 - agent self-update, including a broken update stopped at the first host
 - keeping cloned machines apart at enrolment
 - notifications, delivered to a real SMTP server, ntfy server and webhook receiver, including a retry after the receiver had been down
+- encrypted backups, and a full restore onto wiped volumes with an agent reconnecting afterwards
+- changing the secret key, and what happens when it's changed without the old one
 
 A load test ran 500 simulated agents and 300 SSH hosts against one web process and one worker. All the agents connected and scanned within a minute. Installing everything on all 800 hosts, 100 at a time, took 96 seconds with no failures. With 5,800 hosts and 377,000 pending updates, every page loaded in under 90 ms. Getting there took four fixes the test turned up; the slowest page had taken 1.4 seconds.
 
-Unit tests cover the package-list parsing, update selection, schedules and batching, agent updates, telling clones from reinstalls, and composing notifications. Backups and rotating the secret key are next on the [backlog](https://github.com/chrisnock-personal/fleetwright/blob/main/BACKLOG.md).
+Unit tests cover the package-list parsing, update selection, schedules and batching, agent updates, telling clones from reinstalls, composing notifications and changing the secret key. What could come next is on the [backlog](https://github.com/chrisnock-personal/fleetwright/blob/main/BACKLOG.md).
