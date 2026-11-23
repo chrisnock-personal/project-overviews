@@ -20,6 +20,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
 | **The host's rules** | Who may sit down, what happens after each game, a move timer, an optional delay for watchers, who may write where, private rooms with a password, removing people |
+| **Tournaments** | Knockout, round robin or Swiss for the two-player games: Playhall pairs the players, opens every game's room and keeps the table |
 | **Points and leaderboards** | 3 for a win, 1 for a draw or second place; weekly, monthly and all-time tables; every player's record, head-to-heads and replays |
 
 ---
@@ -240,6 +241,12 @@ Finished games of chess, checkers and Four in a Row can be **replayed** move by 
 
 ![A chess replay of Priya's four-move win: the final position, with buttons to go to the first move, back, next or last, and a slider showing move 7 of 7](images/21-replay.png)
 
+### Tournaments
+
+Anyone with an account can run a **tournament** for a two-player game: a knockout (the top seeds get byes, and a drawn game is played again), a round robin where everyone plays everyone, or Swiss, where each round pairs players on the same score who haven't met. Players enter from the tournament's page, or from a link for an invite-only one. When the organiser starts it, Playhall seeds the players, opens a room for every game with both players already sitting down and the tournament's move timer, and puts a "Your game is ready" card in each player's lobby. Results come straight from the games, and they count on the ordinary leaderboards too. Anyone not in their room by the deadline loses by forfeit if the other player is there, and the organiser can settle a match by hand. The tournament's page shows each round with a link to every game, and the table, with a tie-break for players level on points.
+
+![A Four in a Row knockout: the semi-finals, one won 1-0 in a game and one settled by the organiser, the final between Lee and Priya with Watch and settle buttons, and who's still in](images/43-tournament.png)
+
 ---
 
 ## Done, and still to do
@@ -272,7 +279,7 @@ Alongside them, in no fixed order:
   - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and team battles, two against two or three against three.
   - **More in the newest games:** 75-ball Bingo and a host pause, team play in Chinese checkers, splits and corners in Roulette, and come and place bets in Craps.
 - **Playing with others**
-  - **Tournaments:** knockout, round robin and Swiss, with Playhall pairing the players, opening the rooms each round and telling players when their game is ready.
+  - **Tournaments, further:** tournaments for games of three or more, more tools for the organiser (withdrawing a player, double forfeits), browser notifications and a drawn bracket.
   - **More computer players:** chess, Letterworks and Manor Mystery don't have bots yet.
   - **AI players for more games:** Manor Mystery and Hold'em next, after Ship2Shore.
 - **Learning a game:** a short guided first game for each, and pictures in the rules.
