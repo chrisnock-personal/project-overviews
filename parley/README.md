@@ -121,7 +121,7 @@ From Live, an editor or admin can open a group's people and **mute** anyone in i
 
 ![The Conversations page: Production's lines containing "guest" since 22:00, said and typed, with the Day and Night shift summaries beside them](images/09c-console-conversations.png)
 
-**Settings** holds the recording server, how long transcripts and chat are kept, where they're archived, and the shift times for summaries. **Audit** is a searchable, plain-language history ("Floor Manager: record calls turned on", "Joined Production") filtered by time, person, kind of event and subject, and exportable as CSV. **Health** shows the server's load, the database, whether the SIP core is up, and each container's logs. **Backups** downloads and restores database backups, runs maintenance, and purges or archives old rows. Console users are viewers, editors or admins, and actions they can't take are greyed out with the reason.
+**Settings** holds the recording server, how long transcripts and chat are kept, where they're archived, and the shift times for summaries. **Audit** is a searchable, plain-language history ("Floor Manager: record calls turned on", "Joined Production") filtered by time, person, kind of event and subject, and exportable as CSV. **Health** shows the server's load, the database, whether the SIP core is up, and each container's logs. **Backups** downloads and restores database backups, runs maintenance, and purges or archives old rows. Console users are viewers, editors or admins, and actions they can't take are greyed out with the reason. Everyone, the first admin included, has to replace the password they were given before the console will do anything else.
 
 ![The Health page: host load, database size, SIP core up, table sizes and the SIP core's log](images/09b-console-health.png)
 
@@ -129,7 +129,7 @@ From Live, an editor or admin can open a group's people and **mute** anyone in i
 
 ## Built for real networks
 
-Parley's SIP core is its own code, written in TypeScript on the drachtio SIP engine, not a general-purpose PBX configured into shape. It handles registration, direct calls and group calls, and authenticates every registration and every call with SIP digest authentication, checking the caller is who they say they are.
+Parley's SIP core is its own code, written in TypeScript on the drachtio SIP engine, not a general-purpose PBX configured into shape. It handles registration, direct calls and group calls, and authenticates every registration and every call with SIP digest authentication, checking the caller is who they say they are. Around it, the browser-facing API is the only way in (the internal APIs need a token), the one container that can read the other containers' logs can do nothing else, the API tokens it holds for desk stations are stored encrypted, and an archive server's SSH host key is pinned the first time Parley connects.
 
 Media goes through rtpengine, so calls work across routed networks and subnets where devices can't reach each other directly, and it bridges the browsers' encrypted WebRTC audio to plain RTP for the group mixer (FreeSWITCH's conference module, used purely as a mixer). The browser side runs over HTTPS with Parley's own local certificate authority, which a device trusts once, iPads included.
 
@@ -137,10 +137,10 @@ Media goes through rtpengine, so calls work across routed networks and subnets w
 
 ## How it runs
 
-Seven containers under Podman (or Docker) Compose on one Linux host: the SIP core, rtpengine, FreeSWITCH, the transcriber, the API with PostgreSQL, and nginx serving the console and the client over HTTP and HTTPS. Transcription uses a whisper.cpp server, which can be shared with other services on the same machine.
+Eight containers under Podman (or Docker) Compose on one Linux host: the SIP core, rtpengine, FreeSWITCH, the transcriber, the API with PostgreSQL, nginx serving the console and the client over HTTP and HTTPS, and a small log reader for the Health page. Transcription uses a whisper.cpp server and shift summaries an Ollama model, both of which can be shared with other services on the same machine.
 
 ---
 
 ## Status
 
-Parley is a working prototype in active development. Every feature shown here was exercised for this page with real calls: a browser client logged in as the Floor Manager, four scripted crew members speaking into the groups, and recordings going to a real SIP-REC recorder. Features are tested by hand and with scripted SIP calls as they are built; there is no automated test suite yet. Next on the list are saved presets, Stream Deck control and programme-feed groups.
+Parley is a working prototype in active development. Every feature shown here was exercised for this page with real calls: a browser client logged in as the Floor Manager, four scripted crew members speaking into the groups, and recordings going to a real SIP-REC recorder. Features are tested by hand and with scripted SIP calls as they are built. Every push runs a secret scan over the whole history, a dependency audit and a typecheck, but there is no automated test suite yet. Next on the list are your own TLS certificate, encrypted backups and archives, encryption between the components, saved presets, Stream Deck control and programme-feed groups.
