@@ -4,7 +4,7 @@
 
 GitHub shows pull requests one repository at a time, and only to the people already looking. Across a few dozen repos, nobody can see which PRs have waited three days for a reviewer, which ones were approved and then forgotten, or how many branches are still around months after their PR merged. Branchwarden scans everything on a schedule, or as soon as a webhook says something changed. It works out each PR's state and who has to act next, tells the right channel, and keeps the numbers that show whether reviews are getting faster or slower. It only reads branches: it never pushes and never deletes. Its one write to GitHub is requesting reviewers.
 
-Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.8.1](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.8.1) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
+Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.8.2](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.8.2) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
 
 ![The Branchwarden overview in its default dark theme: summary tiles, a card per repository, the pull requests that need attention and delivery channel health](images/01-overview.png)
 
@@ -438,15 +438,15 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 
 ## Status
 
-Version 0.8.1 (November 2026). It fixes three bugs found in a bug hunt of the newest code:
+Version 0.8.2 (November 2026). It fixes the two smaller issues a bug hunt of the newest code left open: many bad tokens sent to the MCP service at once could all get past its limit, and the MCP service didn't work behind a reverse proxy doing HTTPS. 0.8.1 fixed the hunt's three main bugs:
 - **The morning message:** it now belongs to the account that set it up. Before, it kept going after that account was removed, and another account could switch it off or redirect it.
 - **API booleans:** the API accepted the string "false" as true.
 - **The MCP gate:** a short outage counted as bad tokens.
 
-Each fix has a test, and each finding is recorded as an issue, with two smaller ones still open. 0.8.0 runs the MCP server as an optional service next to the app, and fixes the shared volumes' SELinux labels for hosts that enforce it. 0.7.0 added the MCP server over HTTP and the morning message in Teams, and moved to Python 3.15 and version 2 of the MCP SDK. 0.6.0 added the MCP server for AI agents, 0.6.1 the connection steps on the API tokens page, and 0.6.2 the upgrade guide and a fix for going back to an older backup. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
+Each fix has a test, and each finding is recorded as an issue. 0.8.0 runs the MCP server as an optional service next to the app, and fixes the shared volumes' SELinux labels for hosts that enforce it. 0.7.0 added the MCP server over HTTP and the morning message in Teams, and moved to Python 3.15 and version 2 of the MCP SDK. 0.6.0 added the MCP server for AI agents, 0.6.1 the connection steps on the API tokens page, and 0.6.2 the upgrade guide and a fix for going back to an older backup. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
 
-- **Continuous integration:** every push runs 177 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
-  - **Unit tests (141):**
+- **Continuous integration:** every push runs 180 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
+  - **Unit tests (144):**
     - PR states, an author's next step, branch rules and CODEOWNERS matching,
     - reviewer selection and working-hours maths,
     - message rendering and escaping, and Slack API answers,
@@ -455,7 +455,7 @@ Each fix has a test, and each finding is recorded as an issue, with two smaller 
     - cron parsing, reading workflow files, matching scheduled runs to their due times (including runs hours late, and dropped ones), and when a workflow counts as failing or fixed,
     - importing past PRs, skipping unchanged repos, waiting out GitHub's rate limits, health checks and the scans-stopped rule,
     - repository health flags, PR size and stall rules, and ticket keys,
-    - who may do what, the API accepting only real true/false values, the OpenAPI document (valid, and matching every route), the CLI's parsing and output, and its certificate pinning against a real HTTPS server, and the MCP server's HTTP token gate, its throttle, its refusal to send tokens in the clear, its cap on bad tokens in total, not counting an outage as bad tokens, and the MCP service pinning the certificate fingerprint the dashboard shows, including for a certificate chain.
+    - who may do what, the API accepting only real true/false values, the OpenAPI document (valid, and matching every route), the CLI's parsing and output, and its certificate pinning against a real HTTPS server, and the MCP server's HTTP token gate, its throttle, its refusal to send tokens in the clear, its cap on bad tokens in total (also against a burst arriving at once), not counting an outage as bad tokens, and the MCP service pinning the certificate fingerprint the dashboard shows, including for a certificate chain, and finding the dashboard with its TLS on or off.
   - **Integration tests (35), against a real Postgres:**
     - the scanner end to end against a stand-in for GitHub: a silent first scan, then opened, ready, review, merged and closed events, and deleted branches recorded,
     - unchanged repos skipped with a single request,
