@@ -436,7 +436,7 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 
 Version 0.8.0 (November 2026). It runs the MCP server as an optional service next to the app, and fixes the shared volumes' SELinux labels for hosts that enforce it. 0.7.0 added the MCP server over HTTP and the morning message in Teams, and moved to Python 3.15 and version 2 of the MCP SDK. 0.6.0 added the MCP server for AI agents, 0.6.1 the connection steps on the API tokens page, and 0.6.2 the upgrade guide and a fix for going back to an older backup. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
 
-- **Continuous integration:** every push runs 174 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
+- **Continuous integration:** every push runs 173 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
   - **Unit tests (139):**
     - PR states, an author's next step, branch rules and CODEOWNERS matching,
     - reviewer selection and working-hours maths,
