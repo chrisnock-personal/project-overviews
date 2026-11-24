@@ -107,7 +107,7 @@ The five ships are drawn for Playhall: a carrier with its flight deck, a battles
 <img src="images/36-gin-rummy.png" width="49%" alt="Gin Rummy against a computer player: Ada knocked with 8 deadwood and won the hand by 50; both hands are shown arranged into melds and deadwood, and Sam's new hand is below">
 </p>
 
-**Bingo** is 90-ball for up to eight, with the traditional calls ("Two little ducks, 22") every few seconds: mark your ticket as the numbers come, or turn on auto-mark, and win one line, two lines and the full house. **Chinese checkers** is the star-board race for two, three, four or six: tap a marble to see every hole a step or a chain of hops reaches. **Roulette** (a single-zero wheel) and **Craps** (pass, don't pass, odds and the field) use play chips like Blackjack and Hold'em: everyone bets, presses Done, and the wheel spins or the dice roll. All four have computer players.
+**Bingo** is 90-ball (or 75-ball) for up to eight, with the traditional calls ("Two little ducks, 22") every few seconds, read aloud if you like: mark your ticket as the numbers come, or turn on auto-mark, and win one line, two lines and the full house; anyone can pause for a cup of tea. **Chinese checkers** is the star-board race for two, three, four or six, alone or in teams: tap a marble to see every hole a step or a chain of hops reaches. **Roulette** (a single-zero wheel, with splits, streets and corners) and **Craps** (pass, don't pass, odds, come, place bets and the field) use play chips like Blackjack and Hold'em: everyone bets, presses Done, and the wheel spins or the dice roll. All four have computer players.
 
 <p>
 <img src="images/37-bingo.png" width="49%" alt="Bingo with two computer players: the last ball, 49, with its call, the board of the 59 numbers called so far, and Sam's ticket with the called numbers marked by auto-mark">
@@ -172,7 +172,7 @@ Playhall keeps the rest: the seats and whose turn it is, a dice roller (any mix 
 
 When there aren't enough people for a game, the host can fill a free seat with a computer player: **Add a bot**, between games. Bots have names like "Ada (bot)", show as computer players in the room, and move on their own turn after a short pause so everyone can follow what they did. Every game has them except the camera table, which is a real board.
 
-A bot plays from its own seat's view, exactly what a person sitting there would see, so it never knows anyone's hidden cards or roles. In Ship2Shore it steers for its own side's port, backs players it knows are on its side and votes against ones it knows aren't; Four in a Row and checkers look a few moves ahead; the chess bot looks two moves ahead and won't leave a piece hanging; the Letterworks bot searches the whole board for words its rack can make, checking every word it forms across; the Manor Mystery bot reasons from every card shown, even ones shown to someone else, and only accuses when it's certain; the Hold'em bot plays the odds of its own two cards; the Blackjack bot plays basic strategy. Games with a bot never count for the leaderboards.
+A bot plays from its own seat's view, exactly what a person sitting there would see, so it never knows anyone's hidden cards or roles. In Ship2Shore it steers for its own side's port, backs players it knows are on its side and votes against ones it knows aren't; Four in a Row and checkers look a few moves ahead; the chess bot looks two moves ahead and won't leave a piece hanging; the Letterworks bot searches the whole board for words its rack can make, checking every word it forms across; the Manor Mystery bot reasons from every card shown, even ones shown to someone else, and only accuses when it's certain; the Hold'em bot plays the odds of its own two cards; the Blackjack bot plays basic strategy. For chess, Letterworks, Manor Mystery, Four in a Row and checkers the host picks how strong a bot plays: gentle (for children), fair or strong. Games with a bot never count for the leaderboards.
 
 ![Four in a Row against a computer player: Sam has stacked three amber discs in the fourth column and Ada (bot) has blocked the top with a teal one](images/29-computer-players.png)
 
@@ -247,7 +247,7 @@ Finished games of chess, checkers and Four in a Row can be **replayed** move by 
 
 ### Tournaments
 
-Anyone with an account can run a **tournament** for a two-player game: a knockout (the top seeds get byes, and a drawn game is played again), a round robin where everyone plays everyone, or Swiss, where each round pairs players on the same score who haven't met. Players enter from the tournament's page, or from a link for an invite-only one. When the organiser starts it, Playhall seeds the players, opens a room for every game with both players already sitting down and the tournament's move timer, and puts a "Your game is ready" card in each player's lobby; Playhall also says so in the tab's title and, if the player allows it, with a browser notification. Results come straight from the games, and they count on the ordinary leaderboards too. Anyone not in their room by the deadline loses by forfeit if the other player is there, and the organiser can settle a match by hand. The tournament's page shows each round with a link to every game, and the table, with a tie-break for players level on points.
+Anyone with an account can run a **tournament** for a two-player game: a knockout (the top seeds get byes, and a drawn game is played again), a round robin where everyone plays everyone, or Swiss, where each round pairs players on the same score who haven't met. Players enter from the tournament's page, or from a link for an invite-only one. When the organiser starts it, Playhall seeds the players, opens a room for every game with both players already sitting down and the tournament's move timer, and puts a "Your game is ready" card in each player's lobby; Playhall also says so in the tab's title and, if the player allows it, with a browser notification. Results come straight from the games, and they count on the ordinary leaderboards too. Anyone not in their room by the deadline loses by forfeit if the other player is there, and the organiser can settle a match by hand, withdraw a player, or give everyone more time. The tournament's page shows each round with a link to every game, and the table, with a tie-break for players level on points.
 
 ![A Four in a Row knockout: the semi-finals, one won 1-0 in a game and one settled by the organiser, the final between Lee and Priya with Watch and settle buttons, and who's still in](images/43-tournament.png)
 
@@ -284,10 +284,8 @@ Alongside them, in no fixed order:
   - **Landgrab:** a property-trading board game with our own board and places.
   - **Our own family and hidden-role games,** beyond takes on known ones.
   - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and team battles, two against two or three against three.
-  - **More in the newest games:** 75-ball Bingo and a host pause, team play in Chinese checkers, splits and corners in Roulette, and come and place bets in Craps.
 - **Playing with others**
-  - **Tournaments, further:** tournaments for games of three or more, and more tools for the organiser (withdrawing a player, double forfeits).
-  - **Computer players, further:** difficulty levels the host picks (gentle, fair, strong).
+  - **Tournaments, further:** tournaments for games of three or more.
   - **AI players for more games:** Manor Mystery and Hold'em next, after Ship2Shore.
 - **Learning a game:** a short guided first game for each, and pictures in the rules.
 - **Running it**
