@@ -4,7 +4,7 @@
 
 Live productions, events and operations rooms run on talkback. The director talks to the cameras, the floor manager to the producer, everyone to everyone when it matters. Dedicated intercom hardware does this well and costs accordingly; a conference bridge is cheap but has no idea who should hear whom. Parley sits between the two. Each person logs in from any browser (a desk PC, a laptop, an iPad), sees the groups they belong to and the people they can call, and joins as many groups at once as their job needs. What was said in a group is written down as it's said, typed messages sit beside it, and calls can be recorded to a compliance recorder.
 
-Source code: [github.com/chrisnock-personal/parley](https://github.com/chrisnock-personal/parley) · latest release: [v0.4.0](https://github.com/chrisnock-personal/parley/releases/tag/v0.4.0)
+Source code: [github.com/chrisnock-personal/parley](https://github.com/chrisnock-personal/parley) · latest release: [v0.4.1](https://github.com/chrisnock-personal/parley/releases/tag/v0.4.1)
 
 ![Parley in use: the Floor Manager is in the Production group while the Director talks. Its conversation mixes what was said with what was typed, and the Studio Floor transcript can be read without joining](images/01-hero.png)
 
@@ -68,11 +68,11 @@ Transcription runs on your own server with whisper.cpp, sharing one GPU (or CPU)
 
 Transcripts and chat are a working aid for catching up, not the official record (that's what recording is for), so they don't pile up forever. Each group keeps them for the number of days set in the console, for its own number of days, or not at all: lines from a group set to *don't keep* still show live, then go after 15 minutes. Before anything is deleted it can be archived, one dated file per group per day, kept on the server or copied to another one, and nothing is deleted until the archive has been written.
 
-At the end of each shift (the start times are set in the console), every group that had anything said or typed gets a short summary, written by a language model running on the same server, so nothing leaves it. The newest summary sits at the top of the group's conversation, so someone coming on shift can read what happened before scrolling back through it; earlier shifts are a click away, and summaries are kept for a year, long after the lines themselves.
+At the end of each shift (the start times, and names such as Day and Night, are set in the console), every group that had anything said or typed gets a short summary, written by a language model running on the same server, so nothing leaves it. The newest summary sits at the top of the group's conversation, so someone coming on shift can read what happened before scrolling back through it; earlier shifts are a click away, and summaries are kept for a year, long after the lines themselves.
 
-![The Production card with the conversation open: an AI summary of the shift so far above the spoken and typed lines](images/04c-shift-summary.png)
+![The Production card with the conversation open: the Day shift's summary so far, and the earlier Night shift's summary, above the spoken and typed lines](images/04c-shift-summary.png)
 
-*A summary of Production's shift so far, made from the ten lines of a run with the demo crew (seven spoken, three typed) by qwen2.5:7b on the same PC. It got the facts right but blurred two of them: "the package" that moved after the interview became "the intro package". It's an aid for catching up, so the lines stay beneath it.*
+*Production after two runs with the demo crew, summarised by qwen2.5:7b on the same PC. The Night summary was made by itself when that shift ended, from ten lines (seven spoken, three typed); the Day one is the shift so far, from seven. They get the facts right but not every detail: Night turned "the package" that moved after the interview into "the intro package", and Day left out the typed note that the chef was in the studio. It's an aid for catching up, so the lines stay beneath it.*
 ---
 
 ## Recording
@@ -119,7 +119,7 @@ From Live, an editor or admin can open a group's people and **mute** anyone in i
 
 **Conversations** searches everything still kept, across all groups, by group, person, time and words, with the matches highlighted. The results export as text or CSV (each export is in the audit log), and the shift summaries for the same dates sit beside them, with a button to summarise the current shift so far.
 
-![The Conversations page: Production's lines containing "guest" since midnight, said and typed, with the shift summary beside them](images/09c-console-conversations.png)
+![The Conversations page: Production's lines containing "guest" since 22:00, said and typed, with the Day and Night shift summaries beside them](images/09c-console-conversations.png)
 
 **Settings** holds the recording server, how long transcripts and chat are kept, where they're archived, and the shift times for summaries. **Audit** is a searchable, plain-language history ("Floor Manager: record calls turned on", "Joined Production") filtered by time, person, kind of event and subject, and exportable as CSV. **Health** shows the server's load, the database, whether the SIP core is up, and each container's logs. **Backups** downloads and restores database backups, runs maintenance, and purges or archives old rows. Console users are viewers, editors or admins, and actions they can't take are greyed out with the reason.
 
