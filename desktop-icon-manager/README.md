@@ -54,10 +54,12 @@ Opening an entry shows a large preview of its icon, its `Icon=` value, which you
 The tool then does what you would otherwise do by hand:
 
 1. Copies the original into your icons folder (`~/Pictures/Icons` unless you choose another).
-2. Rasterises it to 16, 32, 48, 64, 128, 256 and 512 pixels and installs each into `~/.local/share/icons/hicolor/<size>/apps/` (an SVG goes into `scalable/` as it is).
-3. Copies a fallback into `~/.local/share/pixmaps`.
+2. Rasterises it to 16, 32, 48, 64, 128, 256 and 512 pixels (padding a non-square image to a square) and installs each into `~/.local/share/icons/hicolor/<size>/apps/` (an SVG goes into `scalable/` as it is), first removing whatever an earlier upload of the same name left there.
+3. Writes a fallback into `~/.local/share/pixmaps`.
 4. Runs `gtk-update-icon-cache` so the change shows straight away.
 5. Sets `Icon=` to the bare theme name (`applemusic`), not a file path.
+
+The theme name comes from the image's file name. If another app's icon already uses that name, because you uploaded `firefox.png` for a web app say, the tool adds `-custom`, so Firefox keeps its own icon. An image it can't read is reported as an error, and nothing is installed.
 
 The last step is what makes the difference. A file manager will show an icon given as a path, but docks and panels look icons up by theme name for pinned and running apps, and can quietly ignore a path. Before the upload, Apple Music's entry pointed at `/home/chris/Pictures/Icons/AppleMusic.png`; after saving, its file had exactly one line changed, to `Icon=applemusic`.
 
@@ -108,4 +110,4 @@ A single binary for Linux x86-64, built with Rust and [egui](https://github.com/
 
 ## Status
 
-Version 1.1: a small, single-purpose tool. Its 11 unit tests cover reading malformed `Icon=` values without crashing and the icon theme lookup (theme order, inherited themes, your own icons overriding the theme, sizes and the pixmaps fallback). GitHub Actions builds and tests every change, and builds and publishes each tagged version as a release. The app screenshots on this page are from the current build, with its redesigned interface, run on Fedora 44 against a real laptop's application entries; the file picker, app grid and dock shots are from the author's GNOME desktop.
+Version 1.1: a small, single-purpose tool. Its 21 unit tests cover reading malformed `Icon=` values without crashing, the icon theme lookup (theme order, inherited themes, your own icons overriding the theme, sizes and the pixmaps fallback), installing an uploaded image (every size, SVG, a JPEG named `.png`, unreadable files, re-uploads and names taken by other apps), and saving entries without adding empty or duplicate keys. The file pickers run on their own thread, so the window keeps answering the desktop while one is open. GitHub Actions builds and tests every change, and builds and publishes each tagged version as a release. The app screenshots on this page are from the current build, with its redesigned interface, run on Fedora 44 against a real laptop's application entries; the file picker, app grid and dock shots are from the author's GNOME desktop.
