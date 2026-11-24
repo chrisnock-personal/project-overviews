@@ -25,6 +25,7 @@ Source code: [github.com/chrisnock-personal/fleetwright](https://github.com/chri
 | **Notifications** | Email, webhook or ntfy when a run fails, a host stays unreachable, a booking needs approval or a critical update appears, batched so an outage is one message |
 | **History** | Every run, every host's output, and every package version change, kept in PostgreSQL |
 | **Secure by default** | HTTPS from the first start, agents that check the server's certificate, pinned SSH host keys, encrypted keys, no default password, three roles and an audit log |
+| **API** | Everything the pages can do, as JSON with the same roles, for scripts, CI pipelines and AI agents; per-person tokens that can be limited to read-only |
 | **Backups** | A daily encrypted backup of the database and certificate that the server itself can't read, a restore script, and a way to change the encryption key |
 
 ---
@@ -125,19 +126,31 @@ There's no default password: the first admin needs a setup code printed in the s
 
 ![The Users settings page: an admin, an operator and a viewer, each with their role and last sign-in](images/16-users.png)
 
+## An API for scripts and AI agents
+
+Everything the web pages can do is also available as a JSON API, with exactly the same roles. Under the hood, every action a person can take, from scanning a host to approving a booking, is declared once with the lowest role allowed to do it, and both the pages and the API go through it. Tests check that no page checks a role on its own and that every action has an API endpoint, so the two can't drift apart.
+
+Access is by API token, made on each person's Account page. A token acts as that person, with their role or a lower one. A dashboard or an AI assistant can get a viewer token that can only read, and a CI pipeline an operator token that can start runs but not manage users. Tokens are shown once and stored as hashes. They can expire, can be revoked, and show when they were last used. Everything a token changes appears in the audit log under the person's name and the token's.
+
+![The Account page with four API tokens: a viewer token for an AI assistant that expires in a month and hasn't been used, an operator token for a CI pipeline, a viewer token for a Grafana dashboard, and a revoked script token](images/17-account.png)
+
+Starting a run returns its number at once, and a stream of server-sent events follows its hosts and logs live, as the run page does. A pipeline that retries a request after a timeout sends an idempotency key, so the retry doesn't start a second run. Lists page through results with a cursor and take the same filters as the hosts page, and each token is rate-limited. FleetWright serves its own API reference, where each endpoint is described by the action behind it and says which role it needs.
+
+![The API reference FleetWright serves, open at the runs section: start a run, list runs, a run with its batches, one host's task, pause, resume, abort, retry, and following a run as server-sent events](images/18-api-docs.png)
+
 ## Light theme and small screens
 
 The interface is dark by default and has a light theme, remembered per browser. It shares its look with [Skyfarer](../skyfarer/README.md).
 
-![The overview in the light theme](images/17-light.png)
+![The overview in the light theme](images/19-light.png)
 
 It works at phone width, with the tiles, cards and tables stacking into one column.
 
-<img src="images/18-phone.png" alt="The overview at phone width, with tiles and cards stacked" width="300">
+<img src="images/20-phone.png" alt="The overview at phone width, with tiles and cards stacked" width="300">
 
 On first start, before any accounts exist, FleetWright asks for the setup code from its log:
 
-<img src="images/19-first-run.png" alt="The first-run page asking for the setup code, a name, an email and a password" width="640">
+<img src="images/21-first-run.png" alt="The first-run page asking for the setup code, a name, an email and a password" width="640">
 
 ---
 
@@ -157,7 +170,8 @@ Added and tested in November 2026, with real agents in Ubuntu and Fedora contain
 - notifications, delivered to a real SMTP server, ntfy server and webhook receiver, including a retry after the receiver had been down
 - encrypted backups, and a full restore onto wiped volumes with an agent reconnecting afterwards
 - changing the secret key, and what happens when it's changed without the old one
+- the API: 66 end-to-end checks against SSH hosts, covering every role limit, the error responses, paging, idempotency, the live run stream and the rate limit, plus every web form submitted again to confirm nothing changed for people using the pages
 
 A load test ran 500 simulated agents and 300 SSH hosts against one web process and one worker. All the agents connected and scanned within a minute. Installing everything on all 800 hosts, 100 at a time, took 96 seconds with no failures. With 5,800 hosts and 377,000 pending updates, every page loaded in under 90 ms. Getting there took four fixes the test turned up; the slowest page had taken 1.4 seconds.
 
-Unit tests cover the package-list parsing, update selection, schedules and batching, agent updates, telling clones from reinstalls, composing notifications and changing the secret key. What could come next is on the [backlog](https://github.com/chrisnock-personal/fleetwright/blob/main/BACKLOG.md).
+Unit tests cover the package-list parsing, update selection, schedules and batching, agent updates, telling clones from reinstalls, composing notifications, changing the secret key, and the rule that pages and API share one permission check. A command-line client built on the API is next; the rest is on the [backlog](https://github.com/chrisnock-personal/fleetwright/blob/main/BACKLOG.md).
