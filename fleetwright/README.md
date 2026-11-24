@@ -25,7 +25,7 @@ Source code: [github.com/chrisnock-personal/fleetwright](https://github.com/chri
 | **Notifications** | Email, webhook or ntfy when a run fails, a host stays unreachable, a booking needs approval or a critical update appears, batched so an outage is one message |
 | **History** | Every run, every host's output, and every package version change, kept in PostgreSQL |
 | **Secure by default** | HTTPS from the first start, agents that check the server's certificate, pinned SSH host keys, encrypted keys, no default password, three roles and an audit log |
-| **API** | Everything the pages can do, as JSON with the same roles, for scripts, CI pipelines and AI agents; per-person tokens that can be limited to read-only |
+| **API and CLI** | Everything the pages can do, as JSON with the same roles, and a command-line client over it, for scripts, CI pipelines and AI agents; per-person tokens that can be limited to read-only |
 | **Backups** | A daily encrypted backup of the database and certificate that the server itself can't read, a restore script, and a way to change the encryption key |
 
 ---
@@ -138,6 +138,20 @@ Starting a run returns its number at once, and a stream of server-sent events fo
 
 ![The API reference FleetWright serves, open at the runs section: start a run, list runs, a run with its batches, one host's task, pause, resume, abort, retry, and following a run as server-sent events](images/18-api-docs.png)
 
+For the terminal there's **`fw`**, a command-line client over the same API, with the same limits as its token. It knows hosts, groups and keys by name, and asks before changing hosts unless told `--yes`. `--dry-run` shows what a run would install without starting it, and `--wait` blocks until the run ends and fails if any host did, which suits a CI pipeline. Every command can answer in JSON, and the exit codes say whether it worked, wasn't allowed or found nothing, so scripts and AI agents can rely on them. `fw login` shows the server's certificate fingerprint to compare with the HTTPS settings page. From then on it accepts only that certificate, and checks it before sending the token. In the test run, installing security updates on one group, then a scan that included a host that couldn't be reached:
+
+```
+$ fw run apply --group load-dublin --kinds security --yes --wait
+Started run #2.
+Run #2 done (1 done, 0 failed, 1 packages changed)
+$ fw run scan ghost load-ssh-0000 --yes --wait
+Started run #3.
+Run #3 done: 1 host failed (1 done, 1 failed, 0 packages changed)
+  ghost: Can't connect to 10.255.255.1:22: timed out
+$ echo $?
+1
+```
+
 ## Light theme and small screens
 
 The interface is dark by default and has a light theme, remembered per browser. It shares its look with [Skyfarer](../skyfarer/README.md).
@@ -170,8 +184,9 @@ Added and tested in November 2026, with real agents in Ubuntu and Fedora contain
 - notifications, delivered to a real SMTP server, ntfy server and webhook receiver, including a retry after the receiver had been down
 - encrypted backups, and a full restore onto wiped volumes with an agent reconnecting afterwards
 - changing the secret key, and what happens when it's changed without the old one
+- the command-line client against a real server: certificate pinning (including refusing a changed certificate), dry runs, waiting on runs, exit codes and role limits
 - the API: 66 end-to-end checks against SSH hosts, covering every role limit, the error responses, paging, idempotency, the live run stream and the rate limit, plus every web form submitted again to confirm nothing changed for people using the pages
 
 A load test ran 500 simulated agents and 300 SSH hosts against one web process and one worker. All the agents connected and scanned within a minute. Installing everything on all 800 hosts, 100 at a time, took 96 seconds with no failures. With 5,800 hosts and 377,000 pending updates, every page loaded in under 90 ms. Getting there took four fixes the test turned up; the slowest page had taken 1.4 seconds.
 
-Unit tests cover the package-list parsing, update selection, schedules and batching, agent updates, telling clones from reinstalls, composing notifications, changing the secret key, and the rule that pages and API share one permission check. A command-line client built on the API is next; the rest is on the [backlog](https://github.com/chrisnock-personal/fleetwright/blob/main/BACKLOG.md).
+Unit tests cover the package-list parsing, update selection, schedules and batching, agent updates, telling clones from reinstalls, composing notifications, changing the secret key, and the rule that pages and API share one permission check. What could come next is on the [backlog](https://github.com/chrisnock-personal/fleetwright/blob/main/BACKLOG.md).
