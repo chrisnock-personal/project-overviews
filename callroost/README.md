@@ -129,7 +129,7 @@ The sessions can also go over TLS: an SRS URI with `;transport=tls` or `sips:`
 encrypts the signalling and each stream with SRTP, with fresh keys kept
 private by TLS. The recorder's certificate has to be checked — a trusted CA
 file or a pinned SHA-256 fingerprint; without either, CallRoost refuses the
-connection. On 15 November all 61 reference calls ran that way against
+connection. On 24 November all 61 reference calls ran that way against
 CallNest, with no differences.
 
 A scenario can also record every answered call over SIPREC, not just these six. When an agent comes to talk to the caller, whether from a queue, a transfer or a conference, the client adds them to the session with a metadata update mid-call, and CallRoost predicts each session's length, participants and updates. With every call on the contact-centre scenario recorded this way, all 61 matched CallNest on 15 November. An earlier run had one call 3 s late, an attended transfer. The cause turned out not to be the recording at all: two callers reached the same queue within a second and the second waited behind the first, which a real PBX's queue settings can do too. CallRoost's queues now offer every waiting caller at once, so the answer stays predictable.
