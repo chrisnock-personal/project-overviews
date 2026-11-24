@@ -344,6 +344,10 @@ The server moved to version 2 of the MCP SDK at the same time.
 - **Bad tokens can't lock everyone out:** every client's check reaches the API from this one container. So it caps bad tokens in total, below the point where the API would throttle its address. Someone guessing from many machines can't lock everyone else out, and tokens already checked keep working.
 - **A real client:** Claude Code, on another machine on the LAN, connected to it and used it. With a read-only token, it answered what was waiting on the user and which PRs had stalled. Asked to start a scan, it reported the refusal word for word. It needed the self-signed certificate trusted through `NODE_EXTRA_CA_CERTS`, which the README now says.
 
+![A terminal: claude mcp add registers Branchwarden's MCP service over HTTP with a read-only API token; claude mcp list shows it Connected; a one-line question gets back the three reviews waiting, oldest first, and the two stalled pull requests with why they're stuck; asked to start a scan, it says it didn't start because the token is read-only](images/24-mcp-claude-code.png)
+
+*A real Claude Code session against the released 0.8.0 with demo data. Only the server's address (a LAN IP) and the token are shortened.*
+
 In CI, the MCP SDK's own client starts the server over stdio and calls its tools against the running app with the demo data. Over HTTP, two clients with different tokens each get their own token's rights. CI also starts the service in the real stack on every push, and checks that it refuses a request without a token, answers one with a token, and serves the dashboard's certificate.
 
 **Prometheus.** `/metrics/prometheus` serves the headline numbers for Grafana and alerting, labelled by repo:
