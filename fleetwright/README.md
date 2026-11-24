@@ -189,4 +189,16 @@ Added and tested in November 2026, with real agents in Ubuntu and Fedora contain
 
 A load test ran 500 simulated agents and 300 SSH hosts against one web process and one worker. All the agents connected and scanned within a minute. Installing everything on all 800 hosts, 100 at a time, took 96 seconds with no failures. With 5,800 hosts and 377,000 pending updates, every page loaded in under 90 ms. Getting there took four fixes the test turned up; the slowest page had taken 1.4 seconds.
 
-Unit tests cover the package-list parsing, update selection, schedules and batching, agent updates, telling clones from reinstalls, composing notifications, changing the secret key, and the rule that pages and API share one permission check. What could come next is on the [backlog](https://github.com/chrisnock-personal/fleetwright/blob/main/BACKLOG.md).
+Unit tests cover the package-list parsing, update selection, schedules and batching, agent updates, telling clones from reinstalls, composing notifications, changing the secret key, and the rule that pages and API share one permission check. Another test makes sure SQL is built only from fixed text in the code, never from a request's values.
+
+**Continuous integration** runs on every push, in about three minutes:
+- the unit tests
+- a dependency audit of the exact package versions the image installs (also weekly, since new advisories appear without any change to the code)
+- a scan of the whole git history for secrets
+- an integration test that builds and starts the whole stack, then:
+  - runs the API checks against SSH hosts
+  - installs the agent with the real install command into Ubuntu 24.04 and Fedora 44 containers running systemd
+  - scans them with the real package managers and drives them with the command-line client
+  - loads every page, and fails on any error in the logs
+
+It has already paid for itself: on its first run it found a startup race in which the web process and the worker could deadlock over the database schema, now fixed. A security review on 24 November 2026 found no Fleetwright problems beyond tidy-ups; its dependency, secret-scan and SQL findings are fixed, and encrypting the database volume at rest is open. What could come next is on the [backlog](https://github.com/chrisnock-personal/fleetwright/blob/main/BACKLOG.md).
