@@ -18,9 +18,9 @@ Source code: [github.com/chrisnock-personal/parley](https://github.com/chrisnock
 |---|---|
 | **Talk groups** | Open-mic, push-to-talk or listen-only (paging) groups, as many joined at once as you like, each with its own talk, listen and volume controls; who's in each group and who's talking, before you join |
 | **Direct intercom** | Press a key and the other person's intercom answers by itself; hold and resume; call anyone in the directory |
-| **Conversation** | Live per-speaker transcripts and typed group chat, in one timeline, readable without joining; typed messages read aloud if you want them |
+| **Conversation** | Live per-speaker transcripts and typed group chat, in one timeline, readable without joining; typed messages read aloud if you want them; kept as long as each group needs, searchable, with an AI summary of each shift |
 | **Recording** | SIP-REC (RFC 7866) to any compliance recorder, per person, with participant metadata; a REC tag wherever it applies |
-| **Admin console** | Live registrations and calls, groups, people and their keys, recording and retention settings, health, audit log, database backups |
+| **Admin console** | Live registrations and calls, remote mute, groups, people and their keys, conversation search and export, recording, retention and archive settings, health, audit log, database backups |
 | **Network** | Its own SIP core in TypeScript, media anchored for routed networks, WebRTC bridged to plain RTP, HTTPS and SIP digest authentication |
 
 ---
@@ -63,6 +63,16 @@ For people whose eyes are busy, a group's typed messages can be **read aloud**. 
 
 Transcription runs on your own server with whisper.cpp, sharing one GPU (or CPU) speech model. It listens to each member's own voice, so lines are attributed correctly even when two people talk over each other, and it never sends silence or a muted microphone. A pitch check keeps music, tones and other held notes out of both the transcript and the "who's talking" ring. In these runs each member's audio reached the transcriber within about 60 ms of them joining. When these screenshots were taken it sometimes lost the first word of an utterance ("Standby everyone" came out as "and by everyone"); that was fixed in v0.1.0, which gives whisper a moment of silence before each line.
 
+
+### How long it's kept, and a summary of each shift
+
+Transcripts and chat are a working aid for catching up, not the official record (that's what recording is for), so they don't pile up forever. Each group keeps them for the number of days set in the console, for its own number of days, or not at all: lines from a group set to *don't keep* still show live, then go after 15 minutes. Before anything is deleted it can be archived, one dated file per group per day, kept on the server or copied to another one, and nothing is deleted until the archive has been written.
+
+At the end of each shift (the start times are set in the console), every group that had anything said or typed gets a short summary, written by a language model running on the same server, so nothing leaves it. The newest summary sits at the top of the group's conversation, so someone coming on shift can read what happened before scrolling back through it; earlier shifts are a click away, and summaries are kept for a year, long after the lines themselves.
+
+![The Production card with the conversation open: an AI summary of the shift so far above the spoken and typed lines](images/04c-shift-summary.png)
+
+*A summary of Production's shift so far, made from the ten lines of a run with the demo crew (seven spoken, three typed) by qwen2.5:7b on the same PC. It got the facts right but blurred two of them: "the package" that moved after the interview became "the intro package". It's an aid for catching up, so the lines stay beneath it.*
 ---
 
 ## Recording
@@ -93,7 +103,7 @@ On a phone the cards stack into one column, and a group's conversation opens ful
 
 ## The admin console
 
-Administrators run Parley from a separate console with a sidebar: **Live**, **People** and **Groups**, and for admins **Settings**, **Health**, **Audit** and **Backups**. **Live** shows what's happening right now, straight from the SIP core's own state: who's online, each group in use with who's in it and who's talking, direct calls, and what's being recorded.
+Administrators run Parley from a separate console with a sidebar: **Live**, **People**, **Groups** and **Conversations**, and for admins **Settings**, **Health**, **Audit** and **Backups**. **Live** shows what's happening right now, straight from the SIP core's own state: who's online, each group in use with who's in it and who's talking, direct calls, and what's being recorded.
 
 ![The console's Live page: 5 of 10 people online, Production in use with the Director talking, a direct call between the two cameras, one call being recorded](images/07-console-live.png)
 
@@ -103,11 +113,15 @@ From Live, an editor or admin can open a group's people and **mute** anyone in i
 
 ![The People page with the Floor Manager selected: can log in and record calls switched on, three groups and three intercom keys](images/08-console-people.png)
 
-**Groups** works the same way: each group with how people talk in it (open mic, push to talk), whether it's transcribed or has chat, how many people have it and how many are in it now. The selected group shows who has it, so a group can be given to several people in one place, and who's in it at the moment.
+**Groups** works the same way: each group with how people talk in it (open mic, push to talk), whether it's transcribed or has chat and how long that's kept, how many people have it and how many are in it now. The selected group shows who has it, so a group can be given to several people in one place, and who's in it at the moment.
 
 ![The Groups page with Production selected: open mic, transcribed and with chat, five people who have it, two in it now](images/09-console-group.png)
 
-**Settings** holds the recording server and how long transcripts and chat are kept. **Audit** is a searchable, plain-language history ("Floor Manager: record calls turned on", "Joined Production") filtered by time, person, kind of event and subject, and exportable as CSV. **Health** shows the server's load, the database, whether the SIP core is up, and each container's logs. **Backups** downloads and restores database backups, runs maintenance, and purges or archives old rows. Console users are viewers, editors or admins, and actions they can't take are greyed out with the reason.
+**Conversations** searches everything still kept, across all groups, by group, person, time and words, with the matches highlighted. The results export as text or CSV (each export is in the audit log), and the shift summaries for the same dates sit beside them, with a button to summarise the current shift so far.
+
+![The Conversations page: Production's lines containing "guest" since midnight, said and typed, with the shift summary beside them](images/09c-console-conversations.png)
+
+**Settings** holds the recording server, how long transcripts and chat are kept, where they're archived, and the shift times for summaries. **Audit** is a searchable, plain-language history ("Floor Manager: record calls turned on", "Joined Production") filtered by time, person, kind of event and subject, and exportable as CSV. **Health** shows the server's load, the database, whether the SIP core is up, and each container's logs. **Backups** downloads and restores database backups, runs maintenance, and purges or archives old rows. Console users are viewers, editors or admins, and actions they can't take are greyed out with the reason.
 
 ![The Health page: host load, database size, SIP core up, table sizes and the SIP core's log](images/09b-console-health.png)
 
