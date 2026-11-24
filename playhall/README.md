@@ -16,7 +16,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
 | **Twenty-five games, and any board game** | Board games, card games with play chips, word and deduction games and a hidden-role game, for one to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
-| **Computer players** | Bots for every game but the camera table, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore that talk and bluff, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
+| **Computer players** | Bots for every game but the camera table, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore, Hold'em and Manor Mystery, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
 | **The host's rules** | Who may sit down, what happens after each game, a move timer, an optional delay for watchers, who may write where, private rooms with a password, removing people |
@@ -182,7 +182,11 @@ A bot plays from its own seat's view, exactly what a person sitting there would 
 
 *Sam against Ada (bot). Sam's three in a row up the fourth column was blocked; Ada is building along the bottom right.*
 
-**AI players** go a step further, in Ship2Shore so far. If the platform's admin points Playhall at a language model on their own server (it was built against a small model, Llama 3.1 8B, on the same machine), the host can add an AI player as well as a bot. It makes the social moves itself (who to trust with the bridge, how to vote, who gets inspected or thrown to the sharks) and talks at the table, bluffing when that helps its side, while the computer player's rules make the moves that are pure arithmetic. If the model is slow or answers something that can't be played, the rules play that move instead, so a game never waits. Nothing is sent anywhere except the admin's own server.
+New to a game? **Learn by playing** (under each game's How to play in the lobby) opens a private practice room with you already seated against gentle computer players. A coach in the corner says what to do now, in that game's own words ("Your turn. Tap a column to drop your disc…"), and steps through the rules one at a time; hide it once you've got the hang of it. The rules themselves have pictures for the games that need them, drawn with the games' own pieces: a winning diagonal, a checkers jump, the cards that score in Hearts, a Gin Rummy hand sorted into melds.
+
+![A practice game of Four in a Row against Ada (gentle bot), with the coach in the corner: your turn, tap a column to drop your disc, and rule 1 of 9](images/47-learn.png)
+
+**AI players** go a step further, in Ship2Shore, Texas Hold'em and Manor Mystery. If the platform's admin points Playhall at a language model on their own server (it was built against a small model, Llama 3.1 8B, on the same machine), the host can add an AI player as well as a bot. It makes the social moves itself (who to trust with the bridge, how to vote, who gets inspected or thrown to the sharks) and talks at the table, bluffing when that helps its side, while the computer player's rules make the moves that are pure arithmetic. If the model is slow or answers something that can't be played, the rules play that move instead, so a game never waits. Nothing is sent anywhere except the admin's own server. At Hold'em the model is told its cards, the board and roughly its chance of winning, then makes every bet and needles the table; in Manor Mystery it chooses what to suggest, which card to show when asked, and when to accuse, but only once it's certain.
 
 Ask a bot or an AI player in the table chat what orders it had on the bridge ("Ada, what did you have?", or "helmsman, what were the orders?") and it answers, as a person would, truthfully or not: a bot on the spies' side that passed over a Navy order claims it never had one, and an AI player decides for itself whether to bluff.
 
@@ -270,7 +274,7 @@ Playhall is planned in five phases. Two are done, three are still to come, and a
 - **Phase 1: the games.** Nine games on one shared kit of boards, pieces, cards, chips and dice: chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Colour Clash and Texas Hold'em.
 - **Phase 2: voice and video, and any board game.** Voice, video and transcripts in every room, split between the players and the people watching the same way as the chat, and the camera table for real board games.
 - **New games since then:** Letterworks, Realm Duel, Manor Mystery, Ship2Shore, Who Dat?, Hearts, Poophead, Spades, Thirty-One, Gin Rummy, Bingo, Chinese checkers, Roulette, Craps, Bridge and Realm Battle.
-- **Since then, for every game:** animations and table sounds; computer players for every game, and AI players for Ship2Shore; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
+- **Since then, for every game:** animations and table sounds; computer players for every game, and AI players for Ship2Shore, Hold'em and Manor Mystery; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
 
 ### Still to do
 
@@ -290,8 +294,6 @@ Alongside them, in no fixed order:
   - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and abilities that help a team mate in Realm Battle.
 - **Playing with others**
   - **Tournaments, further:** tournaments for games of three or more.
-  - **AI players for more games:** Manor Mystery and Hold'em next, after Ship2Shore.
-- **Learning a game:** a short guided first game for each, and pictures in the rules.
 - **Running it**
   - **Every platform:** voice and video in Safari, and instructions for running the server on Windows and macOS as well as Linux.
 
