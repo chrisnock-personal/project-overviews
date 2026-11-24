@@ -1,6 +1,6 @@
 # Playhall
 
-**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with twenty-four games, from chess and Hearts to a WW2 hidden-role game, a camera table for any real board game, voice and video, a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
+**Game rooms for friends: a host opens a room, some people play, and everyone else pulls up a chair and watches.** It runs in the browser, with twenty-five games, from chess and Hearts to a WW2 hidden-role game, a camera table for any real board game, voice and video, a chat for the players and a separate one for the people watching, and leaderboards that keep score over weeks and months.
 
 Most online games give you a match against a stranger. Playhall is closer to a games night: a room that stays open, people drifting in, a queue for the next game, and a running argument in the corner about who should have played d4. The host decides who plays, who waits and what the people watching may say, and the scores carry on from one evening to the next.
 
@@ -15,7 +15,7 @@ Most online games give you a match against a stranger. Playhall is closer to a g
 | | |
 |---|---|
 | **Rooms with roles** | A host, players in seats, and everyone else watching; a queue for seats; who plays the next game |
-| **Twenty-four games, and any board game** | Board games, card games with play chips, word and deduction games and a hidden-role game, for one to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
+| **Twenty-five games, and any board game** | Board games, card games with play chips, word and deduction games and a hidden-role game, for one to eleven players, all drawn from one set of boards, pieces, cards, chips and dice. The camera table plays any real board game over a camera |
 | **Computer players** | Bots for every game but the camera table, so two people can fill a five-seat Ship2Shore table or one can practise Four in a Row; AI players in Ship2Shore that talk and bluff, run by a language model on the admin's own server; they play from their own seat's view and never count for the leaderboards |
 | **Two conversations** | The table, which everyone reads, and the gallery, the watchers' own chat that players can't read during a game |
 | **A room that gets out of the way** | Every panel around the board expands, shrinks or hides; three layouts; works on a phone |
@@ -129,6 +129,10 @@ The five ships are drawn for Playhall: a carrier with its flight deck, a battles
 **Realm Duel** is a two-player creature card duel. Each player holds three creatures, each with its own strengths, an element and an ability. Every round both players secretly pick a creature and how it attacks (melee, ranged or magic), then both are revealed together: the quicker creature strikes first, elements beat one another in a cycle, and poison, stuns and shields carry over. The last player with creatures standing wins. The creature stats were balanced by simulating 20,000 games.
 
 ![Realm Duel against a computer player, round 3: the bot's Lumen Stag and two face-down cards with "Locked in" at the top, last round's fight (Sam's Stonehorn hit for 12, the Stag for 10) in the middle, and Sam's Stonehorn, Emberfox and Duskmaw with their stats and health, the Melee, Ranged and Magic buttons, and Lock in](images/25-realm-duel.png)
+
+**Realm Battle** takes the same creatures to more players: two against two, three against three, or a free-for-all for three or four. Each round everyone also picks a target on the other side, and then every creature fights at once, fastest first; team mates see each other's picks, so they can gang up on one enemy. Bots can fill any seat.
+
+<p><img src="images/46-realm-battle.png" width="70%" alt="Realm Battle, two against two: Sam (Amber, Sun team) choosing Stonehorn, melee, against Ada (bot); his team mate Bram has locked in Stonehorn against Cleo; the log of round 1 above"></p>
 
 **Manor Mystery** is a murder at Blackthorn Hall for three to six players, with its own cast, objects and rooms. One suspect, object and room are sealed in an envelope. You move through the hall, suggest who did it, with what, in the room you're in, and the players after you must secretly show you one card that proves you wrong. Your notebook fills in what you've learned for certain and keeps your own marks. Accuse when you're sure: right wins, wrong puts you out, and if nobody solves it, nobody scores.
 
@@ -265,7 +269,7 @@ Playhall is planned in five phases. Two are done, three are still to come, and a
 
 - **Phase 1: the games.** Nine games on one shared kit of boards, pieces, cards, chips and dice: chess, checkers, Four in a Row, Snakes and Ladders, Ludo, Sea Battle, Blackjack, Colour Clash and Texas Hold'em.
 - **Phase 2: voice and video, and any board game.** Voice, video and transcripts in every room, split between the players and the people watching the same way as the chat, and the camera table for real board games.
-- **New games since then:** Letterworks, Realm Duel, Manor Mystery, Ship2Shore, Who Dat?, Hearts, Poophead, Spades, Thirty-One, Gin Rummy, Bingo, Chinese checkers, Roulette, Craps and Bridge.
+- **New games since then:** Letterworks, Realm Duel, Manor Mystery, Ship2Shore, Who Dat?, Hearts, Poophead, Spades, Thirty-One, Gin Rummy, Bingo, Chinese checkers, Roulette, Craps, Bridge and Realm Battle.
 - **Since then, for every game:** animations and table sounds; computer players for every game, and AI players for Ship2Shore; bigger tables (Hold'em for up to eight, Blackjack for up to seven); a room layout that gives the board more space during a game; and the leaderboard podium.
 
 ### Still to do
@@ -283,7 +287,7 @@ Alongside them, in no fixed order:
   - **Party games of our own:** a team word-association game, a fill-in-the-blank game with a family deck, and What Am I?, where everyone can see your word but you.
   - **Landgrab:** a property-trading board game with our own board and places.
   - **Our own family and hidden-role games,** beyond takes on known ones.
-  - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and team battles, two against two or three against three.
+  - **Realm Duel in full:** the 30-creature pool, a draft mode where players take turns picking creatures from a shared pool, and abilities that help a team mate in Realm Battle.
 - **Playing with others**
   - **Tournaments, further:** tournaments for games of three or more.
   - **AI players for more games:** Manor Mystery and Hold'em next, after Ship2Shore.
