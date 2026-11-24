@@ -4,7 +4,7 @@
 
 GitHub shows pull requests one repository at a time, and only to the people already looking. Across a few dozen repos, nobody can see which PRs have waited three days for a reviewer, which ones were approved and then forgotten, or how many branches are still around months after their PR merged. Branchwarden scans everything on a schedule, or as soon as a webhook says something changed. It works out each PR's state and who has to act next, tells the right channel, and keeps the numbers that show whether reviews are getting faster or slower. It only reads branches: it never pushes and never deletes. Its one write to GitHub is requesting reviewers.
 
-Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.7.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.7.0) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
+Source code: [github.com/chrisnock-personal/branchwarden](https://github.com/chrisnock-personal/branchwarden) · latest release: [v0.8.0](https://github.com/chrisnock-personal/branchwarden/releases/tag/v0.8.0) · [![CI status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml)
 
 ![The Branchwarden overview in its default dark theme: summary tiles, a card per repository, the pull requests that need attention and delivery channel health](images/01-overview.png)
 
@@ -339,7 +339,12 @@ The API tokens page shows how to connect, with this server's own details filled 
 
 The server moved to version 2 of the MCP SDK at the same time.
 
-In CI, the MCP SDK's own client starts the server over stdio and calls its tools against the running app with the demo data. Over HTTP, two clients with different tokens each get their own token's rights.
+**As a service next to the app.** The image includes the command line, so `podman-compose --profile mcp up -d` runs the HTTP server as one more container. There's a quadlet for it too. It's off unless asked for.
+- **One certificate:** it reaches the dashboard over the stack's own network, pinning the dashboard's certificate. It serves that same certificate, so agents trust one fingerprint for both. When the certificate is replaced in the dashboard, it notices and restarts with the new one.
+- **Bad tokens can't lock everyone out:** every client's check reaches the API from this one container. So it caps bad tokens in total, below the point where the API would throttle its address. Someone guessing from many machines can't lock everyone else out, and tokens already checked keep working.
+- **A real client:** Claude Code, on another machine on the LAN, connected to it and used it. With a read-only token, it answered what was waiting on the user and which PRs had stalled. Asked to start a scan, it reported the refusal word for word. It needed the self-signed certificate trusted through `NODE_EXTRA_CA_CERTS`, which the README now says.
+
+In CI, the MCP SDK's own client starts the server over stdio and calls its tools against the running app with the demo data. Over HTTP, two clients with different tokens each get their own token's rights. CI also starts the service in the real stack on every push, and checks that it refuses a request without a token, answers one with a token, and serves the dashboard's certificate.
 
 **Prometheus.** `/metrics/prometheus` serves the headline numbers for Grafana and alerting, labelled by repo:
 - open PRs by state, and flagged ones,
@@ -423,16 +428,16 @@ Three containers with podman-compose or Docker Compose: Postgres, a worker (scan
 - **Upgrading older installs:** a step-by-step guide covers moving an install built on the server to the published image, and going back. It was tested by upgrading a real 0.1.0 install with data and sealed secrets, then rolling it back. That test caught a bug: an older backup wouldn't restore over a newer database. It was fixed in 0.6.2, and CI now checks that case on every push.
 - **Dependency updates:** Dependabot opens grouped update PRs weekly, and CI tests each one.
 - **Health checks:** compose checks the dashboard through `/healthz`, which also checks the database. It checks the worker by a heartbeat that keeps beating through long scans.
-- **Running as a service:** Podman quadlet files run the same containers as systemd services, on the same volumes, for an always-on server.
+- **Running as a service:** Podman quadlet files run the same containers as systemd services, on the same volumes, for an always-on server. The optional MCP service has one too. Volumes that two containers share are labelled to work with SELinux enforcing.
 - **Backups:** one command writes the database, the encryption key, the TLS certificate and the settings to a single file, encrypted with [age](https://age-encryption.org) to a public key, so the server can make backups it can't read. Another command restores them on the same host or a fresh one. CI backs up the real stack, destroys it, restores it and checks a sealed secret still decrypts, on every push.
 - **Trying it without GitHub:** `python demo.py` in the worker loads made-up activity for a demo organisation: six repositories, eight people, PRs in every state and five weeks of history. While it's loaded, every page says so, nothing is scanned or sent, and connecting GitHub is refused until `python demo.py --remove` takes it out.
 
 ## Status
 
-Version 0.7.0 (November 2026). It added the MCP server over HTTP and the morning message in Teams, and moved to Python 3.15 and version 2 of the MCP SDK. 0.6.0 added the MCP server for AI agents, 0.6.1 the connection steps on the API tokens page, and 0.6.2 the upgrade guide and a fix for going back to an older backup. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
+Version 0.8.0 (November 2026). It runs the MCP server as an optional service next to the app, and fixes the shared volumes' SELinux labels for hosts that enforce it. 0.7.0 added the MCP server over HTTP and the morning message in Teams, and moved to Python 3.15 and version 2 of the MCP SDK. 0.6.0 added the MCP server for AI agents, 0.6.1 the connection steps on the API tokens page, and 0.6.2 the upgrade guide and a fix for going back to an older backup. 0.5.0 brought the API, the command line, the Prometheus endpoint and the Slack morning message, and 0.5.1 tightened API tokens after a security review: tokens of people who sign in with GitHub now follow their GitHub access, and bad tokens are throttled. Encrypted backups came in 0.4.1, demo mode and the integration and browser tests in 0.4.0, repositories and their health in 0.3.0, and workflows in 0.2.0.
 
-- **Continuous integration:** every push runs 171 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
-  - **Unit tests (137):**
+- **Continuous integration:** every push runs 174 tests and three checks, and the [current status](https://github.com/chrisnock-personal/branchwarden/actions/workflows/ci.yml) is public.
+  - **Unit tests (139):**
     - PR states, an author's next step, branch rules and CODEOWNERS matching,
     - reviewer selection and working-hours maths,
     - message rendering and escaping, and Slack API answers,
@@ -441,7 +446,7 @@ Version 0.7.0 (November 2026). It added the MCP server over HTTP and the morning
     - cron parsing, reading workflow files, matching scheduled runs to their due times (including runs hours late, and dropped ones), and when a workflow counts as failing or fixed,
     - importing past PRs, skipping unchanged repos, waiting out GitHub's rate limits, health checks and the scans-stopped rule,
     - repository health flags, PR size and stall rules, and ticket keys,
-    - who may do what, the OpenAPI document (valid, and matching every route), the CLI's parsing and output, and its certificate pinning against a real HTTPS server, and the MCP server's HTTP token gate, its throttle, and its refusal to send tokens in the clear.
+    - who may do what, the OpenAPI document (valid, and matching every route), the CLI's parsing and output, and its certificate pinning against a real HTTPS server, and the MCP server's HTTP token gate, its throttle, its refusal to send tokens in the clear, its cap on bad tokens in total, and the MCP service pinning the certificate fingerprint the dashboard shows, including for a certificate chain.
   - **Integration tests (33), against a real Postgres:**
     - the scanner end to end against a stand-in for GitHub: a silent first scan, then opened, ready, review, merged and closed events, and deleted branches recorded,
     - unchanged repos skipped with a single request,
@@ -475,4 +480,3 @@ Version 0.7.0 (November 2026). It added the MCP server over HTTP and the morning
   - a full GitHub sign-in,
   - an auto-assigned review on a repo with more than one person,
   - the morning message in a real Slack workspace or Teams chat (channel messages have been),
-  - the MCP server over HTTP from a real AI client (CI uses the SDK's own client).
