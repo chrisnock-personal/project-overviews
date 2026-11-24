@@ -125,13 +125,6 @@ Asterisk has no SIPREC client, so CallRoost has its own. It listens in on each d
 
 For each, CallRoost says what the recorder should end up holding. All six matched CallNest on the first live run, and again on 9 November.
 
-The sessions can also go over TLS: an SRS URI with `;transport=tls` or `sips:`
-encrypts the signalling and each stream with SRTP, with fresh keys kept
-private by TLS. The recorder's certificate has to be checked — a trusted CA
-file or a pinned SHA-256 fingerprint; without either, CallRoost refuses the
-connection. On 15 November all 61 reference calls ran that way against
-CallNest, with no differences.
-
 A scenario can also record every answered call over SIPREC, not just these six. When an agent comes to talk to the caller, whether from a queue, a transfer or a conference, the client adds them to the session with a metadata update mid-call, and CallRoost predicts each session's length, participants and updates. With every call on the contact-centre scenario recorded this way, all 61 matched CallNest on 15 November. An earlier run had one call 3 s late, an attended transfer. The cause turned out not to be the recording at all: two callers reached the same queue within a second and the second waited behind the first, which a real PBX's queue settings can do too. CallRoost's queues now offer every waiting caller at once, so the answer stays predictable.
 
 ![7823: the call, its CDR, and what CallNest should hold: linked by the metadata, with a correlation conflict](images/12-siprec-fault.png)
@@ -182,4 +175,4 @@ One container: Asterisk 20, the YAML compiler, an HTTP API and the web UI on por
 
 ## Status
 
-CallRoost is the lab fixture the other tools in the family are tested against. Its rule is that nothing goes in without its expected output: every feature came with the answer a test should get, and was checked with real calls, not only unit tests. Recorders are read through adapters, with CallNest the first, so other recorders can be checked against the same answers. Next is a second peer that isn't Asterisk, rvoip, so that call testers meet a SIP stack with different habits.
+CallRoost is the lab fixture the other tools in the family are tested against. Its rule is that nothing goes in without its expected output: every feature came with the answer a test should get, and was checked with real calls, not only unit tests. Recorders are read through adapters, with CallNest the first, so other recorders can be checked against the same answers. Next are SIP over TLS and SRTP towards the SIPREC recorder, and a second peer that isn't Asterisk, rvoip, so that call testers meet a SIP stack with different habits.
