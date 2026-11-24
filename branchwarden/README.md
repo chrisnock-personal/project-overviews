@@ -346,7 +346,7 @@ The server moved to version 2 of the MCP SDK at the same time.
 
 ![A terminal: claude mcp add registers Branchwarden's MCP service over HTTP with a read-only API token; claude mcp list shows it Connected; a one-line question gets back the three reviews waiting, oldest first, and the two stalled pull requests with why they're stuck; asked to start a scan, it says it didn't start because the token is read-only](images/24-mcp-claude-code.png)
 
-*A real Claude Code session against the released 0.8.0 with demo data. Only the server's address (a LAN IP) and the token are shortened.*
+*A real Claude Code session against the released 0.8.0 with demo data. The server's LAN address is shown as branchwarden.example, and the token is cut short; the rest is as it came.*
 
 In CI, the MCP SDK's own client starts the server over stdio and calls its tools against the running app with the demo data. Over HTTP, two clients with different tokens each get their own token's rights. CI also starts the service in the real stack on every push, and checks that it refuses a request without a token, answers one with a token, and serves the dashboard's certificate.
 
