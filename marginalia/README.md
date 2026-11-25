@@ -6,7 +6,7 @@ Teams that keep runbooks, guides and handbooks as Markdown in git get version hi
 
 Source code: [github.com/chrisnock-personal/marginalia](https://github.com/chrisnock-personal/marginalia)
 
-![Marginalia with the order service runbook open: the file list on the left, the page in the middle with a highlighted comment anchor, and the comment threads on the right](images/01-editor.png)
+![Marginalia with the order service runbook open: the file list on the left, the page in the middle with a highlighted comment anchor, and the comment threads on the right](images/01-writing.png)
 
 *Every screenshot on this page comes from the real product, working on a made-up `ops-handbook` repository: an order service runbook, a database failover page and an onboarding page, reviewed by Dana, Sam and Priya. Yellow highlights mark open comments.*
 
@@ -27,11 +27,11 @@ Source code: [github.com/chrisnock-personal/marginalia](https://github.com/chris
 
 ## Writing
 
-The editor works on the formatted page, not on Markdown syntax, and stays out of the way: one thin bar along the top shows the file and whether it has unpublished changes, with Export, Images, Comments and Publish on the right. The toolbar above the page covers bold, italic, headings, bulleted and numbered lists, quotes, code blocks, tables and images. What you write is turned back into Markdown (GitHub Flavoured Markdown, so tables survive) when you publish.
+The editor works on the formatted page, not on Markdown syntax, and stays out of the way: one thin bar along the top shows the file and whether it has unpublished changes, with Export, Images, Comments and Publish on the right. The writing fills the space between the file list and the comments, and hiding either panel gives that room to the page. The toolbar above the page covers bold, italic, headings, bulleted and numbered lists, quotes, code blocks, tables and images. What you write is turned back into Markdown (GitHub Flavoured Markdown, so tables survive) when you publish.
 
-![The same runbook with both side panels hidden: only the top bar, the toolbar and the page remain](images/02-focus.png)
+![The runbook with both side panels hidden: the text, the latency graph and the code block now run the full width of the window while a new sentence is typed into step 3](images/02-panels-hidden.png)
 
-*The button at the top left hides the file list and the Comments button hides the comments. The choice is remembered in the browser, and starting a comment brings the comments back.*
+*Dana hides both panels to work on the rollback step: the button at the top left hides the file list and the Comments button hides the comments, and the page widens to fill the window. The top bar shows the unpublished change. The choice is remembered in the browser, and starting a comment brings the comments back.*
 
 **Tables** are inserted from the toolbar and edited in place. Tab moves from cell to cell, and **+ row**, **+ col**, **− row** and **− col** appear while the cursor is inside a table.
 
