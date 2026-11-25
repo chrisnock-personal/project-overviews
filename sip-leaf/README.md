@@ -84,8 +84,8 @@ The reference is a single Kamailio configuration file plus two data files, the a
 Phase 0 of a planned product, built in November 2026: the design is settled and proven on the wire, but there is no standalone program yet.
 
 - **Working:** the Kamailio reference (UDP, IPv4), the YAML contract, the harness with 28 scenarios passing in both Record-Route modes, and the real-PBX run above.
-- **Next:** the standalone Go program, with `check` and `test` commands that validate a config and run the scenarios against it, then a web page for the config.
-- **Known gaps:** a 200 that arrives from a PBX after its attempt was cancelled is passed on to the caller (standard proxy behaviour) instead of being answered and hung up by the leaf as the design asks, and the scenario for it doesn't yet check this. The 503 has no `Retry-After` header.
+- **Next:** choosing the product's name, then the standalone Go program, with `check` and `test` commands that validate a config and run the scenarios against it, then a web page for the config. The plan is tracked as [issues](https://github.com/chrisnock-personal/sip-leaf/issues).
+- **In review:** two gaps found while writing this page are fixed in a [pull request](https://github.com/chrisnock-personal/sip-leaf/pull/15) awaiting review. A 200 that a PBX sends after the leaf has given up on its attempt was passed on to the caller; now the leaf answers it and hangs it up on the PBX, as the design asks. And the 503 now carries `Retry-After`. Three new scenarios bring the suite to 31, all passing in both modes. A [second pull request](https://github.com/chrisnock-personal/sip-leaf/pull/16) adds the real-PBX run as a repeatable tool, with a guide to preparing FreePBX or Asterisk for it.
 - **Not yet:** TCP and TLS, registering to a carrier as a client, and a real carrier in front of it.
 
 Source and reference documentation: [github.com/chrisnock-personal/sip-leaf](https://github.com/chrisnock-personal/sip-leaf).
