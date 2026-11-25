@@ -138,7 +138,7 @@ One Node.js process serves the editor and its API; there is nothing else to run,
 An early prototype (version 0.1.0, November 2026), built for one person at a time: one GitHub identity per server, and one open document at a time. 35 automated tests cover comment anchoring, the `comments.json` format, image path rewriting, Markdown table preservation, the export, the publish file list, conflict detection, OAuth and both git providers, alongside a TypeScript type check. Everything on this page was checked by running it against the demo repository, publishing to a real git remote and reading back the commits it made.
 
 Known gaps:
-- Opening another file discards unpublished edits to the current one without asking.
+- Opening another file discards unpublished edits to the current one without asking ([#14](https://github.com/chrisnock-personal/marginalia/issues/14)).
 - New Markdown files can't be created from the editor yet ([#9](https://github.com/chrisnock-personal/marginalia/issues/9)).
 - Comments are not posted as GitHub review comments; they stay in `comments.json`.
 - Conflicts are detected but not merged.
